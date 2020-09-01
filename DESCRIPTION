@@ -1,0 +1,21 @@
+Package: neonHScompendium
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: c(
+    person(given = "Victoria",
+           family = "Scholl",
+           role = c("aut", "cre"),
+           email = "victoria.scholl@colorado.edu"),
+    person("Maxwell", "Joseph", email = "maxwell.b.joseph@colorado.edu",
+            role = c("aut", "cre")))
+Description: What the package does (one paragraph).
+License: MIT + file LICENSE
+ByteCompile: true
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Imports: bookdown,
+    here
+Suggests: devtools,
+    git2r
