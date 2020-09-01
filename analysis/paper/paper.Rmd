@@ -1,10 +1,10 @@
 ---
-title: "Species & genus plant classification with NEON hyperspectral data"
+title: \textbf{Species and genus plant classification with NEON hyperspectral remote sensing data}
+
 author:
   - Victoria Scholl\thanks{victoria.scholl@colorado.edu, Earth Lab and Geography Dept., University of Colorado, Boulder, CO 80303, USA}
   - Maxwell B. Joseph\thanks{maxwell.b.joseph@colorado.edu, Earth Lab, University of Colorado, Boulder, CO 80303, USA}
 
-#date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
   bookdown::pdf_document2:
     keep_tex: true
@@ -12,40 +12,33 @@ output:
     includes:
       in_header: header.sty
 bibliography: references.bib
-csl: "ecology.csl" # Insert path for the bib-style
-abstract: |
-  Text of abstract
-keywords: |
-  keyword 1; keyword 2; keyword 3
-highlights: |
-  These are the highlights. 
+csl: ecology.csl 
 ---
-
-<!-- This is the format for text comments that will be ignored during renderings. Do not put R code in these comments because it will not be ignored. -->
-
-<!-- With the following code you can access and display values from the yml header above. -->
-
-Keywords: `r rmarkdown::metadata$keywords`
-
-Highlights: `r rmarkdown::metadata$highlights`
-
-<!-- The following code chunk defines some general settings how code chunks should behave. -->
 
 ```{r setup, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   warning = FALSE,
   message = FALSE,
-  echo = FALSE,
+  echo = TRUE,
   comment = "#>",
-  fig.path = "../figures/",
   dpi = 300
 )
 ```
 
 <!-- The actual document text starts here: -->
 
-# Introduction
+\linenumbers
+
+\begin{abstract}
+Abstract text here
+\end{abstract}
+
+```{r, results='hide', message=FALSE, include=FALSE}
+# Run the main analysis
+```
+
+# Introduction {-}
 
 The National Ecological Observatory Network (NEON) is a valuable source of publicly available ecological data across the United States [@keller2008continental].
 
@@ -57,19 +50,19 @@ We used a machine learning approach to evaluate plant identification potential u
 
 Species classification is an active research area [@scholl2020integrating]. 
 
-# Background
+# Background {-}
 
-# Methods
+# Methods {-}
 
-## Data cleaning
+## Data cleaning {-}
 
-## Species classification
+## Species classification {-}
 
-## Genus classification
+## Genus classification {-}
 
 Same setup as species classification, but used the genus as each class label. 
 
-# Results
+# Results {-}
 
 <!-- Here's some example analysis code: -->
 
@@ -90,22 +83,18 @@ x <- round(pi, 2)
 
 Here is an example of inline code `r x` in the middle of a sentence. 
 
-# Discussion
+# Discussion {-}
 
-# Conclusion
-
-# Acknowledgements
+# Acknowledgements {-}
 
 Max has cool ideas and knows many R tricks
 
 
 <!-- The following line inserts a page break  -->
 
-\newpage
+\clearpage
 
-# References 
-
-<!-- The following line ensures the references appear here for the MS Word or HTML output files, rather than right at the end of the document (this will not work for PDF files):  -->
+# References {-}
 
 <div id="refs"></div>
 
@@ -117,7 +106,7 @@ Max has cool ideas and knows many R tricks
 
 ## Figure 1 {-}
 
-Figure 1 info...
+Figure 1 description...
 
 ## Figure 2 {-}
 
