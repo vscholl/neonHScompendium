@@ -99,7 +99,7 @@
 \doublespacing
 
 \title{Species \& genus plant classification with NEON hyperspectral data}
-\author{Victoria Scholl\thanks{maxwell.b.joseph@colorado.edu, Earth Lab, University of Colorado, Boulder, CO 80303, USA} \and Maxwell B. Joseph\thanks{maxwell.b.joseph@colorado.edu, Earth Lab, University of Colorado, Boulder, CO 80303, USA}}
+\author{Victoria Scholl\thanks{victoria.scholl@colorado.edu, Earth Lab and Geography Dept., University of Colorado, Boulder, CO 80303, USA} \and Maxwell B. Joseph\thanks{maxwell.b.joseph@colorado.edu, Earth Lab, University of Colorado, Boulder, CO 80303, USA}}
 \date{}
 
 \begin{document}
@@ -115,13 +115,32 @@ Highlights: These are the highlights.
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-Here is a citation (Marwick 2017)
+The National Ecological Observatory Network (NEON) is a valuable source of publicly available ecological data across the United States (Keller et al. 2008).
+
+We have extracted all NEON AOP hyperspectral data for every mapped stem in NEON plots where field data and airborne remote sensing data were collected during the same year.
+
+Here's the code to extract the spectra: \url{https://gist.github.com/mbjoseph/5c18781e508460e14f64193571b98b7d}
+
+We used a machine learning approach to evaluate plant identification potential using the hyperspectral data at multiple taxonomic resolutions: species and genus levels.
+
+Species classification is an active research area (Scholl et al. 2020).
 
 \hypertarget{background}{%
 \section{Background}\label{background}}
 
 \hypertarget{methods}{%
 \section{Methods}\label{methods}}
+
+\hypertarget{data-cleaning}{%
+\subsection{Data cleaning}\label{data-cleaning}}
+
+\hypertarget{species-classification}{%
+\subsection{Species classification}\label{species-classification}}
+
+\hypertarget{genus-classification}{%
+\subsection{Genus classification}\label{genus-classification}}
+
+Same setup as species classification, but used the genus as each class label.
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
@@ -145,78 +164,60 @@ Here is an example of inline code 3.14 in the middle of a sentence.
 \hypertarget{acknowledgements}{%
 \section{Acknowledgements}\label{acknowledgements}}
 
+Max has cool ideas and knows many R tricks
+
 \newpage
 
 \hypertarget{references}{%
 \section{References}\label{references}}
 
 \hypertarget{refs}{}
-\leavevmode\hypertarget{ref-Marwick2017}{}%
-Marwick, B. 2017. Computational reproducibility in archaeological research: Basic principles and a case study of their implementation. Journal of Archaeological Method and Theory 24:424--450.
+\leavevmode\hypertarget{ref-keller2008continental}{}%
+Keller, M., D. S. Schimel, W. W. Hargrove, and F. M. Hoffman. 2008. A continental strategy for the national ecological observatory network. The Ecological Society of America: 282-284.
+
+\leavevmode\hypertarget{ref-scholl2020integrating}{}%
+Scholl, V. M., M. E. Cattau, M. B. Joseph, and J. K. Balch. 2020. Integrating national ecological observatory network (neon) airborne remote sensing and in-situ data for optimal tree species classification. Remote Sensing 12:1414.
 
 \newpage
 
-\hypertarget{colophon}{%
-\subsubsection{Colophon}\label{colophon}}
+\clearpage
 
-This report was generated on 2020-09-01 10:46:48 using the following computational environment and dependencies:
+\hypertarget{figure-legends}{%
+\section*{Figure legends}\label{figure-legends}}
+\addcontentsline{toc}{section}{Figure legends}
 
-\begin{verbatim}
-#> - Session info ---------------------------------------------------------------
-#>  setting  value                       
-#>  version  R version 4.0.2 (2020-06-22)
-#>  os       macOS Catalina 10.15.6      
-#>  system   x86_64, darwin17.0          
-#>  ui       X11                         
-#>  language (EN)                        
-#>  collate  en_US.UTF-8                 
-#>  ctype    en_US.UTF-8                 
-#>  tz       America/Denver              
-#>  date     2020-09-01                  
-#> 
-#> - Packages -------------------------------------------------------------------
-#>  package     * version date       lib source        
-#>  assertthat    0.2.1   2019-03-21 [1] CRAN (R 4.0.2)
-#>  backports     1.1.9   2020-08-24 [1] CRAN (R 4.0.2)
-#>  bookdown      0.20    2020-06-23 [1] CRAN (R 4.0.2)
-#>  callr         3.4.3   2020-03-28 [1] CRAN (R 4.0.2)
-#>  cli           2.0.2   2020-02-28 [1] CRAN (R 4.0.2)
-#>  crayon        1.3.4   2017-09-16 [1] CRAN (R 4.0.2)
-#>  desc          1.2.0   2018-05-01 [1] CRAN (R 4.0.2)
-#>  devtools      2.3.1   2020-07-21 [1] CRAN (R 4.0.2)
-#>  digest        0.6.25  2020-02-23 [1] CRAN (R 4.0.2)
-#>  ellipsis      0.3.1   2020-05-15 [1] CRAN (R 4.0.2)
-#>  evaluate      0.14    2019-05-28 [1] CRAN (R 4.0.1)
-#>  fansi         0.4.1   2020-01-08 [1] CRAN (R 4.0.2)
-#>  fs            1.5.0   2020-07-31 [1] CRAN (R 4.0.2)
-#>  glue          1.4.2   2020-08-27 [1] CRAN (R 4.0.2)
-#>  highr         0.8     2019-03-20 [1] CRAN (R 4.0.2)
-#>  htmltools     0.5.0   2020-06-16 [1] CRAN (R 4.0.2)
-#>  knitr         1.29    2020-06-23 [1] CRAN (R 4.0.2)
-#>  magrittr      1.5     2014-11-22 [1] CRAN (R 4.0.2)
-#>  memoise       1.1.0   2017-04-21 [1] CRAN (R 4.0.2)
-#>  pkgbuild      1.1.0   2020-07-13 [1] CRAN (R 4.0.2)
-#>  pkgload       1.1.0   2020-05-29 [1] CRAN (R 4.0.2)
-#>  prettyunits   1.1.1   2020-01-24 [1] CRAN (R 4.0.2)
-#>  processx      3.4.3   2020-07-05 [1] CRAN (R 4.0.2)
-#>  ps            1.3.4   2020-08-11 [1] CRAN (R 4.0.2)
-#>  R6            2.4.1   2019-11-12 [1] CRAN (R 4.0.2)
-#>  remotes       2.2.0   2020-07-21 [1] CRAN (R 4.0.2)
-#>  rlang         0.4.7   2020-07-09 [1] CRAN (R 4.0.2)
-#>  rmarkdown     2.3     2020-06-18 [1] CRAN (R 4.0.2)
-#>  rprojroot     1.3-2   2018-01-03 [1] CRAN (R 4.0.2)
-#>  sessioninfo   1.1.1   2018-11-05 [1] CRAN (R 4.0.2)
-#>  stringi       1.4.6   2020-02-17 [1] CRAN (R 4.0.2)
-#>  stringr       1.4.0   2019-02-10 [1] CRAN (R 4.0.2)
-#>  testthat      2.3.2   2020-03-02 [1] CRAN (R 4.0.2)
-#>  usethis       1.6.1   2020-04-29 [1] CRAN (R 4.0.2)
-#>  withr         2.2.0   2020-04-20 [1] CRAN (R 4.0.2)
-#>  xfun          0.16    2020-07-24 [1] CRAN (R 4.0.2)
-#>  yaml          2.2.1   2020-02-01 [1] CRAN (R 4.0.2)
-#> 
-#> [1] /Library/Frameworks/R.framework/Versions/4.0/Resources/library
-\end{verbatim}
+\hypertarget{figure-1}{%
+\subsection*{Figure 1}\label{figure-1}}
+\addcontentsline{toc}{subsection}{Figure 1}
 
-The current Git commit details are:
+Figure 1 info\ldots{}
+
+\hypertarget{figure-2}{%
+\subsection*{Figure 2}\label{figure-2}}
+\addcontentsline{toc}{subsection}{Figure 2}
+
+It ain't much\ldots{}
+
+\hypertarget{figures}{%
+\section*{Figures}\label{figures}}
+\addcontentsline{toc}{section}{Figures}
+
+\hypertarget{figure-1-1}{%
+\subsection*{Figure 1}\label{figure-1-1}}
+\addcontentsline{toc}{subsection}{Figure 1}
+
+\begin{figure}
+\includegraphics[width=450px]{/Users/victoriascholl/github/neonHScompendium/analysis/figures/spectra_figure_test} \end{figure}
+
+\clearpage
+
+\hypertarget{figure-2-1}{%
+\subsection*{Figure 2}\label{figure-2-1}}
+\addcontentsline{toc}{subsection}{Figure 2}
+
+\begin{figure}
+\includegraphics[width=450px]{/Users/victoriascholl/github/neonHScompendium/analysis/figures/honest_work} \end{figure}
+
+\clearpage
 
 \end{document}

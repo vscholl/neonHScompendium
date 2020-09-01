@@ -1,7 +1,7 @@
 ---
 title: "Species & genus plant classification with NEON hyperspectral data"
 author:
-  - Victoria Scholl\thanks{maxwell.b.joseph@colorado.edu, Earth Lab, University of Colorado, Boulder, CO 80303, USA}
+  - Victoria Scholl\thanks{victoria.scholl@colorado.edu, Earth Lab and Geography Dept., University of Colorado, Boulder, CO 80303, USA}
   - Maxwell B. Joseph\thanks{maxwell.b.joseph@colorado.edu, Earth Lab, University of Colorado, Boulder, CO 80303, USA}
 
 #date: "`r format(Sys.time(), '%d %B, %Y')`"
@@ -47,11 +47,27 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-Here is a citation [@Marwick2017]
+The National Ecological Observatory Network (NEON) is a valuable source of publicly available ecological data across the United States [@keller2008continental].
+
+We have extracted all NEON AOP hyperspectral data for every mapped stem in NEON plots where field data and airborne remote sensing data were collected during the same year.
+
+Here's the code to extract the spectra: [https://gist.github.com/mbjoseph/5c18781e508460e14f64193571b98b7d](https://gist.github.com/mbjoseph/5c18781e508460e14f64193571b98b7d) 
+
+We used a machine learning approach to evaluate plant identification potential using the hyperspectral data at multiple taxonomic resolutions: species and genus levels. 
+
+Species classification is an active research area [@scholl2020integrating]. 
 
 # Background
 
 # Methods
+
+## Data cleaning
+
+## Species classification
+
+## Genus classification
+
+Same setup as species classification, but used the genus as each class label. 
 
 # Results
 
@@ -80,6 +96,9 @@ Here is an example of inline code `r x` in the middle of a sentence.
 
 # Acknowledgements
 
+Max has cool ideas and knows many R tricks
+
+
 <!-- The following line inserts a page break  -->
 
 \newpage
@@ -92,18 +111,34 @@ Here is an example of inline code `r x` in the middle of a sentence.
 
 \newpage
 
-### Colophon
+\clearpage 
 
-This report was generated on `r Sys.time()` using the following computational environment and dependencies: 
+# Figure legends {-}
 
-```{r colophon, cache = FALSE}
-# which R packages and versions?
-if ("devtools" %in% installed.packages()) devtools::session_info()
+## Figure 1 {-}
+
+Figure 1 info...
+
+## Figure 2 {-}
+
+It ain't much...
+
+# Figures {-}
+
+## Figure 1 {-}
+
+```{r spectra, fig.cap = "", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
+library(here)
+knitr::include_graphics(here::here("analysis", "figures", "spectra_figure_test.png"))
 ```
 
-The current Git commit details are:
+\clearpage
 
-```{r}
-# what commit is this file at? 
-if ("git2r" %in% installed.packages() & git2r::in_repository(path = ".")) git2r::repository(here::here())  
+## Figure 2 {-}
+
+```{r excel, fig.cap = "", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
+knitr::include_graphics(here::here("analysis", "figures", "honest_work.jpeg"))
 ```
+
+\clearpage
+
