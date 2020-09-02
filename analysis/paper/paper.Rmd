@@ -36,6 +36,7 @@ Abstract text here
 
 ```{r, results='hide', message=FALSE, include=FALSE}
 # Run the main analysis
+
 ```
 
 # Introduction {-}
@@ -63,6 +64,8 @@ Species classification is an active research area [@scholl2020integrating].
 Same setup as species classification, but used the genus as each class label. 
 
 # Results {-}
+
+Classification accuracy was higher at the genus level (60%) compared to the species level (55%) 
 
 <!-- Here's some example analysis code: -->
 
