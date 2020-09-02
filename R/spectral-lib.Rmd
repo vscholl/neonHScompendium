@@ -22,12 +22,13 @@ library(sp)
 library(neonhs)
 library(Rtsne)
 library(ggthemes)
+library(dplyr)
 ```
 
 Acquire vegetation data:
 
 ```{r get-veg-data}
-# set output directory within the analysis/data/raw_data path 
+# VS-NOTE: set output directory within the analysis/data/raw_data path 
 out_dir <- here::here("analysis","data","raw_data","spectral-lib")
 dir.create(out_dir)
 dir.create(file.path(out_dir, 'data'))
@@ -41,9 +42,11 @@ stackByTable(file.path(out_dir, "data","filesToStack10098"), folder = TRUE)
 Read the mapping data and apparent individual data:
 
 ```{r read-map}
-vegmap <- read_csv("data/filesToStack10098/stackedFiles/vst_mappingandtagging.csv") %>%
+vegmap <- read_csv(file.path(out_dir, "data", "filesToStack10098", "stackedFiles", 
+                            "vst_mappingandtagging.csv")) %>%
   filter(!is.na(stemAzimuth), !is.na(pointID))
-vegind <- read_csv("data/filesToStack10098/stackedFiles/vst_apparentindividual.csv")
+vegind <- read_csv(file.path(out_dir, "data", "filesToStack10098", "stackedFiles",
+                             "vst_apparentindividual.csv"))
 ```
 
 Get precise locations for tagged plants and merge the mapping and individual data:
@@ -94,7 +97,7 @@ nrow(veg)
 Save output file:
 
 ```{r write-veg}
-write_csv(veg, 'neon-veg.csv')
+write_csv(veg, file.path(out_dir, "neon-veg.csv"))
 ```
 
 Visualize the imbalance of species identity:
@@ -118,7 +121,7 @@ species_counts %>%
   ylab('Order: commonest to rarest') +
   theme_minimal() +
   theme(panel.grid.minor = element_blank())
-ggsave('~/Desktop/veg-freq.png', width = 4.5, height = 3)
+ggsave(file.path(out_dir, "veg-freq.png"), width = 4.5, height = 3)
 
 # number of mapped stems
 sum(species_counts$n)
@@ -148,8 +151,8 @@ For each site-year combination, extract hyperspectral data for all plants:
 
 ```{r extract-data}
 spectra <- vector(mode = 'list', length = length(split_veg))
-dir.create('hs_data', showWarnings = FALSE)
-csv_dir <- file.path("hs_data", "tabular")
+dir.create(file.path(out_dir, "hs_data"), showWarnings = FALSE)
+csv_dir <- file.path(out_dir, "hs_data", "tabular")
 dir.create(csv_dir, recursive = TRUE, showWarnings = FALSE)
 
 try_extract <- function(path, pts) {
