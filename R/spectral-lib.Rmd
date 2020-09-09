@@ -14,38 +14,35 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load-libraries, message=FALSE}
 library(tidyverse)
 library(neonUtilities)
-#library(devtools)
-#install_github('NEONScience/NEON-geolocation/geoNEON', dependencies=TRUE)
+#install.packages('remotes')
+#remotes::install_github('NEONScience/NEON-geolocation/geoNEON', dependencies=TRUE)
 library(geoNEON)
 library(sp)
-#devtools::install_github('earthlab/neonhs')
+#remotes::install_github('earthlab/neonhs')
 library(neonhs)
-library(Rtsne)
-library(ggthemes)
 library(dplyr)
+library(here)
 ```
 
 Acquire vegetation data:
 
 ```{r get-veg-data}
-# VS-NOTE: set output directory within the analysis/data/raw_data path 
 out_dir <- here::here("analysis","data","raw_data","spectral-lib")
-dir.create(out_dir)
-dir.create(file.path(out_dir, 'data'))
+dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
 
 zipsByProduct(dpID = "DP1.10098.001",
-              savepath = file.path(out_dir, 'data'),
+              savepath = out_dir,
               check.size = FALSE)
-stackByTable(file.path(out_dir, "data","filesToStack10098"), folder = TRUE)
+stackByTable(file.path(out_dir, "filesToStack10098"), folder = TRUE)
 ```
 
 Read the mapping data and apparent individual data:
 
 ```{r read-map}
-vegmap <- read_csv(file.path(out_dir, "data", "filesToStack10098", "stackedFiles", 
+vegmap <- read_csv(file.path(out_dir, "filesToStack10098", "stackedFiles", 
                             "vst_mappingandtagging.csv")) %>%
   filter(!is.na(stemAzimuth), !is.na(pointID))
-vegind <- read_csv(file.path(out_dir, "data", "filesToStack10098", "stackedFiles",
+vegind <- read_csv(file.path(out_dir, "filesToStack10098", "stackedFiles",
                              "vst_apparentindividual.csv"))
 ```
 
@@ -81,14 +78,9 @@ veg %>%
   count(individualID, year) %>%
   arrange(-n)
 
-
 veg %>%
   count(individualID) %>%
   arrange(-n)
-
-veg %>%
-  filter(individualID == "NEON.PLA.D03.JERC.02221") %>%
-  View
 
 nrow(vegmap)
 nrow(veg)
@@ -235,49 +227,5 @@ all_spectra <- all_spectra[nrows > 0] %>%
   spectraID = paste(individualID, year, sep = "_")) %>%
   select(spectraID, everything())
 
-write_csv(all_spectra, "all_spectra.csv")
-```
-
-```{r plot-spectra}
-all_spectra <- read_csv("all_spectra.csv")
-
-p <- all_spectra %>%
-  group_by(scientificName) %>%
-  mutate(n = n()) %>%
-  ggplot(aes(wavelength_nm, ifelse(mask, NA, reflectance), group = individualID)) +
-  geom_path(alpha = .2) +
-  xlab('Wavelength (nm)') +
-  ylab('Reflectance') +
-  facet_wrap(~reorder(scientificName, -n), labeller = label_wrap_gen()) +
-  theme_minimal()
-ggsave("spectra.png", plot = p, width = 15, height = 15)
-```
-
-Look at the sample sizes per species
-
-```{r ss}
-all_spectra %>%
-  distinct(scientificName, spectraID) %>%
-  count(scientificName) %>%
-  ggplot(aes(x = n, y = reorder(scientificName, -n))) +
-  geom_point() +
-  ylab("Species") +
-  xlab("Number of spectra") +
-  theme(axis.text.y = element_text(size = 7)) +
-  scale_x_log10()
-```
-
-Plot repeat samples of individuals:
-
-```{r check-dups}
-all_spectra %>%
-  count(individualID) %>%
-  arrange(-n) %>%
-  top_n(1) %>%
-  `[`(1:56, ) %>%
-  left_join(all_spectra) %>%
-  mutate(reflectance = ifelse(mask, NA, reflectance)) %>%
-  ggplot(aes(x = wavelength_nm, y = reflectance, color = factor(year))) +
-  geom_line() +
-  facet_wrap(~individualID)
+write_csv(all_spectra, file.path(out_dir, "all_spectra.csv"))
 ```
