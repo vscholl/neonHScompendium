@@ -35,11 +35,30 @@ Abstract text here
 \end{abstract}
 
 ```{r, results='hide', message=FALSE, include=FALSE}
+# Extract hyperspectral reflectance data for each individual plant
+#R/spectral-lib.Rmd
+
 # Run the main analysis
 
 ```
 
 # Introduction {-}
+
+1 - motivation for work, why bother?
+  - unprecedented access to unique hyperspectral airborne imagery from NEON (cite)
+  - acknowledge additional data to add info (lidar, rgb) (cite) 
+  - how meaningful can the HS data alone be to predict species? accuracies? 
+  - we expect there to be meaningful information in the HS data for species/genus
+2 - knowledge gaps in lit/field?
+  - how useful are HS data across many species, ecosystems, geographies? 
+  - where is the most important information contained? which wavelengths most important for species discrimination? differ across sites? (cite) 
+  - generally more site-specific studies? 
+  - prediction of species vs genus? How much easier is genus? Or is this difficult too? (cite hierarchical taxonomic classification recent study)
+3 - how we addressed the knowledge gaps
+  - the need to generalize methods across locations? --> NEON
+  - which wavelengths are most important
+  - data harmonization across NEON sites (why are the wavelengths different? Ask NEON person?)
+
 
 The National Ecological Observatory Network (NEON) is a valuable source of publicly available ecological data across the United States [@keller2008continental].
 
@@ -53,11 +72,43 @@ Species classification is an active research area [@scholl2020integrating].
 
 # Background {-}
 
+
 # Methods {-}
+NEON data collection protocols
+AOP flights
+Plant mapping 
+Network of sites and observations (how many? ecoclimatic domains? ecosystem coverage?
+
+Figure - NEON sites and domains, which sites do we have data from? # individuals from each site? 
+Acknowledge imbalance spatially and temporally...
+Any sites not represented? Like Hawaii
+
+## Data extraction {-}
+
+Extracted hyperspectral data for all mapped stems at NEON sites
+Assumed plant locations don't change over time 
+Filtered plants to keep only "live" ones
+NEON data products (cite)
+Spectrometer orthorectified surface directional reflectance mosaic
+Woody plant vegetation structure field based measurements
+Mask created for water absorption bands (cite)
+Packages neonUtilities, geoNEON, neonhs (cite)
 
 ## Data cleaning {-}
 
+? Filtered taxonomic levels, labels species & genus
+Wavelength interpolation - filtered out the PUUM site in Hawaii because of wavelengths
+Filtering based on # samples
+Train/validate split 80/20
+
+Figure - histogram of species counts, show which ones were used to train
+Figure - cleaned data, make it legible
+
 ## Species classification {-}
+
+Random forest classifier
+Hyperparameter optimization (mtry, ntree)
+Overall accuracy, confusion matrices, variable importance
 
 ## Genus classification {-}
 
@@ -66,6 +117,9 @@ Same setup as species classification, but used the genus as each class label.
 # Results {-}
 
 Classification accuracy was higher at the genus level (60%) compared to the species level (55%) 
+
+Figure - confusion matrices
+Figure - variable importance vs wavelength
 
 <!-- Here's some example analysis code: -->
 
@@ -87,6 +141,34 @@ x <- round(pi, 2)
 Here is an example of inline code `r x` in the middle of a sentence. 
 
 # Discussion {-}
+
+Restate findings at high level
+
+How do our findings compare to other similar studies. Consistent? Differences? (cite IDTReeS) Other ranges of accuracy using NEON HS data? How many sites too? 
+
+Potential limitations
+  - class imbalance - we tried to filter based on # samples, but our model has then only seen common species and would be unable to identify rare ones
+  - filtering shadows, non-vegetation pixels.... (cite a paper from last IDTReeS comp)
+  
+Future directions, next steps
+  - targeted species/genus for increased sampling to improve representation in the data set?
+   - more advanced models. ML DL
+   - RF treats each feature as independent
+   - spectra are sequences of wavelengths - explore DL methods for sequences (i.e. recurrent neural networks)
+   - hierarchical taxonomic approach - borrow information from closely related species (i.e. common and rare species > use common species observations)
+   - (cite our other paper) intelligent crown geometry processing 
+   - (ben weinstein) tree crown detection - extract multiple pixels per individual using rectangular crown boundaries
+   - herbarium / hyperspectral data measurements at other scales. handheld spectrometer. other spectral libraries. 
+   - combine HS with RGB, lidar
+   
+We conclude that HS data allow you to get __ accuracy
+Hopes for outcomes 
+
+
+# Appendix / Supplement ideas {-}
+
+- Species histogram to show which ones were excluded for few # samples 
+- Wavelength interpolation figures? 
 
 # Acknowledgements {-}
 
