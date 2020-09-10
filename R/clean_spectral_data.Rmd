@@ -1,0 +1,500 @@
+---
+title: "Clean spectral data"
+author: "Victoria Scholl"
+date: "09/10/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(here)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+library(tidyr)
+library(tidyverse)
+library(kableExtra)
+library(reshape2)
+library(pbapply)
+```
+
+### Explore data
+
+Read original spectra, extracted using NEON data (spectral-lib.Rmd).
+
+Columns: 
+
+* **individualID** - unique identifier for each individual plant. Individuals can have multiple measurements over time.
+* **uid** - unique identifier for the observation/record
+* **spectraID** - unique identifier for each reflectance spectrum (a combination of individualID and year, YYYY )
+* **namedLocation** - name of measurement location in NEON database
+* **utmZone, adjEasting, adjNorthing** - UTM zone and coordinates of mapped stem
+* **taxonID** - species code
+* **scientificName** - scientific name, associated with taxonID, lowest taxonomic rank that can be determined
+* **taxonRank** - lowest level taxonomic rank that can be determined for the individual (genus, species, variety)
+* **band_idx** - number of the spectral band (band1, band 2, ... band 426)
+* **wavelength_nm** - band wavelength in units of nm
+* **reflectance** - decimal reflectance [0,1] extracted from NEON NIS hyperspectral imagery collected during same year
+* **mask** - TRUE/LFALSE to identify water absorption bands
+
+
+```{r}
+# read_csv --> no factors, creates a tibble
+all_spectra <- read_csv(here::here("analysis","data","raw_data",
+                                   "spectral-lib","all_spectra.csv"))
+
+# quick look at the values in each column
+glimpse(all_spectra)
+```
+
+Number of unique **individualID**, **uid**, **spectraID** values: 
+
+```{r, message=TRUE}
+message("# of unique individualID values:")
+length(unique(all_spectra$individualID))
+
+message("# of unique uid values:")
+length(unique(all_spectra$uid))
+
+message("# of unique spectraID (uid + year) values:")
+length(unique(all_spectra$spectraID))
+```
+
+Number of unique **scientificName** & **taxonID** values (these should match):
+
+```{r}
+message("# of unique taxonID values:")
+length(unique(all_spectra$taxonID))
+
+message("# of unique scientificName values:")
+length(unique(all_spectra$scientificName))
+```
+
+How many taxonomic identifications are at the genus vs species level? (Using the NEON-provided taxon Rank data)
+
+```{r}
+species_count <- all_spectra %>% 
+  dplyr::distinct(spectraID, .keep_all = TRUE) %>%
+  dplyr::group_by(taxonRank) %>% 
+  dplyr::tally() %>% 
+  kableExtra::kable() %>%
+  kableExtra::kable_styling(bootstrap_options = "striped", 
+                            full_width = F, 
+                            position = "left")
+
+species_count
+```
+
+Filter the spectra to keep only those classified at the genus, species, and variety taxon ranks. Add new columns for genus and species by separating the **scientificName** field. 
+
+```{r}
+# remove entries with taxonRank kingdom, family (maintain only genus, species, variety ranks)
+all_spectra <- all_spectra %>% 
+  dplyr::filter(taxonRank %in% c("genus", "species", "variety"))
+
+
+# create new columns for genus and species (disregard variations within species) 
+all_spectra <- all_spectra %>% 
+  tidyr::separate(scientificName, into = c('genus', 'species'), sep = ' ', 
+           extra = 'drop', remove = FALSE) %>% 
+  # add a column combining genus and species for classification
+  dplyr::mutate(genusSpecies = paste(genus,species))
+
+message("# of unique genus values:")
+length(unique(all_spectra$genus))
+
+message("# of unique species values:")
+length(unique(all_spectra$species))
+
+message("# of unique genusSpecies values")
+length(unique(all_spectra$genusSpecies))
+```
+
+```{r}
+# example where there are multiple variations of a single genusSpecies value
+all_spectra %>% 
+  filter(genus == "Pseudotsuga") %>% 
+  select(taxonID, genusSpecies, scientificName) %>% 
+  distinct()
+```
+
+
+### Visualize spectra 
+
+Based on Max's Gist code: https://gist.github.com/mbjoseph/5c18781e508460e14f64193571b98b7d 
+
+Plot all spectra; color the spectra based on genus/species taxonomic level. 
+
+```{r, warning=FALSE, fig.height=16, fig.width=14}
+all_spectra %>%
+  ggplot(aes(wavelength_nm, ifelse(mask, NA, reflectance), group = spectraID,
+             # color each facet plot based on taxonRank
+             color = taxonRank)) +
+  geom_path(alpha = .2) +
+  labs(x = '\n Wavelength (nm)',
+       y = 'Reflectance \n',
+       color = "Taxon Rank") + 
+  facet_wrap(~genusSpecies
+             # wrap long names
+             ,labeller = label_wrap_gen(20)) + 
+  scale_color_manual(values = c("#e6550d","#1c9099", "#a8ddb5")) + 
+  theme_minimal() + 
+  # Adjust the text size and rotation angle 
+  theme(text = element_text(size=11),
+        axis.text.x = element_text(angle=90, hjust=1),
+        axis.title.y = element_text(size = 14),
+        axis.title.x = element_text(size = 14),
+        legend.text = element_text(size = 14),
+        legend.title = element_text(size = 14))
+```
+
+
+### Explore the bands
+
+Look at the starting wavelength ("band1") for each reflectance spectrum: 
+
+```{r}
+# how many different starting wavelength values in the data set? 
+count_min_wavelengths <- all_spectra %>%
+  dplyr::filter(band_idx == "band1") %>% 
+  dplyr::group_by(wavelength_nm) %>%
+  dplyr::count(wavelength_nm)
+
+kableExtra::kable(count_min_wavelengths) %>%
+  kableExtra::kable_styling(bootstrap_options = "striped", 
+                            full_width = F, 
+                            position = "left")
+```
+
+Filter spectra with starting wavelengths <380nm for now, since they complicate the wavelength interpolation.
+All spectra with a starting wavelength of 347nm come from the [PUUM](https://www.neonscience.org/field-sites/field-sites-map/PUUM) site in Hawaii - why? TBD. 
+
+```{r}
+# identify spectraID values that start at 347nm
+spectra_to_remove <- all_spectra %>%
+  dplyr::filter(band_idx == "band1") %>% 
+  dplyr::filter(wavelength_nm == 347) %>% 
+  dplyr::select(spectraID)
+
+# remove these spectra from the data set
+all_spectra <- all_spectra %>% 
+  dplyr::filter(!(spectraID %in% spectra_to_remove$spectraID))
+
+# how many different starting wavelength values in the filtered data set? 
+count_min_wavelengths <- all_spectra %>%
+  dplyr::filter(band_idx == "band1") %>% 
+  dplyr::group_by(wavelength_nm) %>%
+  dplyr::count(wavelength_nm)
+
+kableExtra::kable(count_min_wavelengths) %>%
+  kableExtra::kable_styling(bootstrap_options = "striped", 
+                            full_width = F, 
+                            position = "left")
+```
+
+
+Spectra have different starting wavelengths (i.e. 381, 383, 385nm...) and increase in increments of 5nm. Most of them start at 384nm. 
+
+```{r}
+set.seed(44) #for obama
+
+# find individualIDs that start with each of these wavelength band1 values
+for(wl in unique(count_min_wavelengths$wavelength_nm)){
+  
+  tmp <- all_spectra %>% 
+    dplyr::filter(band_idx == "band1") %>% 
+    dplyr::filter(wavelength_nm == wl) %>% 
+    dplyr::select(spectraID) %>% 
+    dplyr::sample_n(1)
+  
+  message(paste("spectraID starting at", wl, "nm: ", as.character(tmp$spectraID)))
+  
+}
+```
+
+```{r warning=FALSE, fig.width=12, include=FALSE, eval=FALSE}
+# plot spectra to see their starting/ending wavelengths
+all_spectra %>% 
+  dplyr::filter(spectraID %in% c(#"NEON.PLA.D20.PUUM.00954_2019",
+                                 "NEON.PLA.D11.CLBJ.00496_2018", 
+                                 "NEON.PLA.D01.HARV.09041_2018",
+                                 "NEON.PLA.D08.DELA.03903_2017")) %>%
+  ggplot(aes(x = wavelength_nm, y = reflectance, group = spectraID)) +
+  geom_line(aes(color = spectraID), 
+            alpha = 0.4) +
+  labs(title = "Spectra with different starting wavelengths") + 
+  theme_bw()
+```
+
+Beginning of wavelength range: 
+
+```{r warning=FALSE, fig.width=12}
+# plot spectra to see their starting wavelengths
+all_spectra %>% 
+  dplyr::filter(spectraID %in% c(#"NEON.PLA.D20.PUUM.00954_2019",
+                                 "NEON.PLA.D11.CLBJ.00496_2018", 
+                                 "NEON.PLA.D01.HARV.09041_2018",
+                                 "NEON.PLA.D08.DELA.03903_2017")) %>%
+  ggplot(aes(x = wavelength_nm, y = reflectance, group = spectraID)) +
+  geom_line(aes(color = spectraID), 
+            alpha = 0.5, size = 1) +
+  labs(title = "Spectra with different wavelengths: zoom in on beginning of spectra") + 
+  # zoom in on beginning of spectra
+  lims(x = c(380,400), y = c(0,0.1)) +
+  theme_bw()
+```
+
+End of wavelength range: 
+
+```{r warning=FALSE, fig.width=12}
+# plot spectra to see their ending wavelengths
+all_spectra %>% 
+  dplyr::filter(spectraID %in% c(#"NEON.PLA.D20.PUUM.00954_2019",
+                                 "NEON.PLA.D11.CLBJ.00496_2018", 
+                                 "NEON.PLA.D01.HARV.09041_2018",
+                                 "NEON.PLA.D08.DELA.03903_2017")) %>%
+  ggplot(aes(x = wavelength_nm, y = reflectance, group = spectraID)) +
+  geom_line(aes(color = spectraID), 
+            alpha = 0.5, size = 1) +
+  labs(title = "Spectra each with different wavelengths: zoom in on end of spectra") + 
+  # zoom in on end of spectra
+  lims(x = c(2455,2515), y = c(0, 0.3)) + 
+  theme_bw()
+```
+
+
+### Standardize the bands: Interpolate wavelengths 
+
+Interpolate wavelength values to have the same 426 bands starting at 384 nm, ending at 2512 nm, incrementing by 5 nm. To avoid data gaps on the ends, let's use a larger range.
+
+```{r wavelengths_interp}
+# define the target wavelengths.
+# use a larger range to get data on the ends.
+# with a 5nm spacing, add 10nm to each end, and 4 to the total number of wavelengths. 
+min_wl <- 384 
+max_wl <- 2512 
+num_wl <- 426
+wavelength_vals <- seq(min_wl - 10, max_wl + 10,
+                       length.out = num_wl + 4)
+```
+
+```{r}
+# get bad bands for the target wavelengths
+
+# identify a spectraID starting at the target wavelengths
+tmp_spectrum <- all_spectra %>% 
+    dplyr::filter(band_idx == "band1") %>% 
+    dplyr::filter(wavelength_nm == min_wl) %>% 
+    dplyr::select(spectraID) %>% 
+    dplyr::sample_n(1)
+
+# list the wavelengths that are bad bands, indicated by mask == TRUE
+bad_bands <- all_spectra %>% 
+  dplyr::filter(spectraID == tmp_spectrum$spectraID) %>%
+  dplyr::filter(mask==TRUE) %>%
+  dplyr::select(wavelength_nm, mask) 
+```
+
+
+```{r, warning=FALSE}
+# interpolate all spectra efficiently 
+interp_wl <- all_spectra %>%
+  split(.$spectraID) %>%
+  pblapply(function(df) {
+
+    interpolated_reflectance <- approx(x= df$wavelength_nm, 
+                                       y = df$reflectance, 
+                                       xout = wavelength_vals)
+    tibble(spectraID = unique(df$spectraID), 
+           band_idx = seq_along(wavelength_vals), 
+           # set wavelength values as integers
+           wavelength_nm = round(interpolated_reflectance$x), 
+           reflectance = interpolated_reflectance$y)
+    
+  }) %>%
+  bind_rows %>% 
+  # remove rows with wavelength values outside the range of interest 
+  dplyr::filter(wavelength_nm >= min_wl) %>% 
+  dplyr::filter(wavelength_nm <= max_wl) %>% 
+  # update the band_idx column to be band1, ... band426
+  dplyr::group_by(spectraID) %>% 
+  dplyr::arrange(wavelength_nm) %>%
+  dplyr::mutate(band_idx = paste0("band", 1:n())) %>%
+  dplyr::arrange(spectraID)
+```
+
+
+```{r}
+# set reflectance values to NA for bad bands 
+interp_wl$reflectance[interp_wl$wavelength_nm %in% bad_bands$wavelength_nm] <- NA
+```
+
+Now, each spectrum (designated by a unique spectraID value) has the same 426 wavelength values. Reflectance values are set to NA for the bad band wavelength values. 
+Merge the interpolated wavelengths and reflectance values into a copy of the data frame. 
+
+```{r, message=FALSE}
+# make a copy of the original spectra 
+cleaned_spectra <- all_spectra %>% 
+  dplyr::select(-c(wavelength_nm, reflectance)) %>% 
+  # merge in the interpolated wavelengths
+  dplyr::left_join(interp_wl)
+```
+
+
+
+
+```{r, fig.width=12}
+# plot interpolated spectra to see their starting wavelengths
+interp_wl %>% 
+  dplyr::filter(spectraID %in% c(#"NEON.PLA.D20.PUUM.00954_2019",
+                                 "NEON.PLA.D11.CLBJ.00496_2018", 
+                                 "NEON.PLA.D01.HARV.09041_2018",
+                                 "NEON.PLA.D08.DELA.03903_2017")) %>% 
+  ggplot(aes(x = wavelength_nm, y = reflectance, group = spectraID)) +
+  geom_line(aes(color = spectraID), 
+            alpha = 0.5, size = 1) +
+  labs(title = "Spectra w interpolated wavelengths: Zoom in on beginning of spectra") + 
+  # zoom in on beginning of spectra
+  lims(x = c(380,400), y = c(0,0.1)) +
+  theme_bw()
+```
+
+### Partition data into train, evaluation, & test sets
+
+How many samples per species? Filter out species with just a few samples. 
+
+```{r filter_species_N_samples, fig.height=15, fig.width = 10}
+# threshold to keep species with at more than this # of samples
+thresh = 19
+
+# count number of samples (unique spectra) per species 
+taxonCounts <- cleaned_spectra %>% 
+    distinct(spectraID, .keep_all = TRUE) %>% 
+    #group_by(taxonID) %>% 
+    group_by(genusSpecies) %>% 
+    tally() %>% 
+    # add a new column to indicate whether species count exceeds threshold
+    mutate(countGT = case_when(
+      n > thresh ~ TRUE,
+      n <= thresh ~ FALSE
+    ))
+
+
+# count total number of samples across all species
+samplesCountTotal <- taxonCounts %>% 
+  summarise(sum(n))
+
+speciesCountTotal <- nrow(taxonCounts)
+
+# count total number of species with # samples greater than threshold
+samplesCountGT <- taxonCounts %>% 
+  filter(countGT == TRUE) %>% 
+  summarise(sum(n))
+speciesCountGT <- nrow(taxonCounts %>% 
+  filter(countGT == TRUE))
+
+
+# plot histogram with count per genusSpecies. color bars based on whether
+# # samples exceeds the threshold
+ggplot(taxonCounts, aes(y = reorder(genusSpecies, n), x = n)) + 
+                          #reorder(taxonID, n), x = n)) + 
+  geom_bar(stat = "identity", aes(fill = countGT)) + 
+  labs(title = paste("Histogram of samples per species.",
+                     speciesCountTotal, "total species;",
+                     speciesCountGT, "species with greater than",
+                     thresh, "samples"),
+       y = "Genus Species",
+       fill = paste("count greater than threshold", thresh)) + 
+  theme_bw() + 
+  scale_fill_manual(values = c("#d95f0e", "#7bccc4"))
+```
+
+```{r}
+# Filter out species with less than N samples 
+taxonCounts <- cleaned_spectra %>% 
+    distinct(spectraID, .keep_all = TRUE) %>% 
+    group_by(genusSpecies) %>% 
+    tally() %>% 
+  dplyr::filter(n>thresh)
+
+filtered_spectra <- cleaned_spectra %>%
+  dplyr::filter(genusSpecies %in% taxonCounts$genusSpecies)
+```
+
+
+Split multiple observations of individuals across sets. Add a column to the data (“train”, “eval”, “test”). The 80/20 ratio (based on the [Pareto Principle](https://en.wikipedia.org/wiki/Pareto_principle)) for training/testing is common, where the 20% can be split into 10/10 for testing/validation. Andrew NG recommends 60/20/20 for training/testing/validation in his online machine learning course.   
+
+```{r split_train_test_valid}
+set.seed(44)
+# efficiently split into train, test, valid groups 
+splits <- filtered_spectra %>%
+	distinct(spectraID) %>%
+	mutate(group = sample(c("train", "valid", "test"), n(), 
+	                      replace=TRUE, prob = c(.6, .2, .2)))
+
+# check the percentage of each group
+splits %>%
+  group_by(group) %>% 
+  tally() %>% 
+  mutate(percent = n / sum(n))
+
+# join these group labels into the spectra data frame 
+filtered_spectra <- filtered_spectra %>%
+	left_join(splits, by = "spectraID")
+```
+
+```{r}
+# are all genusSpecies values present in each group?
+filtered_spectra %>% 
+  filter(group == "train") %>%
+  select(genusSpecies) %>%
+  unique() %>% 
+  nrow()
+
+filtered_spectra %>% 
+  filter(group == "test") %>%
+  select(genusSpecies) %>%
+  unique() %>% 
+  nrow()
+
+filtered_spectra %>% 
+  filter(group == "valid") %>%
+  select(genusSpecies) %>%
+  unique() %>% 
+  nrow()
+```
+
+
+### Output "clean dataset" 
+
+Write spectra to csv file. 
+```{r}
+write_csv(x = filtered_spectra,
+          path = here::here("data", "cleaned_spectra.csv"))
+```
+
+Visualize the spectra, facet by scientific name, color by taxon rank. 
+```{r, warning=FALSE, fig.height=12, fig.width=16}
+filtered_spectra %>%
+  ggplot(aes(wavelength_nm, ifelse(mask, NA, reflectance), group = spectraID,
+             # color each facet plot based on taxonRank
+             color = taxonRank)) +
+  geom_path(alpha = .2) +
+  labs(x = '\n Wavelength (nm)',
+       y = 'Reflectance \n',
+       color = "Taxon Rank") + 
+  facet_wrap(~genusSpecies
+             # wrap long scientific names
+             ,labeller = label_wrap_gen(20)
+             ,ncol=10) + 
+  scale_color_manual(values = c("#e6550d","#1c9099", "#a8ddb5")) + 
+  theme_minimal() + 
+  # Adjust the text size and rotation angle 
+  theme(text = element_text(size=11),
+        axis.text.x = element_text(angle=90, hjust=1),
+        axis.title.y = element_text(size = 14),
+        axis.title.x = element_text(size = 14),
+        legend.text = element_text(size = 14),
+        legend.title = element_text(size = 14))
+```
