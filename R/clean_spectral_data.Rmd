@@ -43,9 +43,6 @@ Columns:
 # read_csv --> no factors, creates a tibble
 all_spectra <- read_csv(here::here("analysis","data","raw_data",
                                    "spectral-lib","all_spectra.csv"))
-
-# quick look at the values in each column
-glimpse(all_spectra)
 ```
 
 Number of unique **individualID**, **uid**, **spectraID** values: 
@@ -122,11 +119,9 @@ all_spectra %>%
 
 ### Visualize spectra 
 
-Based on Max's Gist code: https://gist.github.com/mbjoseph/5c18781e508460e14f64193571b98b7d 
-
 Plot all spectra; color the spectra based on genus/species taxonomic level. 
 
-```{r, warning=FALSE, fig.height=16, fig.width=14}
+```{r, warning=FALSE, fig.height=16, fig.width=14, eval=FALSE}
 all_spectra %>%
   ggplot(aes(wavelength_nm, ifelse(mask, NA, reflectance), group = spectraID,
              # color each facet plot based on taxonRank
@@ -233,16 +228,21 @@ Beginning of wavelength range:
 # plot spectra to see their starting wavelengths
 all_spectra %>% 
   dplyr::filter(spectraID %in% c(#"NEON.PLA.D20.PUUM.00954_2019",
-                                 "NEON.PLA.D11.CLBJ.00496_2018", 
-                                 "NEON.PLA.D01.HARV.09041_2018",
-                                 "NEON.PLA.D08.DELA.03903_2017")) %>%
+                                 "NEON.PLA.D10.RMNP.04210_2018", 
+                                 "NEON.PLA.D03.DSNY.00878_2018",
+                                 "NEON.PLA.D01.BART.03618_2017")) %>%
   ggplot(aes(x = wavelength_nm, y = reflectance, group = spectraID)) +
   geom_line(aes(color = spectraID), 
             alpha = 0.5, size = 1) +
-  labs(title = "Spectra with different wavelengths: zoom in on beginning of spectra") + 
+  labs(title = "Spectra with different wavelengths: zoom in on beginning of spectra",
+       x = "wavelength [nm]",
+       color = "spectrum ID") + 
   # zoom in on beginning of spectra
   lims(x = c(380,400), y = c(0,0.1)) +
   theme_bw()
+
+# save figure to file
+ggsave(filename = here::here("analysis","figures", "wl_before_interp_380nm.pdf"), width = 9, height = 4)
 ```
 
 End of wavelength range: 
@@ -251,16 +251,21 @@ End of wavelength range:
 # plot spectra to see their ending wavelengths
 all_spectra %>% 
   dplyr::filter(spectraID %in% c(#"NEON.PLA.D20.PUUM.00954_2019",
-                                 "NEON.PLA.D11.CLBJ.00496_2018", 
-                                 "NEON.PLA.D01.HARV.09041_2018",
-                                 "NEON.PLA.D08.DELA.03903_2017")) %>%
+                                 "NEON.PLA.D10.RMNP.04210_2018", 
+                                 "NEON.PLA.D03.DSNY.00878_2018",
+                                 "NEON.PLA.D01.BART.03618_2017")) %>%
   ggplot(aes(x = wavelength_nm, y = reflectance, group = spectraID)) +
   geom_line(aes(color = spectraID), 
             alpha = 0.5, size = 1) +
-  labs(title = "Spectra each with different wavelengths: zoom in on end of spectra") + 
+  labs(title = "Spectra each with different wavelengths: zoom in on end of spectra",
+        x = "wavelength [nm]",
+       color = "spectrum ID") + 
   # zoom in on end of spectra
   lims(x = c(2455,2515), y = c(0, 0.3)) + 
   theme_bw()
+
+# save figure to file
+ggsave(filename = here::here("analysis","figures", "wl_before_interp_2500nm.pdf"), width = 9, height = 4)
 ```
 
 
@@ -348,16 +353,21 @@ cleaned_spectra <- all_spectra %>%
 # plot interpolated spectra to see their starting wavelengths
 interp_wl %>% 
   dplyr::filter(spectraID %in% c(#"NEON.PLA.D20.PUUM.00954_2019",
-                                 "NEON.PLA.D11.CLBJ.00496_2018", 
-                                 "NEON.PLA.D01.HARV.09041_2018",
-                                 "NEON.PLA.D08.DELA.03903_2017")) %>% 
+                                 "NEON.PLA.D10.RMNP.04210_2018", 
+                                 "NEON.PLA.D03.DSNY.00878_2018",
+                                 "NEON.PLA.D01.BART.03618_2017")) %>% 
   ggplot(aes(x = wavelength_nm, y = reflectance, group = spectraID)) +
   geom_line(aes(color = spectraID), 
             alpha = 0.5, size = 1) +
-  labs(title = "Spectra w interpolated wavelengths: Zoom in on beginning of spectra") + 
+  labs(title = "Spectra w interpolated wavelengths: Zoom in on beginning of spectra",
+       x = "wavelength [nm]",
+       color = "spectrum ID") + 
   # zoom in on beginning of spectra
   lims(x = c(380,400), y = c(0,0.1)) +
   theme_bw()
+
+# save figure to file
+ggsave(filename = here::here("analysis","figures", "wl_after_interp_380nm.pdf"), width = 9, height = 4)
 ```
 
 ### Partition data into train, evaluation, & test sets
@@ -404,10 +414,13 @@ ggplot(taxonCounts, aes(y = reorder(genusSpecies, n), x = n)) +
                      speciesCountTotal, "total species;",
                      speciesCountGT, "species with greater than",
                      thresh, "samples"),
-       y = "Genus Species",
-       fill = paste("count greater than threshold", thresh)) + 
+       y = "Scientific Name (Genus + Species)",
+       fill = paste("Count >", thresh)) + 
   theme_bw() + 
   scale_fill_manual(values = c("#d95f0e", "#7bccc4"))
+
+# save figure to file
+ggsave(filename = here::here("analysis","figures", "hist_samples_per_species.pdf"), width = 10, height = 12)
 ```
 
 ```{r}
