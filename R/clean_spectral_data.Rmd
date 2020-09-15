@@ -43,6 +43,9 @@ Columns:
 # read_csv --> no factors, creates a tibble
 all_spectra <- read_csv(here::here("analysis","data","raw_data",
                                    "spectral-lib","all_spectra.csv"))
+
+# quick look at the values in each column
+glimpse(all_spectra)
 ```
 
 Number of unique **individualID**, **uid**, **spectraID** values: 
