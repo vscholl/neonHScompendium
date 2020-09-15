@@ -27,6 +27,9 @@ library(here)
 Acquire vegetation data:
 
 ```{r get-veg-data}
+# start timer 
+start_time <- Sys.time()
+
 out_dir <- here::here("analysis","data","raw_data","spectral-lib")
 dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
 
@@ -228,4 +231,15 @@ all_spectra <- all_spectra[nrows > 0] %>%
   select(spectraID, everything())
 
 write_csv(all_spectra, file.path(out_dir, "all_spectra.csv"))
+```
+
+```{r how_long_did_this_take}
+# stop timer
+end_time <- Sys.time()
+
+elapsed_time <- end_time - start_time
+
+print(difftime(end_time, start_time, 
+         units = c("auto", "secs", "mins", "hours",
+                   "days", "weeks")))
 ```
