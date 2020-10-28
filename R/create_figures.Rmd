@@ -1,0 +1,171 @@
+---
+title: "Create additional figures"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(here)
+library(readr)
+library(dplyr)
+library(sf)
+library(ggplot2)
+library(ggthemes)
+library(spData)
+library(tidyverse)
+library(mapview)
+library(RColorBrewer)
+library(ggspatial)
+library(rnaturalearth)
+library(rnaturalearthdata)
+```
+
+## Study area
+
+```{r prepare_data, message=FALSE, warning=FALSE}
+# read NEON domain polygons
+neon_domains <- sf::st_read("data/shp/NEON_Domains.shp", quiet = TRUE)
+
+# read spectral data
+all_spectra <- readr::read_csv(here::here("data","cleaned_spectra.csv"))
+spectra_locations <- all_spectra %>%  
+  # grab the latitude and longitude coordinates for each spectrum 
+  select(latitude = adjDecimalLatitude, longitude = adjDecimalLongitude) %>% 
+  # remove redundant rows
+  distinct() %>%
+  # convert each to a SF point with geographic coordinates 
+  st_as_sf(coords = c("longitude", "latitude"), crs = 4326)
+
+# filter the NEON domains, keep only those containing spectra locations
+domains_containing_spectra <- neon_domains %>%
+  filter(lengths(st_intersects(neon_domains, spectra_locations)) > 0)
+
+# transform domains and spectra points to Albers Equal Area, CRS = 2163 for the map 
+domains_filtered_2163 <- sf::st_transform(x = domains_containing_spectra, crs = 2163)
+domains_all_2163 <- sf::st_transform(x = neon_domains, crs = 2163)
+spectra_2163 <- sf::st_transform(x = spectra_locations, crs = 2163)
+
+# load and transform additional geospatial data for mapping 
+data("us_states", package = "spData")
+us_states_2163 <- st_transform(spData::us_states, crs = 2163)
+#world_2163 <- st_transform(spData::world, crs = 2163)
+world_2163 <- ne_countries(scale = "medium", returnclass = "sf") %>% st_transform(crs = 2163)
+
+# set color palette for NEON domains 
+colourCount = length(unique(domains_filtered_2163$DomainID))
+getPalette = colorRampPalette(brewer.pal(colourCount, "Spectral"))
+colors_domains <- data.frame(names = sort(unique(domains_filtered_2163$DomainName)),
+                        values = getPalette(colourCount)) #colorRampPalette
+```
+
+```{r make_map, fig.height=4, fig.width=6}
+# make the map 
+ggplot() + 
+  # US States
+  geom_sf(data = us_states_2163, fill="grey80", color="gray70", alpha=0.3) + 
+  # continent boundaries for context 
+  geom_sf(data = world_2163, fill="grey80", color="gray50", alpha=0.5) +
+  # NEON domains containing spectra
+  geom_sf(data = domains_filtered_2163, aes(fill = factor(DomainName)), 
+          alpha = 0.7, color = "gray40") + 
+  # fill label in legend 
+  labs(fill = "NEON Domain") + 
+  # apply fill color scale for neon domains 
+  scale_fill_manual(breaks = colors_domains$names, values = colors_domains$values) + 
+  # add the other NEON domains, just as outlines + 
+  geom_sf(data = domains_all_2163, alpha = 0, color = "gray40") +
+  # add NEON spectra locations as points
+  geom_sf(data = spectra_2163) + 
+  # set the extent based on NEON domains where we have spectral data 
+  coord_sf(crs = st_crs(2163),
+           expand = FALSE,
+           xlim = c(as.numeric(st_bbox(domains_filtered_2163)[1]),    # xmin
+                    as.numeric(st_bbox(domains_filtered_2163)[3])),   # xmax 
+           ylim = c(as.numeric(st_bbox(domains_filtered_2163)[2]),    # ymin
+                    as.numeric(st_bbox(domains_filtered_2163)[4]))) + # ymax
+  # add scale bar and north arrow 
+  annotation_scale(location = "bl", width_hint = 0.4, style = "bar") +
+  # add north arrow
+  annotation_north_arrow(location = "bl", which_north = "true", 
+                         pad_x = unit(0.15, "in"), pad_y = unit(0.25, "in"),
+                         style = north_arrow_fancy_orienteering) +
+  # set theme 
+  theme_bw() 
+```
+
+```{r make_map_with_alaska_inset, fig.height=4, fig.width=6}
+# make the map WITH ALASKA INSET
+main_map <- ggplot() + 
+  # US States
+  geom_sf(data = us_states_2163, fill="grey80", color="gray70", alpha=0.3) + 
+  # continent boundaries for context 
+  geom_sf(data = world_2163, fill="grey80", color="gray50", alpha=0.5) +
+  # NEON domains containing spectra
+  geom_sf(data = domains_filtered_2163, aes(fill = factor(DomainName)), 
+          alpha = 0.7, color = "gray40") + 
+  # fill label in legend 
+  labs(fill = "NEON Domain") + 
+  # apply fill color scale for neon domains 
+  scale_fill_manual(breaks = colors_domains$names, values = colors_domains$values) + 
+  # add the other NEON domains, just as outlines + 
+  geom_sf(data = domains_all_2163, alpha = 0, color = "gray40") +
+  # add NEON spectra locations as points
+  geom_sf(data = spectra_2163) + 
+  # set the extent based on NEON domains where we have spectral data 
+    coord_sf(crs = st_crs(2163), 
+           xlim = c(-2500000, 2500000), 
+           ylim = c(-2300000, 730000))  + 
+  # get rid of legend
+  theme(legend.position = "none") 
+
+alaska_inset <- ggplot() + 
+  # add Alaska boundaries
+  geom_sf(data = us_states_2163, fill="grey", color="gray70", alpha=0.3) + 
+  # continent boundaries for context 
+  geom_sf(data = world_2163, fill="grey", color="gray70", alpha=0.3) + 
+  # Add NEON domains 
+  geom_sf(data = domains_filtered_2163, aes(fill = factor(DomainName)), 
+          alpha = 0.7, color = "gray40") + 
+  # add NEON sites as points 
+  geom_sf(data = spectra_2163) + 
+  # set extents to zoom in just on Alaska
+  coord_sf(crs = st_crs(3467), 
+           xlim = c(-2400000, 1600000), 
+           ylim = c(200000, 2500000), 
+           expand = FALSE, datum = NA) + 
+  theme_clean() +
+  # get rid of legend for now
+  theme(legend.position = "none") + 
+  # fill for neon domains in the legend 
+  scale_fill_manual(breaks = colors_domains$names, values = colors_domains$values) + 
+  # add a border around the alaska inset 
+  theme(panel.border = element_rect(colour = "black", fill = NA))
+
+# combine main map with alaska as an inset
+main_map +
+  annotation_custom(grob = ggplotGrob(alaska_inset),
+                    xmin = -2750000,
+                    xmax = -2700000 + (1600000 - (-2400000))/2.5,
+                    ymin = -2470000,
+                    ymax = -2450000 + (2500000 - 20000)/2.5) + 
+  # set theme to make background white, subtle grid lines, outline map
+  theme_bw()  + 
+  # apply color scale for domains across the contiguous US and Alaska
+  scale_fill_manual(breaks = colors_domains$names, values = colors_domains$values) + 
+  # titles and labels
+  labs(fill = "NEON Domain") + 
+  # add scale bar
+  annotation_scale(location = "br", width_hint = 0.5, style = "bar") +
+  # add north arrow
+  annotation_north_arrow(location = "tl", which_north = "true", 
+                         pad_x = unit(0.15, "in"), pad_y = unit(0.5, "in"),
+                         style = north_arrow_fancy_orienteering) 
+```
+
+
+```{r}
+ggsave(filename = here::here("output", "study_area.pdf"),
+       width = 12, height = 8)
+```
+
