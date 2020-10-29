@@ -37,15 +37,14 @@ Abstract text here
 ```{r, results='hide', message=FALSE, include=FALSE}
 # Extract hyperspectral reflectance data for each individual plant
 #R/spectral-lib.Rmd
-
 # Run the main analysis
-
 ```
 
 # Introduction {-}
 
-1 - motivation for work, why bother?
-  - unprecedented access to unique hyperspectral airborne imagery from NEON (cite)
+1
+* motivation for work, why bother?
+* unprecedented access to unique hyperspectral airborne imagery from NEON (cite)
   - acknowledge additional data to add info (lidar, rgb) (cite) 
   - how meaningful can the HS data alone be to predict species? accuracies? 
   - we expect there to be meaningful information in the HS data for species/genus
@@ -61,10 +60,7 @@ Abstract text here
 
 
 The National Ecological Observatory Network (NEON) is a valuable source of publicly available ecological data across the United States [@keller2008continental].
-
 We have extracted all NEON AOP hyperspectral data for every mapped stem in NEON plots where field data and airborne remote sensing data were collected during the same year.
-
-Here's the code to extract the spectra: [https://gist.github.com/mbjoseph/5c18781e508460e14f64193571b98b7d](https://gist.github.com/mbjoseph/5c18781e508460e14f64193571b98b7d) 
 
 We used a machine learning approach to evaluate plant identification potential using the hyperspectral data at multiple taxonomic resolutions: species and genus levels. 
 
@@ -94,7 +90,11 @@ NEON data products (cite)
 Spectrometer orthorectified surface directional reflectance mosaic
 Woody plant vegetation structure field based measurements
 Mask created for water absorption bands (cite)
-Packages neonUtilities, geoNEON, neonhs (cite)
+We performed our analysis in R [@R] with packages including neonUtilities [@neonUtilities], geoNEON [@geoNEON], neonhs [@neonhs]
+
+The code to do this is provided in the research compendium here:[https://github.com/vscholl/neonHScompendium](https://github.com/vscholl/neonHScompendium). 
+
+
 
 ## Data cleaning {-}
 
@@ -199,7 +199,7 @@ It ain't much...
 
 ## Figure 1 {-}
 
-```{r fig-studyArea, fig.cap ="Caption", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
+```{r fig-studyArea, fig.cap ="Study Area", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
 library(here)
 knitr::include_graphics(here::here("analysis", "figures", "study_area.pdf"))
 ```
