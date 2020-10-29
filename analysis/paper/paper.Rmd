@@ -78,7 +78,7 @@ NEON data collection protocols
 AOP flights
 Plant mapping 
 Network of sites and observations (how many? ecoclimatic domains? ecosystem coverage?
-Figure \@ref(fig:fig_studyArea)
+Figure \@ref(fig:fig-studyArea)
 
 Figure - NEON sites and domains, which sites do we have data from? # individuals from each site? 
 Acknowledge imbalance spatially and temporally...
@@ -87,7 +87,7 @@ Any sites not represented? Like Hawaii
 ## Data extraction {-}
 
 Extracted hyperspectral data for all mapped stems at NEON sites
-Figure \@ref(fig:fig_spectraExtracted)
+Figure \@ref(fig:fig-spectraExtracted)
 Assumed plant locations don't change over time 
 Filtered plants to keep only "live" ones
 NEON data products (cite)
@@ -123,18 +123,14 @@ Classification accuracy was higher at the genus level (60%) compared to the spec
 Figure - confusion matrices
 Figure - variable importance vs wavelength
 
+Figure \@ref(fig:fig-honestWork)
+
 <!-- Here's some example analysis code: -->
 
 ```{r get-data, eval = FALSE}
 # Note the path that we need to use to access our data files when rendering this document
 my_data <- read.csv(here::here('analysis/data/raw_data/my_csv_file.csv'))
 ```
-
-```{r demo-plot, fig.cap="A plot of random numbers"}
-plot(rnorm(10))
-```
-
-Figure \@ref(fig:demo-plot) shows how we can have a caption and cross-reference for a plot
 
 ```{r demo-inline-code}
 x <- round(pi, 2)
@@ -203,7 +199,7 @@ It ain't much...
 
 ## Figure 1 {-}
 
-```{r fig_studyArea, fig.cap = "Map of the NEON sampling locations and domains with data that we used in this study.", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
+```{r fig-studyArea, fig.cap ="Caption", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
 library(here)
 knitr::include_graphics(here::here("analysis", "figures", "study_area.pdf"))
 ```
@@ -212,7 +208,7 @@ knitr::include_graphics(here::here("analysis", "figures", "study_area.pdf"))
 
 ## Figure 2 {-}
 
-```{r fig_honestWork, fig.cap = "", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
+```{r fig-honestWork, fig.cap = "Caption", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
 knitr::include_graphics(here::here("analysis", "figures", "honest_work.jpeg"))
 ```
 
@@ -220,7 +216,7 @@ knitr::include_graphics(here::here("analysis", "figures", "honest_work.jpeg"))
 
 ## Figure 3 {-}
 
-```{r fig_spectraExtracted, fig.cap = "", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
+```{r fig-spectraExtracted, fig.cap = "Caption", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
 library(here)
 knitr::include_graphics(here::here("analysis", "figures", "spectra_figure_test.png"))
 ```
