@@ -78,6 +78,7 @@ NEON data collection protocols
 AOP flights
 Plant mapping 
 Network of sites and observations (how many? ecoclimatic domains? ecosystem coverage?
+Figure \@ref(fig:fig_studyArea)
 
 Figure - NEON sites and domains, which sites do we have data from? # individuals from each site? 
 Acknowledge imbalance spatially and temporally...
@@ -86,6 +87,7 @@ Any sites not represented? Like Hawaii
 ## Data extraction {-}
 
 Extracted hyperspectral data for all mapped stems at NEON sites
+Figure \@ref(fig:fig_spectraExtracted)
 Assumed plant locations don't change over time 
 Filtered plants to keep only "live" ones
 NEON data products (cite)
@@ -201,17 +203,26 @@ It ain't much...
 
 ## Figure 1 {-}
 
-```{r spectra, fig.cap = "", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
+```{r fig_studyArea, fig.cap = "Map of the NEON sampling locations and domains with data that we used in this study.", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
 library(here)
-knitr::include_graphics(here::here("analysis", "figures", "spectra_figure_test.png"))
+knitr::include_graphics(here::here("analysis", "figures", "study_area.pdf"))
 ```
 
 \clearpage
 
 ## Figure 2 {-}
 
-```{r excel, fig.cap = "", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
+```{r fig_honestWork, fig.cap = "", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
 knitr::include_graphics(here::here("analysis", "figures", "honest_work.jpeg"))
+```
+
+\clearpage
+
+## Figure 3 {-}
+
+```{r fig_spectraExtracted, fig.cap = "", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
+library(here)
+knitr::include_graphics(here::here("analysis", "figures", "spectra_figure_test.png"))
 ```
 
 \clearpage

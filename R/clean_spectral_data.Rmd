@@ -487,7 +487,7 @@ filtered_spectra %>%
 Write spectra to csv file. 
 ```{r}
 write_csv(x = filtered_spectra,
-          path = here::here("data", "cleaned_spectra.csv"))
+          path = here::here("analysis", "data", "derived_data", "cleaned_spectra.csv"))
 ```
 
 Visualize the spectra, facet by scientific name, color by taxon rank. 
