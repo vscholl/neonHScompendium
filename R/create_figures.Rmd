@@ -185,7 +185,7 @@ ggsave(filename = here::here("analysis", "figures", "study_area.pdf"),
 
 ## Workflow figure 
 
-```{r}
+```{r include=FALSE, eval=FALSE}
 library(DiagrammeR)
 library(rsvg)
 
