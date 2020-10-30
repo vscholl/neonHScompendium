@@ -86,13 +86,10 @@ In June 2020, we extracted hyperspectral data for all mapped stems at NEON sites
 This included 5972 observations of individual plants. Some individuals had multiple observations across years. 
 
 
-Filtered plants to keep only "live" ones
-NEON data products (cite)
-Spectrometer orthorectified surface directional reflectance mosaic
-Woody plant vegetation structure field based measurements
-Mask created for water absorption bands (cite)
+**Filtered plants to keep only "live" ones**
+**Mask created for water absorption bands (cite)**
 
-The code to do this is provided in the research compendium here:[https://github.com/vscholl/neonHScompendium](https://github.com/vscholl/neonHScompendium). 
+We provide all of our code in a research compendium here:[https://github.com/vscholl/neonHScompendium](https://github.com/vscholl/neonHScompendium). 
 
 
 
