@@ -70,54 +70,54 @@ Species classification is an active research area [@scholl2020integrating].
 
 
 # Methods {-}
+
+## NEON data {-}
+
+The NEON project monitors ecosystems at 20 domains, eaach with similar climate and ecological characteristics, across the United States.
 The NEON data that we used for our study include both *in-situ* plant measurements and airborne remote sensing image data [@neonDataProducts].
 The Woody Plant Vegetation Structure (data product code DP1.10098) includes individual plant locations along with species and genus observations that are collected every 1 to 3 years. 
 The NEON Airborne Observation Platform (AOP) collects airborne remote sensing data regularly at NEON sites. 
 There are three AOP payloads, each carrying three types of sensors: (1) a high-resolution digital camera to capture red, green, blue (RGB) true-color images, (2) a light detection and ranging (lidar) system to capture discrete and waveform lidar data with approximately 1-4 points/waveforms per square meter, and (3) a pushbroom-style imaging spectrometer (AVIRIS next-gen) to capture hyperspectral data. 
-The hyperspectral data contains 426 narrow bands spanning the visible to shortwave infrared wavelengths, from 380 - 2500nm, and the image data products derived have a spatial resolution of 1m. 
+The hyperspectral data contains 426 narrow bands spanning the visible to shortwave infrared wavelengths, from 380 - 2500nm, and the image data products derived have a spatial resolution of 1m. The AOP flies at an altitude of 1000m above ground level and the flight season typically runs from May to October. 
 We worked with the Spectrometer orthorectified surface directional reflectance mosaic (data product code DP3.30006). 
-The AOP flies at an altitude of 1000m above ground level and the flight season typically runs from May to October. 
 
+We performed our analysis in R [@R] with packages including neonUtilities [@neonUtilities], geoNEON [@geoNEON], neonhs [@neonhs].
+In June 2020, we extracted hyperspectral data for all mapped stems at NEON sites that had an AOP flyover during the same year as when *in-situ* measurements were collected. 
+This included 5972 observations of individual plants. Some individuals had multiple observations across years. 
 
-NEON sampling design
-NEON data collection protocols 
-AOP flights
-Plant mapping 
-Network of sites and observations (how many? ecoclimatic domains? ecosystem coverage?
-Figure \@ref(fig:fig-studyArea)
-
-Figure - NEON sites and domains, which sites do we have data from? # individuals from each site? 
-Acknowledge imbalance spatially and temporally...
-Any sites not represented? Like Hawaii
-
-## Data extraction {-}
-
-We extracted hyperspectral data for all mapped stems at NEON sites.
-
-We assumed that plant locations did not change over time. 
-
-Figure \@ref(fig:fig-spectraExtracted)
 
 Filtered plants to keep only "live" ones
 NEON data products (cite)
 Spectrometer orthorectified surface directional reflectance mosaic
 Woody plant vegetation structure field based measurements
 Mask created for water absorption bands (cite)
-We performed our analysis in R [@R] with packages including neonUtilities [@neonUtilities], geoNEON [@geoNEON], neonhs [@neonhs]
 
 The code to do this is provided in the research compendium here:[https://github.com/vscholl/neonHScompendium](https://github.com/vscholl/neonHScompendium). 
 
 
 
-## Data cleaning {-}
+## Data cleaning and preparation {-}
 
-? Filtered taxonomic levels, labels species & genus
+
+**? Filtered taxonomic levels, labels species & genus**
 Wavelength interpolation - filtered out the PUUM site in Hawaii because of wavelengths
 Filtering based on # samples
 Train/validate split 80/20
 
-Figure - histogram of species counts, show which ones were used to train
-Figure - cleaned data, make it legible
+**Figure - histogram of species counts, show which ones were used to train**
+**Figure - cleaned data, make it legible**
+
+After the data cleaning steps, we were left with reflectance data for *____* individuals at sites across 14 of the NEON eco-climatic domains (Figure \@ref(fig:fig-studyArea)). 
+There is a noticeable imbalance of data across space and time; some NEON domains and US states (such as Hawaii) are not represented in our analysis. 
+Years that we found when both *in-situ* and AOP data were collected were 2017, 2018, and 2019. 
+Note that covid-19 postponed NEON data collection as well as the AOP flight season during 2020. 
+We assumed that plant locations did not change over time. 
+
+Figure \@ref(fig:fig-spectraExtracted)
+
+
+
+
 
 ## Species classification {-}
 
