@@ -82,9 +82,11 @@ Any sites not represented? Like Hawaii
 
 ## Data extraction {-}
 
-Extracted hyperspectral data for all mapped stems at NEON sites
+We extracted hyperspectral data for all mapped stems at NEON sites using the neonhs [@neonhs] package. 
+We assumed that plant locations did not change over time. 
+
 Figure \@ref(fig:fig-spectraExtracted)
-Assumed plant locations don't change over time 
+
 Filtered plants to keep only "live" ones
 NEON data products (cite)
 Spectrometer orthorectified surface directional reflectance mosaic
