@@ -70,7 +70,13 @@ Species classification is an active research area [@scholl2020integrating].
 
 
 # Methods {-}
-NEON data collection protocols
+The NEON data that we used for our study include both *in-situ* plant measurements and airborne remote sensing image data [@neonDataProducts].
+The Woody Plant Vegetation Structure (data product code NEON.DP1.10098) includes individual plant locations along with species and genus observations that are collected every 1 to 3 years. 
+The NEON Airborne Observation Platform (AOP) collects airborne remote sensing data regularly at NEON sites. There are three AOP payloads, each carrying three types of sensors: (1) a high-resolution digital camera to capture red, green, blue (RGB) true-color images, (2) a light detection and ranging (lidar) system to capture discrete and waveform lidar data with approximately 1-4 points/waveforms per square meter, and (3) a pushbroom-style imaging spectrometer (AVIRIS next-gen) to capture hyperspectral data. The hyperspectral data contains 426 narrow bands spanning the visible to shortwave infrared wavelengths, from 380 - 2500nm, and the image data products derived have a spatial resolution of 1m
+The AOP flies at an altitude of 1000m above ground level and the flight season typically runs from May to October. 
+
+NEON sampling design
+NEON data collection protocols 
 AOP flights
 Plant mapping 
 Network of sites and observations (how many? ecoclimatic domains? ecosystem coverage?
@@ -82,7 +88,8 @@ Any sites not represented? Like Hawaii
 
 ## Data extraction {-}
 
-We extracted hyperspectral data for all mapped stems at NEON sites using the neonhs [@neonhs] package. 
+We extracted hyperspectral data for all mapped stems at NEON sites.
+
 We assumed that plant locations did not change over time. 
 
 Figure \@ref(fig:fig-spectraExtracted)
