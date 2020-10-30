@@ -183,3 +183,45 @@ ggsave(filename = here::here("analysis", "figures", "study_area.pdf"),
        width = 12, height = 8)
 ```
 
+## Workflow figure 
+
+```{r}
+library(DiagrammeR)
+library(rsvg)
+
+workflow <- DiagrammeR::grViz("digraph {
+
+graph [layout = dot, rankdir = LR]
+
+# define the global styles of the nodes. We can override these in box if we wish
+node [shape = rectangle, style = filled, fillcolor = Linen]
+
+data1 [label = 'In-situ plant \nmeasurements', shape = folder, fillcolor = LightSteelBlue3]
+data2 [label = 'Hyperspectral \nreflectance', shape = folder, fillcolor = LightSteelBlue3]
+process1 [label =  'Extract \n Reflectance', fillcolor = Gainsboro]
+process2 [label = 'Data cleaning & \nPreparation', fillcolor = Gainsboro]
+classify1 [label = 'Classify Species', fillcolor = AntiqueWhite3]
+classify2[label = 'Classify Genus', fillcolor = AntiqueWhite3]
+results [label= 'Results', shape = oval, fillcolor = Honeydew3]
+
+# edge definitions with the node IDs
+{data1 data2}  -> process1 -> process2 -> {classify1 classify2} -> results
+}")
+
+workflow
+
+
+export_graph(workflow,
+  file_name = here::here("analysis", "figures", "workflow.pdf"),
+  file_type = "pdf")
+
+DiagrammeR::export_graph(workflow) %>%
+  charToRaw() %>%
+  rsvg::rsvg_pdf(here::here("analysis", "figures", "workflow.pdf"))
+
+
+
+#grViz(workflow) %>%
+#    export_svg %>% charToRaw %>% rsvg_pdf(here::here("analysis", "figures", "workflow.pdf"))
+```
+
