@@ -16,6 +16,7 @@ csl: ecology.csl
 ---
 
 ```{r setup, echo = FALSE}
+library(bookdown)
 knitr::opts_chunk$set(
   collapse = TRUE,
   warning = FALSE,
@@ -128,8 +129,6 @@ We provide all of our code in a research compendium here:[https://github.com/vsc
 
 
 
-Figure \@ref(fig:fig-spectraExtracted)
-
 
 
 
@@ -152,7 +151,6 @@ Figure - confusion matrices
 Figure - variable importance vs wavelength
 Figure - multi-year observations of individual plants? 
 
-Figure \@ref(fig:fig-honestWork)
 
 <!-- Here's some example analysis code: -->
 
@@ -237,18 +235,12 @@ knitr::include_graphics(here::here("analysis", "figures", "study_area.pdf"))
 
 ## Figure 2 {-}
 
-```{r fig-honestWork, fig.cap = "Caption", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
-knitr::include_graphics(here::here("analysis", "figures", "honest_work.jpeg"))
-```
 
 \clearpage
 
 ## Figure 3 {-}
 
-```{r fig-spectraExtracted, fig.cap = "Caption", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
-library(here)
-knitr::include_graphics(here::here("analysis", "figures", "spectra_figure_test.png"))
-```
+
 
 \clearpage
 

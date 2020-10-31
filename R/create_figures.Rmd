@@ -14,9 +14,9 @@ library(ggplot2)
 library(ggthemes)
 library(spData)
 library(tidyverse)
-library(mapview)
 library(RColorBrewer)
 library(ggspatial)
+library(rgeos)
 library(rnaturalearth)
 library(rnaturalearthdata)
 ```
@@ -61,15 +61,22 @@ spectra_2163 <- sf::st_transform(x = spectra_locations, crs = 2163)
 
 # load and transform additional geospatial data for mapping 
 data("us_states", package = "spData")
-us_states_2163 <- st_transform(spData::us_states, crs = 2163)
+us_states_2163 <- sf::st_transform(spData::us_states, crs = 2163)
 #world_2163 <- st_transform(spData::world, crs = 2163)
-world_2163 <- ne_countries(scale = "medium", returnclass = "sf") %>% st_transform(crs = 2163)
+world_2163 <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf") %>% st_transform(crs = 2163)
 
 # set color palette for NEON domains 
-colourCount = length(unique(domains_filtered_2163$DomainID))
-getPalette = colorRampPalette(brewer.pal(colourCount, "Spectral"))
+colourCount <- length(unique(domains_filtered_2163$DomainID))
+
+# colorbrewer palette can only be up to 11 colors though
+getPalette <- colorRampPalette(brewer.pal(colourCount, "Spectral"))
 colors_domains <- data.frame(names = sort(unique(domains_filtered_2163$DomainName)),
                         values = getPalette(colourCount)) #colorRampPalette
+
+# trying to use a non-color brewer palette to get 14
+#getPalette <- c(brewer.pal(name="Spectral", n = 8), brewer.pal(name="Spectral", n = colourCount-8))
+#colors_domains <- data.frame(names = sort(unique(domains_filtered_2163$DomainName)),
+#                        values = getPalette) 
 ```
 
 ```{r make_map, fig.height=4, fig.width=6}
@@ -98,9 +105,9 @@ ggplot() +
            ylim = c(as.numeric(st_bbox(domains_filtered_2163)[2]),    # ymin
                     as.numeric(st_bbox(domains_filtered_2163)[4]))) + # ymax
   # add scale bar and north arrow 
-  annotation_scale(location = "bl", width_hint = 0.4, style = "bar") +
+  ggspatial::annotation_scale(location = "bl", width_hint = 0.4, style = "bar") +
   # add north arrow
-  annotation_north_arrow(location = "bl", which_north = "true", 
+  ggspatial::annotation_north_arrow(location = "bl", which_north = "true", 
                          pad_x = unit(0.15, "in"), pad_y = unit(0.25, "in"),
                          style = north_arrow_fancy_orienteering) +
   # set theme 
