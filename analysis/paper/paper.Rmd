@@ -79,13 +79,32 @@ The Woody Plant Vegetation Structure (data product code DP1.10098) includes indi
 The NEON Airborne Observation Platform (AOP) collects airborne remote sensing data regularly at NEON sites. 
 There are three AOP payloads, each carrying three types of sensors: (1) a high-resolution digital camera to capture red, green, blue (RGB) true-color images, (2) a light detection and ranging (lidar) system to capture discrete and waveform lidar data with approximately 1-4 points/waveforms per square meter, and (3) a pushbroom-style imaging spectrometer (AVIRIS next-gen) to capture hyperspectral data. 
 The hyperspectral data contains 426 narrow bands spanning the visible to shortwave infrared wavelengths, from 380 - 2500nm, and the image data products derived have a spatial resolution of 1m. The AOP flies at an altitude of 1000m above ground level and the flight season typically runs from May to October. 
+
 We worked with the Spectrometer orthorectified surface directional reflectance mosaic (data product code DP3.30006). 
 
-We performed our analysis in R [@R] with packages including neonUtilities [@neonUtilities], geoNEON [@geoNEON], neonhs [@neonhs].
-In June 2020, we extracted hyperspectral data for all mapped stems at NEON sites that had an AOP flyover during the same year as when *in-situ* measurements were collected. 
-This included 5972 observations of individual plants. Some individuals had multiple observations across years. 
 
 ## Data cleaning and preparation {-}
+
+We performed our analysis in R [@R] with packages including neonUtilities [@neonUtilities], geoNEON [@geoNEON], neonhs [@neonhs].
+In June 2020, we extracted hyperspectral reflectance data for all mapped stems at NEON sites that had an AOP flyover during the same year as when *in-situ* measurements were collected. 
+This included spectral reflectance spectra for 5972 observations of individual plants. 
+Some individuals had multiple observations across years. 
+The individual plants were identified taxon ranks of kingdom, family, genus, species, and variety. 
+Most of them were identified at the species rank.
+We filtered the plants by taxonomic rank to retain only those identified at the genus, species, and variety ranks. 
+Varities were removed to focus on genus and species identifications. 
+There were 74 unique genus values, 118 unique species values, and 151 unique genus-species combinations.
+
+The hyperspectral reflectance spectra extracted from the locations of the individual plants 
+
+```{r, message = FALSE}
+library(knitr)
+
+df <- data.frame(wavelength = c(347, 381, 382, 384),
+                 number = c(94, 1220, 1733, 2922))
+
+kable(df)
+```
 
 
 **? Filtered taxonomic levels, labels species & genus**
@@ -131,6 +150,7 @@ Classification accuracy was higher at the genus level (60%) compared to the spec
 
 Figure - confusion matrices
 Figure - variable importance vs wavelength
+Figure - multi-year observations of individual plants? 
 
 Figure \@ref(fig:fig-honestWork)
 
