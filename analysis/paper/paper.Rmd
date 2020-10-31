@@ -93,18 +93,18 @@ Some individuals had multiple observations across years.
 The individual plants were identified taxon ranks of kingdom, family, genus, species, and variety. 
 Most of them were identified at the species rank.
 We filtered the plants by taxonomic rank to retain only those identified at the genus, species, and variety ranks. 
-Varities were removed to focus on genus and species identifications. 
+We removed varieties from scientific names to label each individual spectrum with its respective genus and species (when available). 
 There were 74 unique genus values, 118 unique species values, and 151 unique genus-species combinations.
 
 The hyperspectral reflectance spectra extracted from the locations of the individual plants 
 
-```{r, message = FALSE}
+```{r, message = FALSE, echo = FALSE}
 library(knitr)
 
 df <- data.frame(wavelength = c(347, 381, 382, 384),
                  number = c(94, 1220, 1733, 2922))
 
-kable(df)
+knitr::kable(x = df, format = "simple")
 ```
 
 

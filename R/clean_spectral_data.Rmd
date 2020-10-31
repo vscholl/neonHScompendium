@@ -1,7 +1,5 @@
 ---
 title: "Clean spectral data"
-author: "Victoria Scholl"
-date: "09/10/2020"
 output: html_document
 ---
 
