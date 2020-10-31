@@ -85,14 +85,6 @@ We performed our analysis in R [@R] with packages including neonUtilities [@neon
 In June 2020, we extracted hyperspectral data for all mapped stems at NEON sites that had an AOP flyover during the same year as when *in-situ* measurements were collected. 
 This included 5972 observations of individual plants. Some individuals had multiple observations across years. 
 
-
-**Filtered plants to keep only "live" ones**
-**Mask created for water absorption bands (cite)**
-
-We provide all of our code in a research compendium here:[https://github.com/vscholl/neonHScompendium](https://github.com/vscholl/neonHScompendium). 
-
-
-
 ## Data cleaning and preparation {-}
 
 
@@ -109,6 +101,13 @@ There is a noticeable imbalance of data across space and time; some NEON domains
 Years that we found when both *in-situ* and AOP data were collected were 2017, 2018, and 2019. 
 Note that covid-19 postponed NEON data collection as well as the AOP flight season during 2020. 
 We assumed that plant locations did not change over time. 
+
+**Filtered plants to keep only "live" ones**
+**Mask created for water absorption bands (cite)**
+
+We provide all of our code in a research compendium here:[https://github.com/vscholl/neonHScompendium](https://github.com/vscholl/neonHScompendium). 
+
+
 
 Figure \@ref(fig:fig-spectraExtracted)
 
@@ -199,7 +198,7 @@ Max has cool ideas and knows many R tricks
 
 ## Figure 1 {-}
 
-Figure 1 description...
+Map to illustrate the NEON sites and domains with data that we used in this study.
 
 ## Figure 2 {-}
 
