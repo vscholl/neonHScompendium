@@ -74,20 +74,20 @@ Species classification is an active research area [@scholl2020integrating].
 
 ## NEON data {-}
 
-The NEON project monitors ecosystems at 20 domains, eaach with similar climate and ecological characteristics, across the United States.
+The NEON project monitors diverse ecosystems at 81 sites across 20 domains, each with similar climate and ecological characteristics, across the United States.
 The NEON data that we used for our study include both *in-situ* plant measurements and airborne remote sensing image data [@neonDataProducts].
 The Woody Plant Vegetation Structure (data product code DP1.10098) includes individual plant locations along with species and genus observations that are collected every 1 to 3 years. 
 The NEON Airborne Observation Platform (AOP) collects airborne remote sensing data regularly at NEON sites. 
 There are three AOP payloads, each carrying three types of sensors: (1) a high-resolution digital camera to capture red, green, blue (RGB) true-color images, (2) a light detection and ranging (lidar) system to capture discrete and waveform lidar data with approximately 1-4 points/waveforms per square meter, and (3) a pushbroom-style imaging spectrometer (AVIRIS next-gen) to capture hyperspectral data. 
 The hyperspectral data contains 426 narrow bands spanning the visible to shortwave infrared wavelengths, from 380 - 2500nm, and the image data products derived have a spatial resolution of 1m. The AOP flies at an altitude of 1000m above ground level and the flight season typically runs from May to October. 
-
 We worked with the Spectrometer orthorectified surface directional reflectance mosaic (data product code DP3.30006). 
 
 
 ## Data cleaning and preparation {-}
 
 We performed our analysis in R [@R] with packages including neonUtilities [@neonUtilities], geoNEON [@geoNEON], neonhs [@neonhs].
-In June 2020, we extracted hyperspectral reflectance data for all mapped stems at NEON sites that had an AOP flyover during the same year as when *in-situ* measurements were collected. 
+In June 2020, we extracted hyperspectral reflectance data for all individual mapped stems at NEON sites that had an AOP flyover during the same year as when *in-situ* measurements were collected. 
+We only kept individuals with a "live" plant status (as opposed to other plant status classifications such as "dead", "standing dead", "downed", "insect/disease damaged", and "no longer qualifies").
 This included spectral reflectance spectra for 5972 observations of individual plants. 
 Some individuals had multiple observations across years. 
 The individual plants were identified taxon ranks of kingdom, family, genus, species, and variety. 
@@ -95,8 +95,7 @@ Most of them were identified at the species rank.
 We filtered the plants by taxonomic rank to retain only those identified at the genus, species, and variety ranks. 
 We removed varieties from scientific names to label each individual spectrum with its respective genus and species (when available). 
 There were 74 unique genus values, 118 unique species values, and 151 unique genus-species combinations.
-
-The hyperspectral reflectance spectra extracted from the locations of the individual plants 
+The hyperspectral reflectance spectra extracted from the locations of the individual plants have different starting wavelengths:
 
 ```{r, message = FALSE, echo = FALSE}
 library(knitr)
@@ -107,29 +106,25 @@ df <- data.frame(wavelength = c(347, 381, 382, 384),
 knitr::kable(x = df, format = "simple")
 ```
 
+Each series of wavelengths increments by 5nm from each starting wavelength to yield 426 spectral bands. 
+Most of them started at 384nm, so we linearly interpolated each spectrum to have the same 426 bands starting at 384nm and ending at 2512nm with 5nm increments.
+We filtered out any spectra with a starting wavelength of 347nm, which were all collected at the Pu'u Maka'ala Natural Area Reserve (PUUM) NEON site, Pacific Tropical Domain 20, Hawaii, since the interpolation would require too much unavailable data outside the available range.
+We flagged "bad bands" from 1340-1445nm, 1790-1995nm, and greater than 2400nms o they could be excluded from later analysis.
+These wavelength ranges feature noisy reflectance data due to high water absoprtion. 
 
-**? Filtered taxonomic levels, labels species & genus**
-Wavelength interpolation - filtered out the PUUM site in Hawaii because of wavelengths
-Filtering based on # samples
-Train/validate split 80/20
+Next, we removed samples belonging to species classes with few samples. 
+We figured that a small sample size would lead to a poor representation in model training. 
+From the initial collection of 146 species, 50 species had at least 20 samples. 
+We randomly assigned each spectrum to the training or validation sets, using an 80/20 split. All 50 species (and therefore, all genus values) were represented in each set. 
 
-**Figure - histogram of species counts, show which ones were used to train**
-**Figure - cleaned data, make it legible**
-
-After the data cleaning steps, we were left with reflectance data for *____* individuals at sites across 14 of the NEON eco-climatic domains (Figure \@ref(fig:fig-studyArea)). 
+After these data cleaning steps, we were left with reflectance data for 5266 individuals at sites across 14 of the NEON eco-climatic domains (Figure \@ref(fig:fig-studyArea)). 
 There is a noticeable imbalance of data across space and time; some NEON domains and US states (such as Hawaii) are not represented in our analysis. 
 Years that we found when both *in-situ* and AOP data were collected were 2017, 2018, and 2019. 
 Note that covid-19 postponed NEON data collection as well as the AOP flight season during 2020. 
 We assumed that plant locations did not change over time. 
 
-**Filtered plants to keep only "live" ones**
-**Mask created for water absorption bands (cite)**
-
-We provide all of our code in a research compendium here:[https://github.com/vscholl/neonHScompendium](https://github.com/vscholl/neonHScompendium). 
-
-
-
-
+**Figure - histogram of species counts? maybe in appendix, make a table or something to show species info for which ones were used after cleaning/filtering**
+**Figure - cleaned data, make it legible, how to color if at all (the species/genus/variety color doesn't make sense anymore at this stage)...**
 
 
 
@@ -142,6 +137,8 @@ Overall accuracy, confusion matrices, variable importance
 ## Genus classification {-}
 
 Same setup as species classification, but used the genus as each class label. 
+
+We provide all of our code in a research compendium here:[https://github.com/vscholl/neonHScompendium](https://github.com/vscholl/neonHScompendium). 
 
 # Results {-}
 
