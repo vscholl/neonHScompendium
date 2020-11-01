@@ -212,10 +212,9 @@ for(wl in unique(count_min_wavelengths$wavelength_nm)){
 ```{r warning=FALSE, fig.width=12, include=FALSE, eval=FALSE}
 # plot spectra to see their starting/ending wavelengths
 all_spectra %>% 
-  dplyr::filter(spectraID %in% c("NEON.PLA.D07.MLBS.00412_2018", 
-                                 "NEON.PLA.D01.HARV.04350_2018",
-                                 "NEON.PLA.D08.LENO.08750_2015",
-                                 "NEON.PLA.D01.BART.06298_2019")) %>%
+  dplyr::filter(spectraID %in% c("NEON.PLA.D11.CLBJ.00496_2018", 
+                                 "NEON.PLA.D01.HARV.09041_2018",
+                                 "NEON.PLA.D08.DELA.03903_2017")) %>%
   ggplot(aes(x = wavelength_nm, y = reflectance, group = spectraID)) +
   geom_line(aes(color = spectraID), 
             alpha = 0.4) +
@@ -228,10 +227,9 @@ Beginning of wavelength range:
 ```{r warning=FALSE, fig.width=12}
 # plot spectra to see their starting wavelengths
 all_spectra %>% 
-  dplyr::filter(spectraID %in% c("NEON.PLA.D07.MLBS.00412_2018", 
-                                 "NEON.PLA.D01.HARV.04350_2018",
-                                 "NEON.PLA.D08.LENO.08750_2015",
-                                 "NEON.PLA.D01.BART.06298_2019")) %>%
+  dplyr::filter(spectraID %in% c("NEON.PLA.D11.CLBJ.00496_2018", 
+                                 "NEON.PLA.D01.HARV.09041_2018",
+                                 "NEON.PLA.D08.DELA.03903_2017")) %>%
   ggplot(aes(x = wavelength_nm, y = reflectance, group = spectraID)) +
   geom_line(aes(color = spectraID), 
             alpha = 0.5, size = 1) +
@@ -251,10 +249,9 @@ End of wavelength range:
 ```{r warning=FALSE, fig.width=12}
 # plot spectra to see their ending wavelengths
 all_spectra %>% 
-  dplyr::filter(spectraID %in% c("NEON.PLA.D07.MLBS.00412_2018", 
-                                 "NEON.PLA.D01.HARV.04350_2018",
-                                 "NEON.PLA.D08.LENO.08750_2015",
-                                 "NEON.PLA.D01.BART.06298_2019")) %>%
+  dplyr::filter(spectraID %in% c("NEON.PLA.D11.CLBJ.00496_2018", 
+                                 "NEON.PLA.D01.HARV.09041_2018",
+                                 "NEON.PLA.D08.DELA.03903_2017")) %>%
   ggplot(aes(x = wavelength_nm, y = reflectance, group = spectraID)) +
   geom_line(aes(color = spectraID), 
             alpha = 0.5, size = 1) +
