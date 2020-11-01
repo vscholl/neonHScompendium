@@ -78,9 +78,9 @@ The NEON project monitors diverse ecosystems at 81 sites across 20 domains, each
 The NEON data that we used for our study include both *in-situ* plant measurements and airborne remote sensing image data [@neonDataProducts].
 The Woody Plant Vegetation Structure (data product code DP1.10098) includes individual plant locations along with species and genus observations that are collected every 1 to 3 years. 
 The NEON Airborne Observation Platform (AOP) collects airborne remote sensing data regularly at NEON sites. 
-There are three AOP payloads, each carrying three types of sensors: (1) a high-resolution digital camera to capture red, green, blue (RGB) true-color images, (2) a light detection and ranging (lidar) system to capture discrete and waveform lidar data with approximately 1-4 points/waveforms per square meter, and (3) a pushbroom-style imaging spectrometer (AVIRIS next-gen) to capture hyperspectral data. 
+There are three AOP payloads, each carrying three types of sensors: (1) a high-resolution digital camera to capture red, green, blue (RGB) true-color images, (2) a light detection and ranging (lidar) system to capture discrete and waveform lidar data with approximately 1-4 points/waveforms per square meter, and (3) a pushbroom-style AVIRIS next-gen NEON Imaging Spectrometer (NIS) to capture hyperspectral data. 
 The hyperspectral data contains 426 narrow bands spanning the visible to shortwave infrared wavelengths, from 380 - 2500nm, and the image data products derived have a spatial resolution of 1m. The AOP flies at an altitude of 1000m above ground level and the flight season typically runs from May to October. 
-We worked with the Spectrometer orthorectified surface directional reflectance mosaic (data product code DP3.30006). 
+We worked with the NIS-derived Spectrometer orthorectified surface directional reflectance mosaic (data product code DP3.30006). 
 
 
 ## Data cleaning and preparation {-}
@@ -103,14 +103,20 @@ library(knitr)
 df <- data.frame(wavelength = c(347, 381, 382, 384),
                  number = c(94, 1220, 1733, 2922))
 
-knitr::kable(x = df, format = "simple")
+knitr::kable(x = df, 
+             # set column names
+             col.names = c("Starting wavelength [nm]",
+                           "Number of spectra"),
+             # center align text in the columns
+             align = c("c", "c"),
+             format = "simple")
 ```
 
 Each series of wavelengths increments by 5nm from each starting wavelength to yield 426 spectral bands. 
 Most of them started at 384nm, so we linearly interpolated each spectrum to have the same 426 bands starting at 384nm and ending at 2512nm with 5nm increments.
 We filtered out any spectra with a starting wavelength of 347nm, which were all collected at the Pu'u Maka'ala Natural Area Reserve (PUUM) NEON site, Pacific Tropical Domain 20, Hawaii, since the interpolation would require too much unavailable data outside the available range.
-We flagged "bad bands" from 1340-1445nm, 1790-1995nm, and greater than 2400nms o they could be excluded from later analysis.
-These wavelength ranges feature noisy reflectance data due to high water absoprtion. 
+We flagged "bad bands" from 1340-1445nm, 1790-1995nm, and greater than 2400nm so they could be excluded from later analysis.
+These wavelength ranges feature noisy reflectance data due to high water absorption [@bajorski2011]. 
 
 Next, we removed samples belonging to species classes with few samples. 
 We figured that a small sample size would lead to a poor representation in model training. 
