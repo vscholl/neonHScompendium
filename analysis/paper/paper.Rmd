@@ -114,13 +114,15 @@ knitr::kable(x = df,
 
 Each series of wavelengths increments by 5nm from each starting wavelength to yield 426 spectral bands. 
 Most of them started at 384nm, so we linearly interpolated each spectrum to have the same 426 bands starting at 384nm and ending at 2512nm with 5nm increments.
-We filtered out any spectra with a starting wavelength of 347nm, which were all collected at the Pu'u Maka'ala Natural Area Reserve (PUUM) NEON site, Pacific Tropical Domain 20, Hawaii, since the interpolation would require too much unavailable data outside the available range.
+Spectra from the Pu'u Maka'ala Natural Area Reserve (PUUM) NEON site in Hawaii had a starting wavelength of 347nm. 
+This is because NEON sub-contracted the PUUM flights to the Global Airborne Observatory, which has a spectrometer with a different wavelength range compared to the NIS payloads *([cite?](https://www.neonscience.org/observatory/observatory-blog/remote-sensing-partnership-made-paradise))*. 
+We filtered out any spectra with a starting wavelength of 347nm, since the interpolation would require too much unavailable data outside the available range.
 We flagged "bad bands" from 1340-1445nm, 1790-1995nm, and greater than 2400nm so they could be excluded from later analysis.
 These wavelength ranges feature noisy reflectance data due to high water absorption [@bajorski2011]. 
 
 Next, we removed samples belonging to species classes with few samples. 
 We figured that a small sample size would lead to a poor representation in model training. 
-From the initial collection of 146 species, 50 species had at least 20 samples. 
+From the initial collection of 146 species, 50 species had at least 20 samples (Figure \@ref(fig:fig-histSpecies)). 
 We randomly assigned each spectrum to the training or validation sets, using an 80/20 split. All 50 species (and therefore, all genus values) were represented in each set. 
 
 After these data cleaning steps, we were left with reflectance data for 5266 individuals at sites across 14 of the NEON eco-climatic domains (Figure \@ref(fig:fig-studyArea)). 
@@ -237,6 +239,11 @@ knitr::include_graphics(here::here("analysis", "figures", "study_area.pdf"))
 \clearpage
 
 ## Figure 2 {-}
+
+```{r fig-histSpecies, fig.cap ="Histogram: spectra count per species", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
+library(here)
+knitr::include_graphics(here::here("analysis","figures", "hist_samples_per_species.pdf"))
+```
 
 
 \clearpage

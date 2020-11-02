@@ -350,10 +350,9 @@ cleaned_spectra <- all_spectra %>%
 ```{r, fig.width=12}
 # plot interpolated spectra to see their starting wavelengths
 interp_wl %>% 
-  dplyr::filter(spectraID %in% c("NEON.PLA.D07.MLBS.00412_2018", 
-                                 "NEON.PLA.D01.HARV.04350_2018",
-                                 "NEON.PLA.D08.LENO.08750_2015",
-                                 "NEON.PLA.D01.BART.06298_2019")) %>% 
+  dplyr::filter(spectraID %in% c("NEON.PLA.D11.CLBJ.00496_2018", 
+                                 "NEON.PLA.D01.HARV.09041_2018",
+                                 "NEON.PLA.D08.DELA.03903_2017")) %>% 
   ggplot(aes(x = wavelength_nm, y = reflectance, group = spectraID)) +
   geom_line(aes(color = spectraID), 
             alpha = 0.5, size = 1) +
@@ -416,10 +415,54 @@ ggplot(taxonCounts, aes(y = reorder(genusSpecies, n), x = n)) +
        fill = paste("Count >", thresh)) + 
   theme_bw() + 
   scale_fill_manual(values = c("#d95f0e", "#7bccc4"))
+```
+
+```{r}
+# Histogram with just the taxons that have enough samples 
+samplesCountGT <- taxonCounts %>% 
+  filter(countGT == TRUE)
+
+# plot histogram with count per genusSpecies. color bars based on whether
+# # samples exceeds the threshold
+ggplot(samplesCountGT, aes(y = reorder(genusSpecies, n), x = n)) + 
+  geom_bar(stat = "identity", fill = "#7E9E8F") + 
+  labs(y = "Scientific name\n",
+       x = "\nNumber of spectra") + 
+  #theme(axis.text = element_text(size = 12)) +
+  theme_bw(base_size=18) 
 
 # save figure to file
 ggsave(filename = here::here("analysis","figures", "hist_samples_per_species.pdf"), width = 9, height = 12)
 ```
+
+
+
+
+```{r}
+# table with species info and counts 
+
+library(taxize)
+
+taxon_info <- all_spectra %>% 
+  select(genusSpecies, taxonID) %>% 
+  distinct()
+
+taxons_GT <- taxonCounts %>% 
+  # keep taxons that have enough samples 
+  filter(countGT == TRUE) %>% 
+  # remove the column that indicates if the taxon has enough samples
+  select(-countGT) %>% 
+  # merge in the taxonID information 
+  left_join(taxon_info, by="genusSpecies")
+
+# for(i in 1:nrow(taxons_GT)){
+#   print(i)
+#   taxize::sci2comm(sci = taxons_GT[i]$genusSpecies)
+# }
+
+
+```
+
 
 ```{r}
 # Filter out species with less than N samples 
