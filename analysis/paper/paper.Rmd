@@ -131,6 +131,8 @@ Years that we found when both *in-situ* and AOP data were collected were 2017, 2
 Note that covid-19 postponed NEON data collection as well as the AOP flight season during 2020. 
 We assumed that plant locations did not change over time. 
 
+Show the spectra for each scientific name class (Figure \@ref(fig:fig-plotSpectra)).
+
 **Maybe in appendix, make a table or something to show species info for which ones were used after cleaning/filtering**
 
 **Figure - cleaned data, make it legible, how to color if at all (the species/genus/variety color doesn't make sense anymore at this stage)...**
@@ -232,7 +234,7 @@ Histogram showing which scientific names have at least 20 samples to be included
 
 ## Figure 1 {-}
 
-```{r fig-studyArea, fig.cap ="Study Area", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
+```{r fig-studyArea, fig.cap ="Map", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
 library(here)
 knitr::include_graphics(here::here("analysis", "figures", "study_area.pdf"))
 ```
@@ -241,7 +243,7 @@ knitr::include_graphics(here::here("analysis", "figures", "study_area.pdf"))
 
 ## Figure 2 {-}
 
-```{r fig-histSpecies, fig.cap ="Histogram: spectra count per species", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
+```{r fig-histSpecies, fig.cap ="Histogram", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
 library(here)
 knitr::include_graphics(here::here("analysis","figures", "hist_samples_per_species.pdf"))
 ```
@@ -250,6 +252,12 @@ knitr::include_graphics(here::here("analysis","figures", "hist_samples_per_speci
 \clearpage
 
 ## Figure 3 {-}
+
+```{r fig-plotSpectra, fig.cap ="Spectra", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
+library(here)
+knitr::include_graphics(here::here("analysis","figures", "spectra_per_species.pdf"))
+```
+
 
 
 

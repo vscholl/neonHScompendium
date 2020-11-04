@@ -531,7 +531,7 @@ write_csv(x = filtered_spectra,
 ```
 
 Visualize the spectra, facet by scientific name, color by taxon rank. 
-```{r, warning=FALSE, fig.height=12, fig.width=16}
+```{r, eval = FALSE, include = "FALSE", warning=FALSE, fig.height=12, fig.width=16}
 filtered_spectra %>%
   ggplot(aes(wavelength_nm, ifelse(mask, NA, reflectance), group = spectraID,
              # color each facet plot based on taxonRank
@@ -554,3 +554,51 @@ filtered_spectra %>%
         legend.text = element_text(size = 14),
         legend.title = element_text(size = 14))
 ```
+
+Color all the spectra with a single color 
+
+```{r, eval = FALSE, include = "FALSE", warning=FALSE, fig.height=12, fig.width=16}
+filtered_spectra %>%
+  ggplot(aes(wavelength_nm, ifelse(mask, NA, reflectance), group = spectraID)) +
+  geom_path(alpha = .2, color = "#1c9099") +
+  labs(x = '\n Wavelength (nm)',
+       y = 'Reflectance \n') + 
+  facet_wrap(~genusSpecies
+             # wrap long scientific names
+             ,labeller = label_wrap_gen(20)
+             ,ncol=5) +
+  theme_minimal() + 
+  # Adjust the text size and rotation angle 
+  theme(text = element_text(size=11),
+        axis.text.x = element_text(angle=90, hjust=1),
+        axis.title.y = element_text(size = 14),
+        axis.title.x = element_text(size = 14))
+
+# save figure to file
+ggsave(filename = here::here("analysis","figures", "spectra_per_species.pdf"), width = 10, height = 12)
+```
+
+Color the spectra by the year they were collected?  
+
+```{r, eval=FALSE, include=FALSE}
+filtered_spectra %>%
+  ggplot(aes(wavelength_nm, ifelse(mask, NA, reflectance), group = spectraID, color = as.factor(year))) +
+  geom_path(alpha = .2) +
+  labs(x = '\n Wavelength (nm)',
+       y = 'Reflectance \n',
+       color = "Year collected") + 
+  facet_wrap(~genusSpecies
+             # wrap long scientific names
+             ,labeller = label_wrap_gen(20)
+             ,ncol=10) + 
+  scale_color_manual(values = c("#e6550d","#1c9099", "#a8ddb5")) + 
+  theme_minimal() + 
+  # Adjust the text size and rotation angle 
+  theme(text = element_text(size=11),
+        axis.text.x = element_text(angle=90, hjust=1),
+        axis.title.y = element_text(size = 14),
+        axis.title.x = element_text(size = 14),
+        legend.text = element_text(size = 14),
+        legend.title = element_text(size = 14))
+```
+
