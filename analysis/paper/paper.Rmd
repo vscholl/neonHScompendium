@@ -94,7 +94,7 @@ The individual plants were identified taxon ranks of kingdom, family, genus, spe
 Most of them were identified at the species rank.
 We filtered the plants by taxonomic rank to retain only those identified at the genus, species, and variety ranks. 
 We removed varieties from scientific names to label each individual spectrum with its respective genus and species (when available). 
-There were 74 unique genus values, 118 unique species values, and 151 unique genus-species combinations.
+There were 74 unique genus values, 113 unique species values, and 151 unique genus-species combinations.
 The hyperspectral reflectance spectra extracted from the locations of the individual plants have different starting wavelengths:
 
 ```{r, message = FALSE, echo = FALSE}
@@ -120,10 +120,10 @@ We filtered out any spectra with a starting wavelength of 347nm, since the inter
 We flagged "bad bands" from 1340-1445nm, 1790-1995nm, and greater than 2400nm so they could be excluded from later analysis.
 These wavelength ranges feature noisy reflectance data due to high water absorption [@bajorski2011]. 
 
-Next, we removed samples belonging to species classes with few samples. 
+Next, we removed samples belonging to species and genus classes with few samples. 
 We figured that a small sample size would lead to a poor representation in model training. 
-From the initial collection of 146 species, 50 species had at least 20 samples (Figure \@ref(fig:fig-histSpecies)). 
-We randomly assigned each spectrum to the training or validation sets, using an 80/20 split. All 50 species (and therefore, all genus values) were represented in each set. 
+From the initial collection of 151 unique scientific names identified at the genus or species level, 50 of them had at least 20 samples and were kept for the classification analysis (Figure \@ref(fig:fig-histSpecies)). 
+We randomly assigned each spectrum to the training or validation sets, using an 80/20 split. All 50 scientific name labels were represented in each set. 
 
 After these data cleaning steps, we were left with reflectance data for 5266 individuals at sites across 14 of the NEON eco-climatic domains (Figure \@ref(fig:fig-studyArea)). 
 There is a noticeable imbalance of data across space and time; some NEON domains and US states (such as Hawaii) are not represented in our analysis. 
@@ -131,7 +131,8 @@ Years that we found when both *in-situ* and AOP data were collected were 2017, 2
 Note that covid-19 postponed NEON data collection as well as the AOP flight season during 2020. 
 We assumed that plant locations did not change over time. 
 
-**Figure - histogram of species counts? maybe in appendix, make a table or something to show species info for which ones were used after cleaning/filtering**
+**Maybe in appendix, make a table or something to show species info for which ones were used after cleaning/filtering**
+
 **Figure - cleaned data, make it legible, how to color if at all (the species/genus/variety color doesn't make sense anymore at this stage)...**
 
 
@@ -225,7 +226,7 @@ Map to illustrate the NEON sites and domains with data that we used in this stud
 
 ## Figure 2 {-}
 
-It ain't much...
+Histogram showing which scientific names have at least 20 samples to be included in the classification analysis. Note that the "Larix sp." invididuals are classified at the genus level. 
 
 # Figures {-}
 

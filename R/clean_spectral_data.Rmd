@@ -102,8 +102,10 @@ all_spectra <- all_spectra %>%
 message("# of unique genus values:")
 length(unique(all_spectra$genus))
 
-message("# of unique species values:")
-length(unique(all_spectra$species))
+# not including spectra with "sp" as the species, when taxonRank is genus
+message("# of unique species values:") 
+tmp <- all_spectra %>% filter(taxonRank != "genus") %>% select(species, taxonRank)
+length(unique(tmp$species))
 
 message("# of unique genusSpecies values")
 length(unique(all_spectra$genusSpecies))
@@ -385,7 +387,7 @@ taxonCounts <- cleaned_spectra %>%
     mutate(countGT = case_when(
       n > thresh ~ TRUE,
       n <= thresh ~ FALSE
-    ))
+    )) 
 
 
 # count total number of samples across all species
@@ -417,7 +419,7 @@ ggplot(taxonCounts, aes(y = reorder(genusSpecies, n), x = n)) +
   scale_fill_manual(values = c("#d95f0e", "#7bccc4"))
 ```
 
-```{r}
+```{r fig.width=9, fig.height=12}
 # Histogram with just the taxons that have enough samples 
 samplesCountGT <- taxonCounts %>% 
   filter(countGT == TRUE)
