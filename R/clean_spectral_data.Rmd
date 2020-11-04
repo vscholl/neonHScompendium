@@ -431,10 +431,10 @@ ggplot(samplesCountGT, aes(y = reorder(genusSpecies, n), x = n)) +
   labs(y = "Scientific name\n",
        x = "\nNumber of spectra") + 
   #theme(axis.text = element_text(size = 12)) +
-  theme_bw(base_size=18) 
+  theme_bw(base_size=16) 
 
 # save figure to file
-ggsave(filename = here::here("analysis","figures", "hist_samples_per_species.pdf"), width = 9, height = 10)
+ggsave(filename = here::here("analysis","figures", "hist_samples_per_species.pdf"), width = 9, height = 9)
 ```
 
 
@@ -575,7 +575,7 @@ filtered_spectra %>%
         axis.title.x = element_text(size = 14))
 
 # save figure to file
-ggsave(filename = here::here("analysis","figures", "spectra_per_species.pdf"), width = 10, height = 10)
+ggsave(filename = here::here("analysis","figures", "spectra_per_species.pdf"), width = 10, height = 9)
 ```
 
 Color the spectra by the year they were collected?  

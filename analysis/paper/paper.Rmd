@@ -135,21 +135,18 @@ Show the spectra for each scientific name class (Figure \@ref(fig:fig-plotSpectr
 
 **Maybe in appendix, make a table or something to show species info for which ones were used after cleaning/filtering**
 
-**Figure - cleaned data, make it legible, how to color if at all (the species/genus/variety color doesn't make sense anymore at this stage)...**
 
+## Species and genus classification {-}
 
+We trained a random forest (RF) classifier to predict species based on NEON hyperspectral reflectance data.
+RF is a machine learning approach that utilizes an ensemble of decision trees and iterative subsets of the training data.
+We performed hyperparameter optimization of ntree, the number of decision trees in the forest, and mtry, the number of variables randomly sampled at each node in the tree.
+We used the optimal values of 27 for mtry and 1000 for ntree in our final RF model.
+We computed overall accuracy, confusion matrices, and variable importance plots. 
 
-## Species classification {-}
-
-Random forest classifier
-Hyperparameter optimization (mtry, ntree)
-Overall accuracy, confusion matrices, variable importance
-
-## Genus classification {-}
-
-Same setup as species classification, but used the genus as each class label. 
-
+To evaluate genus classification accuracy, we followed the same step as described for species classiciation, but we used each spectrum's associated genus as each class label. 
 We provide all of our code in a research compendium here:[https://github.com/vscholl/neonHScompendium](https://github.com/vscholl/neonHScompendium). 
+
 
 # Results {-}
 
