@@ -67,8 +67,8 @@ We used a machine learning approach to evaluate plant identification potential u
 
 Species classification is an active research area [@scholl2020integrating]. 
 
-# Background {-}
 
+# Background {-}
 
 # Methods {-}
 
@@ -133,8 +133,6 @@ We assumed that plant locations did not change over time.
 
 Show the spectra for each scientific name class (Figure \@ref(fig:fig-plotSpectra)).
 
-**Maybe in appendix, make a table or something to show species info for which ones were used after cleaning/filtering**
-
 
 ## Species and genus classification {-}
 
@@ -142,7 +140,7 @@ We trained a random forest (RF) classifier to predict species based on NEON hype
 RF is a machine learning approach that utilizes an ensemble of decision trees and iterative subsets of the training data.
 We performed hyperparameter optimization of ntree, the number of decision trees in the forest, and mtry, the number of variables randomly sampled at each node in the tree.
 We used the optimal values of 27 for mtry and 1000 for ntree in our final RF model.
-There were 49 species classes and 
+There were 49 species classes and 27 genus classes for each classification. 
 We computed overall accuracy, confusion matrices, and variable importance plots. 
 
 To evaluate genus classification accuracy, we followed the same step as described for species classiciation, but we used each spectrum's associated genus as each class label. 
@@ -171,30 +169,14 @@ knitr::kable(x = df,
 ```
 
 
-Classification accuracy was higher at the genus level (60%) compared to the species level (55%) 
+Classification accuracy was higher at the genus level (60%) compared to the species level (55%). 
 
-Confusion matrix for species classification (Figure \@ref(fig:fig-confMatSpecies))
+Confusion matrix for species classification (Figure \@ref(fig:fig-confMatSpecies)).
 
-Confusion matrix for genus classification (Figure \@ref(fig:fig-confMatGenus))
+Confusion matrix for genus classification (Figure \@ref(fig:fig-confMatGenus)).
 
-Variable importance for species and genus classifiers (Figure \@ref(fig:fig-varImp))
+Variable importance for species and genus classifiers (Figure \@ref(fig:fig-varImp)).
 
-
-Figure - multi-year observations of individual plants? 
-
-
-<!-- Here's some example analysis code: -->
-
-```{r get-data, eval = FALSE}
-# Note the path that we need to use to access our data files when rendering this document
-my_data <- read.csv(here::here('analysis/data/raw_data/my_csv_file.csv'))
-```
-
-```{r demo-inline-code}
-x <- round(pi, 2)
-```
-
-Here is an example of inline code `r x` in the middle of a sentence. 
 
 # Discussion {-}
 
@@ -231,8 +213,6 @@ Hopes for outcomes
 Max has cool ideas and knows many R tricks
 
 
-<!-- The following line inserts a page break  -->
-
 \clearpage
 
 # References {-}
@@ -251,7 +231,26 @@ Map to illustrate the NEON sites and domains with data that we used in this stud
 
 ## Figure 2 {-}
 
-Histogram showing which scientific names have at least 20 samples to be included in the classification analysis. Note that the "Larix sp." invididuals are classified at the genus level. 
+Histogram showing which scientific names have at least 20 samples to be included in the classification analysis. Note that the "Larix sp." individuals are classified at the genus level. 
+
+## Figure 3 {-}
+
+Visualizing the hyperspectral reflectance spectra for each of the 50 genus and species classes utilized in our study. 
+
+## Figure 4 {-}
+
+Confusion matrix for the species classifier. True and predicted species labels are shown here for each sample in the validation set. Counts along the diagonal represent correct species predictions. Counts outside of the diagonal represent incorrect species predictions. Each cell in the matrix is colored based on the number of counts to ease interpretation. Low counts are white and high counts are blue, with a gradient in between. 
+
+## Figure 5 {-}
+
+Confusion matrix for the genus classifier. True and predicted genus labels are shown here for each sample in the validation set. Counts along the diagonal represent correct genus predictions. Counts outside of the diagonal represent incorrect genus predictions. Each cell in the matrix is colored based on the number of counts to ease interpretation. Low counts are white and high counts are orange, with a gradient in between. 
+
+## Figure 6 {-}
+
+Variable importance plots for the species and genus classification. We used hyperspectral reflectance band values as descriptive features for each classifier. The Mean Decrease in Accuracy (MDA) importance metrics is plotted for each hyperspectral band. Each importance bar is colored based on importance, with low importance as white and follows a gradient to high importance as blue (for species variable importance) or orange (for genus variable importance).
+
+
+
 
 # Figures {-}
 
