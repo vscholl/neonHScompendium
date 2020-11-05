@@ -363,13 +363,13 @@ varImp_MDA_species <- ggplot(imp, aes(x=wavelength_nm,
   # add bars where each height is equal to the variable importance metric
   geom_col(aes(fill = MeanDecreaseAccuracy), color = NA) +
   theme_minimal() + 
-  labs(x = "Wavelength (nm)\n", 
-       y = "Variable importance \n",
-       title = "Variable Importance: Mean Decrease Accuracy (MDA) \n\nSpecies classification",
+  labs(x = "",  # x = "Wavelength (nm)\n", # remove x axis label for the combined plot
+       y = "Species\nVariable importance\n",
+       title = "Variable Importance: Mean Decrease Accuracy (MDA)", # \n\nSpecies classification",
        fill = "MDA")  + 
   scale_fill_gradient(low = "#d9d9d9", high = "#43a2ca") + 
    theme(axis.text = element_text(size = 14),
-        axis.title = element_text(size = 14),
+        axis.title = element_text(size = 16),
         title = element_text(size = 16))
 
 varImp_MDA_species
@@ -391,17 +391,6 @@ varImp_Gini_species <- ggplot(imp, aes(x = wavelength_nm,
         legend.text = element_text(size = 14))
 
 varImp_Gini_species
-```
-
-Single figure with both variable importance plots: 
-
-```{r varmImp_species}
-library(ggpubr)
-
-ggpubr::ggarrange(varImp_MDA_species, varImp_Gini_species, nrow = 2)
- 
-# save confusion matrix to file 
-#ggsave(filename = here::here("analysis","figures", "varImp_species.pdf"), width = 10, height = 10)
 ```
 
 
@@ -623,9 +612,9 @@ varImp_MDA_genus <- ggplot(imp_genus, aes(x=wavelength_nm,
   # add bars where each height is equal to the variable importance metric
   geom_col(aes(fill = MeanDecreaseAccuracy), color = NA) +
   theme_minimal() + 
-  labs(x = "Wavelength (nm)\n", 
-       y = "Variable importance\n",
-       title = "Genus classification",
+  labs(x = "\nWavelength (nm)", 
+       y = "Genus\nVariable importance\n",
+       #title = "Genus classification",
        fill = "MDA")  + 
   scale_fill_gradient(low = "#d9d9d9", high = "#fc8d59") + 
    theme(axis.text = element_text(size = 14),
