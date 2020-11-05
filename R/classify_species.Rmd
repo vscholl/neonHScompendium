@@ -16,6 +16,7 @@ library(caret)
 library(rfPermute)
 library(parallel)
 library(doParallel)
+library(ggpubr)
 
 dir.create("output")
 ```
@@ -322,8 +323,8 @@ rf_valid_results %>%
   scale_color_manual(values = c(NA, "black")) + 
   # rotate x axis text 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  labs(x = "Truth", 
-       y = "Predicted"
+  labs(x = "True Species", 
+       y = "Predicted Species"
        #, title = "RandomForest Classification Confusion Matrix: Predicted vs. True SPECIES for Validation Set"
        ) + 
   scale_fill_gradient(low = "white", high = "#43a2ca") + 
@@ -363,12 +364,13 @@ varImp_MDA_species <- ggplot(imp, aes(x=wavelength_nm,
   geom_col(aes(fill = MeanDecreaseAccuracy), color = NA) +
   theme_minimal() + 
   labs(x = "Wavelength (nm)\n", 
-       y = "Variable importance \nMean Decrease in Accuracy (MDA)\n",
-       #title = "Variable Importance: Mean Decrease Accuracy (MDA)",
+       y = "Variable importance \n",
+       title = "Variable Importance: Mean Decrease Accuracy (MDA) \n\nSpecies classification",
        fill = "MDA")  + 
   scale_fill_gradient(low = "#d9d9d9", high = "#43a2ca") + 
    theme(axis.text = element_text(size = 14),
-        axis.title = element_text(size = 16))
+        axis.title = element_text(size = 14),
+        title = element_text(size = 16))
 
 varImp_MDA_species
 ```
@@ -399,7 +401,7 @@ library(ggpubr)
 ggpubr::ggarrange(varImp_MDA_species, varImp_Gini_species, nrow = 2)
  
 # save confusion matrix to file 
-ggsave(filename = here::here("analysis","figures", "varImp_species.pdf"), width = 10, height = 10)
+#ggsave(filename = here::here("analysis","figures", "varImp_species.pdf"), width = 10, height = 10)
 ```
 
 
@@ -589,14 +591,18 @@ rf_valid_results_genus %>%
   scale_color_manual(values = c(NA, "black")) + 
   # rotate x axis text 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  labs(x = "Truth", y = "Predicted", title = "RandomForest Classification Confusion Matrix: Predicted vs. True GENUS for Validation Set") + 
+  labs(x = "True Genus", 
+       #title = "RandomForest Classification Confusion Matrix: Predicted vs. True GENUS for Validation Set",
+       y = "Predicted Genus") + 
   scale_fill_gradient(low = "white", high = "#fc8d59") + 
   # add count in each cell
   geom_text(aes(label = n, alpha = n > 0)) + 
   # remove the color legend
   #guides(color = "none")
   # remove legend entirely
-  theme(legend.position = "none")
+  theme(legend.position = "none",
+        axis.text = element_text(size = 14),
+        axis.title = element_text(size = 14))
 
 # save figure to file 
 ggsave(filename = here::here("analysis","figures", "confMat_genus_valid.pdf"), width = 10, height = 10)
@@ -612,16 +618,22 @@ imp_genus <- merge(imp_genus, band_wl_lut, by.x="varnames", by.y="band_idx")
 ```
 
 ```{r varImp_MDA_genus, fig.height=6, fig.width=10}
-ggplot(imp_genus, aes(x=wavelength_nm,  
+varImp_MDA_genus <- ggplot(imp_genus, aes(x=wavelength_nm,  
                 y=MeanDecreaseAccuracy)) + 
   # add bars where each height is equal to the variable importance metric
   geom_col(aes(fill = MeanDecreaseAccuracy), color = NA) +
   theme_minimal() + 
-  labs(x = "Wavelength (nm)", 
-       y = "Variable importance (MDA)",
-       title = "GENUS classification variable importance: Mean Decrease Accuracy (MDA) vs. Wavelength",
+  labs(x = "Wavelength (nm)\n", 
+       y = "Variable importance\n",
+       title = "Genus classification",
        fill = "MDA")  + 
-  scale_fill_gradient(low = "#d9d9d9", high = "#fc8d59")
+  scale_fill_gradient(low = "#d9d9d9", high = "#fc8d59") + 
+   theme(axis.text = element_text(size = 14),
+        axis.title = element_text(size = 14),
+        title = element_text(size = 16))
+
+varImp_MDA_genus
+
 ```
 
 
@@ -635,50 +647,23 @@ ggplot(imp_genus, aes(x = wavelength_nm,
        y = "Variable importance (MDG)",
        title = "GENUS classification variable importance: Mean Decrease Gini (MDG) vs. Wavelength",
        fill = "MDG")  + 
-  scale_fill_gradient(low = "#d9d9d9", high = "#fc8d59")
+  scale_fill_gradient(low = "#d9d9d9", high = "#fc8d59") + 
+   theme(axis.text = element_text(size = 14),
+        axis.title = element_text(size = 16))
 ```
 
+
+Single figure with MDA variable importance plots for both species and genus classifiers: 
+
+```{r varmImp_species}
+ggpubr::ggarrange(varImp_MDA_species, varImp_MDA_genus, nrow = 2)
+ 
+# save confusion matrix to file 
+ggsave(filename = here::here("analysis","figures", "varImp.pdf"), width = 10, height = 10)
+```
 
 
 ### Add reflectance spectrum to interpret variable importance? 
-
-
-```{r varImp_with_refl_spectrum}
-imp_and_refl <- imp
-
-```
-
-```{r randomForest_varImpPlot_ggplot, eval=FALSE, include=FALSE}
-
-# default varImpPlot visualization in randomForest
-#varImpPlot(rf_classifier)
-
-# format the randomForest variable importance for ggplot
-imp <- as.data.frame(varImpPlot(rf_classifier))
-imp$varnames <- rownames(imp) # row names to column
-rownames(imp) <- NULL  
-
-# keep the n features with the highest MeanDecreaseAccuracy values 
-imp_top30_mda <- arrange(imp, desc(MeanDecreaseAccuracy)) %>% 
-  select(c(MeanDecreaseAccuracy, varnames)) %>% 
-  slice_head(n = 40)
-
-
-ggplot(imp_top30_mda, aes(x=reorder(varnames, MeanDecreaseAccuracy), 
-                y=MeanDecreaseAccuracy
-                #,color=MeanDecreaseAccuracy
-                )) + 
-  geom_point() +
-  geom_segment(aes(x=varnames,xend=varnames,y=0,yend=MeanDecreaseAccuracy)) +
-  #scale_color_continuous(type = "viridis") +
-  ylab("MDA") +
-  xlab("Variable Name") +
-  ggtitle("RandomForest variable importance: Mean Decrease Accuracy (MDA)") +
-  labs(color = "MDA") + 
-  coord_flip() + 
-  theme_minimal()
-```
-
 
 
 ```{r how_long_did_this_take}

@@ -177,7 +177,7 @@ Confusion matrix for species classification (Figure \@ref(fig:fig-confMatSpecies
 
 Confusion matrix for genus classification (Figure \@ref(fig:fig-confMatGenus))
 
-Variable importance for species classification (Figure \@ref(fig:fig-varImpSpecies))
+Variable importance for species and genus classifiers (Figure \@ref(fig:fig-varImp))
 
 
 Figure - multi-year observations of individual plants? 
@@ -302,9 +302,9 @@ knitr::include_graphics(here::here("analysis","figures", "confMat_genus_valid.pd
 
 ## Figure 6 {-}
 
-```{r fig-varImpSpecies, fig.cap ="Variable importance for species classification", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
+```{r fig-varImp, fig.cap ="Variable importance", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
 library(here)
-knitr::include_graphics(here::here("analysis","figures", "varImp_species.pdf"))
+knitr::include_graphics(here::here("analysis","figures", "varImp.pdf"))
 ```
 
 \clearpage
