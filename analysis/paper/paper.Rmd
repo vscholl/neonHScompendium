@@ -156,16 +156,17 @@ We report overall classification accuracy of the species and genus classificatio
 ```{r, message = FALSE, echo = FALSE}
 library(knitr)
 
-df <- data.frame(oa = c("species", "genus", 382, 384),
-                 species = c(94, 1220, 1733, 2922),
-                 genus = )
+df <- data.frame(oa = c("Out-of-bag (OOB)", "Independent validation"),
+                 species = c(54.6, 54.9),
+                 genus = c(60.5, 60.0))
 
 knitr::kable(x = df, 
              # set column names
-             col.names = c("Starting wavelength [nm]",
-                           "Number of spectra"),
+             col.names = c("Overall Accuracy (%):",
+                           "Species Classification",
+                           "Genus Classification"),
              # center align text in the columns
-             align = c("c", "c"),
+             align = c("c", "c", "c"),
              format = "simple")
 ```
 
