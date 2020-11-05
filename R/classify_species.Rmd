@@ -293,12 +293,9 @@ rf_train_results %>%
   #guides(color = "none")
   # remove legend entirely
   theme(legend.position = "none")
-
-# save confusion matrix to file
-ggsave(filename = here::here("analysis","figures", "confMat_species.pdf"), width = 14, height = 14)
 ```
 
-Use the randomForest model to predict validation set species. Visualize classification results across species for the VALIDATION SET using ggplot: 
+Use the randomForest model to predict VALIDATION set SPECIES. Visualize classification results across species for the VALIDATION SET using ggplot: 
 
 ```{r randomForest_valid_confMatrix, fig.width=14, fig.height=14, message=FALSE}
 
@@ -325,14 +322,19 @@ rf_valid_results %>%
   scale_color_manual(values = c(NA, "black")) + 
   # rotate x axis text 
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  labs(x = "Truth", y = "Predicted", title = "RandomForest Classification Confusion Matrix: Predicted vs. True SPECIES for Validation Set") + 
+  labs(x = "Truth", 
+       y = "Predicted"
+       #, title = "RandomForest Classification Confusion Matrix: Predicted vs. True SPECIES for Validation Set"
+       ) + 
   scale_fill_gradient(low = "white", high = "#43a2ca") + 
   # add count in each cell
   geom_text(aes(label = n, alpha = n > 0)) + 
   # remove legend entirely
-  theme(legend.position = "none")
+  theme(legend.position = "none",
+        axis.text = element_text(size = 16),
+        axis.title = element_text(size = 16))
 
-
+ggsave(filename = here::here("analysis","figures", "confMat_species_valid.pdf"), width = 15, height = 15)
 ```
 
 ### Variable Importance 
@@ -511,7 +513,7 @@ saveRDS(object = rf_classifier_genus, file = "output/rf_classifier_genus_mtry27_
 ```
 
 ```{r}
-rf_classifier_genus <- readRDS("output/rf_classifier_genus_mtry27_ntree100.rds")
+rf_classifier_genus <- readRDS(here::here("R","output","rf_classifier_genus_mtry27_ntree100.rds"))
 ```
 
 ### Overall Accuracy 
@@ -573,6 +575,9 @@ rf_valid_results_genus %>%
   #guides(color = "none")
   # remove legend entirely
   theme(legend.position = "none")
+
+# save figure to file 
+ggsave(filename = here::here("analysis","figures", "confMat_genus_valid.pdf"), width = 10, height = 10)
 ```
 
 

@@ -172,7 +172,9 @@ knitr::kable(x = df,
 
 Classification accuracy was higher at the genus level (60%) compared to the species level (55%) 
 
-Figure - confusion matrices
+Confusion matrix for species predictions (Figure \@ref(fig:fig-confMatSpecies))
+Confusion matrix for genus predictions (Figure \@ref(fig:fig-confMatGenus))
+
 Figure - variable importance vs wavelength
 Figure - multi-year observations of individual plants? 
 
@@ -265,7 +267,6 @@ library(here)
 knitr::include_graphics(here::here("analysis","figures", "hist_samples_per_species.pdf"))
 ```
 
-
 \clearpage
 
 ## Figure 3 {-}
@@ -275,8 +276,22 @@ library(here)
 knitr::include_graphics(here::here("analysis","figures", "spectra_per_species.pdf"))
 ```
 
+\clearpage
 
+## Figure 4 {-}
 
+```{r fig-confMatSpecies, fig.cap ="Confusion matrix Species", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
+library(here)
+knitr::include_graphics(here::here("analysis","figures", "confMat_species_valid.pdf"))
+```
 
 \clearpage
 
+## Figure 5 {-}
+
+```{r fig-confMatGenus, fig.cap ="Confusion matrix Species", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
+library(here)
+knitr::include_graphics(here::here("analysis","figures", "confMat_genus_valid.pdf"))
+```
+
+\clearpage
