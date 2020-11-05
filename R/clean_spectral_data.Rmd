@@ -575,7 +575,7 @@ filtered_spectra %>%
         axis.title.x = element_text(size = 14))
 
 # save figure to file
-ggsave(filename = here::here("analysis","figures", "spectra_per_species.pdf"), width = 10, height = 11)
+ggsave(filename = here::here("analysis","figures", "spectra_per_species.pdf"), width = 10, height = 10)
 ```
 
 Color the spectra by the year they were collected?  
