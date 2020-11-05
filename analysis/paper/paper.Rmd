@@ -162,9 +162,9 @@ df <- data.frame(oa = c("Out-of-bag (OOB)", "Independent validation"),
 
 knitr::kable(x = df, 
              # set column names
-             col.names = c("Overall Accuracy [%]",
-                           "Species Classification",
-                           "Genus Classification"),
+             col.names = c("Overall Classification Accuracy [%]",
+                           "Species",
+                           "Genus"),
              # center align text in the columns
              align = c("c", "c", "c"),
              format = "simple")
@@ -173,10 +173,13 @@ knitr::kable(x = df,
 
 Classification accuracy was higher at the genus level (60%) compared to the species level (55%) 
 
-Confusion matrix for species predictions (Figure \@ref(fig:fig-confMatSpecies))
-Confusion matrix for genus predictions (Figure \@ref(fig:fig-confMatGenus))
+Confusion matrix for species classification (Figure \@ref(fig:fig-confMatSpecies))
 
-Figure - variable importance vs wavelength
+Confusion matrix for genus classification (Figure \@ref(fig:fig-confMatGenus))
+
+Variable importance for species classification (Figure \@ref(fig:varImpSpecies))
+
+
 Figure - multi-year observations of individual plants? 
 
 
@@ -290,9 +293,18 @@ knitr::include_graphics(here::here("analysis","figures", "confMat_species_valid.
 
 ## Figure 5 {-}
 
-```{r fig-confMatGenus, fig.cap ="Confusion matrix Species", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
+```{r fig-confMatGenus, fig.cap ="Confusion matrix Genus", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
 library(here)
 knitr::include_graphics(here::here("analysis","figures", "confMat_genus_valid.pdf"))
+```
+
+\clearpage
+
+## Figure 6 {-}
+
+```{r fig-varImpSpecies, fig.cap ="Variable Importance Species", echo=FALSE,  out.width = "450px", message = FALSE, warning=FALSE}
+library(here)
+knitr::include_graphics(here::here("analysis","figures", "varImp_species.pdf"))
 ```
 
 \clearpage

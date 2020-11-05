@@ -334,6 +334,7 @@ rf_valid_results %>%
         axis.text = element_text(size = 16),
         axis.title = element_text(size = 16))
 
+# save confusion matrix to file 
 ggsave(filename = here::here("analysis","figures", "confMat_species_valid.pdf"), width = 15, height = 15)
 ```
 
@@ -356,30 +357,51 @@ imp <- merge(imp, band_wl_lut, by.x="varnames", by.y="band_idx")
 ```
 
 ```{r varImp_byWavelength_plot, fig.height=6, fig.width=10}
-ggplot(imp, aes(x=wavelength_nm,  
+varImp_MDA_species <- ggplot(imp, aes(x=wavelength_nm,  
                 y=MeanDecreaseAccuracy)) + 
   # add bars where each height is equal to the variable importance metric
   geom_col(aes(fill = MeanDecreaseAccuracy), color = NA) +
   theme_minimal() + 
-  labs(x = "Wavelength (nm)", 
-       y = "Variable importance (MDA)",
-       title = "Variable Importance: Mean Decrease Accuracy (MDA) vs. Wavelength",
+  labs(x = "Wavelength (nm)\n", 
+       y = "Variable importance \nMean Decrease in Accuracy (MDA)\n",
+       #title = "Variable Importance: Mean Decrease Accuracy (MDA)",
        fill = "MDA")  + 
-  scale_fill_gradient(low = "#d9d9d9", high = "#43a2ca")
+  scale_fill_gradient(low = "#d9d9d9", high = "#43a2ca") + 
+   theme(axis.text = element_text(size = 14),
+        axis.title = element_text(size = 16))
+
+varImp_MDA_species
 ```
 
 ```{r varImp_Gini, fig.height=6, fig.width=10}
-ggplot(imp, aes(x = wavelength_nm,  
+varImp_Gini_species <- ggplot(imp, aes(x = wavelength_nm,  
                 y = MeanDecreaseGini)) + 
   # add bars where each height is equal to the variable importance metric
   geom_col(aes(fill = MeanDecreaseGini), color = NA) +
   theme_minimal() + 
   labs(x = "Wavelength (nm)", 
-       y = "Variable importance (MDG)",
-       title = "Variable Importance: Mean Decrease Gini (MDG) vs. Wavelength",
+       y = "Variable importance \nMean Decrease Gini (MDG)\n",
+       #title = "Variable Importance: Mean Decrease Gini (MDG)",
        fill = "MDG")  + 
-  scale_fill_gradient(low = "#d9d9d9", high = "#43a2ca")
+  scale_fill_gradient(low = "#d9d9d9", high = "#43a2ca") + 
+  theme(axis.text = element_text(size = 14),
+        axis.title = element_text(size = 16),
+        legend.text = element_text(size = 14))
+
+varImp_Gini_species
 ```
+
+Single figure with both variable importance plots: 
+
+```{r varmImp_species}
+library(ggpubr)
+
+ggpubr::ggarrange(varImp_MDA_species, varImp_Gini_species, nrow = 2)
+ 
+# save confusion matrix to file 
+ggsave(filename = here::here("analysis","figures", "varImp_species.pdf"), width = 10, height = 10)
+```
+
 
 ### Add wavelengths of interest
 
