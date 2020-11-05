@@ -142,6 +142,7 @@ We trained a random forest (RF) classifier to predict species based on NEON hype
 RF is a machine learning approach that utilizes an ensemble of decision trees and iterative subsets of the training data.
 We performed hyperparameter optimization of ntree, the number of decision trees in the forest, and mtry, the number of variables randomly sampled at each node in the tree.
 We used the optimal values of 27 for mtry and 1000 for ntree in our final RF model.
+There were 49 species classes and 
 We computed overall accuracy, confusion matrices, and variable importance plots. 
 
 To evaluate genus classification accuracy, we followed the same step as described for species classiciation, but we used each spectrum's associated genus as each class label. 
@@ -149,6 +150,25 @@ We provide all of our code in a research compendium here:[https://github.com/vsc
 
 
 # Results {-}
+
+We report overall classification accuracy of the species and genus classification: 
+
+```{r, message = FALSE, echo = FALSE}
+library(knitr)
+
+df <- data.frame(oa = c("species", "genus", 382, 384),
+                 species = c(94, 1220, 1733, 2922),
+                 genus = )
+
+knitr::kable(x = df, 
+             # set column names
+             col.names = c("Starting wavelength [nm]",
+                           "Number of spectra"),
+             # center align text in the columns
+             align = c("c", "c"),
+             format = "simple")
+```
+
 
 Classification accuracy was higher at the genus level (60%) compared to the species level (55%) 
 
