@@ -557,7 +557,7 @@ filtered_spectra %>%
 
 Color all the spectra with a single color 
 
-```{r, eval = FALSE, include = "FALSE", warning=FALSE, fig.height=12, fig.width=16}
+```{r, eval = FALSE, include = "FALSE", warning=FALSE, fig.height=8, fig.width=10}
 filtered_spectra %>%
   ggplot(aes(wavelength_nm, ifelse(mask, NA, reflectance), group = spectraID)) +
   geom_path(alpha = .2, color = "#1c9099") +
@@ -575,7 +575,7 @@ filtered_spectra %>%
         axis.title.x = element_text(size = 14))
 
 # save figure to file
-ggsave(filename = here::here("analysis","figures", "spectra_per_species.pdf"), width = 10, height = 9)
+ggsave(filename = here::here("analysis","figures", "spectra_per_species.pdf"), width = 10, height = 8)
 ```
 
 Color the spectra by the year they were collected?  

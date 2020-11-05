@@ -162,7 +162,7 @@ df <- data.frame(oa = c("Out-of-bag (OOB)", "Independent validation"),
 
 knitr::kable(x = df, 
              # set column names
-             col.names = c("Overall Accuracy (%):",
+             col.names = c("Overall Accuracy [%]",
                            "Species Classification",
                            "Genus Classification"),
              # center align text in the columns
