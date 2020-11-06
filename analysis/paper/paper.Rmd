@@ -42,7 +42,6 @@ Abstract text here
 ```
 
 # Introduction {-}
-
 1
 * motivation for work, why bother?
 * unprecedented access to unique hyperspectral airborne imagery from NEON (cite)
@@ -58,8 +57,8 @@ Abstract text here
   - the need to generalize methods across locations? --> NEON
   - which wavelengths are most important
   - data harmonization across NEON sites (why are the wavelengths different? Ask NEON person?)
-
-
+  
+  
 The National Ecological Observatory Network (NEON) is a valuable source of publicly available ecological data across the United States [@keller2008continental].
 We have extracted all NEON AOP hyperspectral data for every mapped stem in NEON plots where field data and airborne remote sensing data were collected during the same year.
 
@@ -113,9 +112,11 @@ knitr::kable(x = df,
 ```
 
 Each series of wavelengths increments by 5nm from each starting wavelength to yield 426 spectral bands. 
+These starting wavelengths vary depending on which AOP payload was used to collect the hyperspectral data.
+The wavelength values also change slightly each year when the NEON AOP re-calibrates their payload sensors [@kampe2010advances]. 
 Most of them started at 384nm, so we linearly interpolated each spectrum to have the same 426 bands starting at 384nm and ending at 2512nm with 5nm increments.
-Spectra from the Pu'u Maka'ala Natural Area Reserve (PUUM) NEON site in Hawaii had a starting wavelength of 347nm. 
-This is because NEON sub-contracted the PUUM flights to the Global Airborne Observatory, which has a spectrometer with a different wavelength range compared to the NIS payloads *([cite?](https://www.neonscience.org/observatory/observatory-blog/remote-sensing-partnership-made-paradise))*. 
+Spectra from the Pu'u Maka'ala Natural Area Reserve (PUUM) NEON site in Hawaii had a starting wavelength of 347nm.
+This is because NEON sub-contracted the PUUM flights to the Global Airborne Observatory, which has a spectrometer with a different wavelength range compared to the NIS payloads *([how to cite?](https://www.neonscience.org/observatory/observatory-blog/remote-sensing-partnership-made-paradise))*. 
 We filtered out any spectra with a starting wavelength of 347nm, since the interpolation would require too much unavailable data outside the available range.
 We flagged "bad bands" from 1340-1445nm, 1790-1995nm, and greater than 2400nm so they could be excluded from later analysis.
 These wavelength ranges feature noisy reflectance data due to high water absorption [@bajorski2011]. 
@@ -235,19 +236,19 @@ Histogram showing which scientific names have at least 20 samples to be included
 
 ## Figure 3 {-}
 
-Visualizing the hyperspectral reflectance spectra for each of the 50 genus and species classes utilized in our study. 
+Visualizing the extracted hyperspectral reflectance spectra for each of the 50 genus and species classes that we used in our classifications. 
 
 ## Figure 4 {-}
 
-Confusion matrix for the species classifier. True and predicted species labels are shown here for each sample in the validation set. Counts along the diagonal represent correct species predictions. Counts outside of the diagonal represent incorrect species predictions. Each cell in the matrix is colored based on the number of counts to ease interpretation. Low counts are white and high counts are blue, with a gradient in between. 
+Confusion matrix for the species classifier. True and predicted species labels are shown here for each sample in the validation set. Counts along the diagonal represent correct species predictions. Counts outside of the diagonal represent incorrect species predictions. Each cell in the matrix is colored based on the number of counts to ease interpretation. Low counts are white and high counts are blue, with a gradient in between. Counts of zero are shown with a gray font color, to make non-zero counts (shown with a black font color) easier to identify.
 
 ## Figure 5 {-}
 
-Confusion matrix for the genus classifier. True and predicted genus labels are shown here for each sample in the validation set. Counts along the diagonal represent correct genus predictions. Counts outside of the diagonal represent incorrect genus predictions. Each cell in the matrix is colored based on the number of counts to ease interpretation. Low counts are white and high counts are orange, with a gradient in between. 
+Confusion matrix for the genus classifier. True and predicted genus labels are shown here for each sample in the validation set. Counts along the diagonal represent correct genus predictions. Counts outside of the diagonal represent incorrect genus predictions. Each cell in the matrix is colored based on the number of counts to ease interpretation. Low counts are white and high counts are orange, with a gradient in between. Counts of zero are shown with a gray font color, to make non-zero counts (shown with a black font color) easier to identify.
 
 ## Figure 6 {-}
 
-Variable importance plots for the species and genus classification. We used hyperspectral reflectance band values as descriptive features for each classifier. The Mean Decrease in Accuracy (MDA) importance metrics is plotted for each hyperspectral band. Each importance bar is colored based on importance, with low importance as white and follows a gradient to high importance as blue (for species variable importance) or orange (for genus variable importance).
+Variable importance plots for the species and genus classification. We used hyperspectral reflectance band values as descriptive features for each classifier. The Mean Decrease in Accuracy (MDA) importance metric value is plotted for each hyperspectral band. Each importance bar is colored based on importance, with low importance as white and follows a gradient to high importance as blue (for species variable importance) or orange (for genus variable importance).
 
 
 
