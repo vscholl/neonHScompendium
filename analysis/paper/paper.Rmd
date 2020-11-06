@@ -120,29 +120,31 @@ We figured that a small sample size would lead to a poor representation in model
 From the initial collection of 151 unique scientific names identified at the genus or species level, 50 of them had at least 20 samples and were kept for the classification analysis (Figure \@ref(fig:fig-histSpecies)). 
 We randomly assigned each spectrum to the training or validation sets, using an 80/20 split. All 50 scientific name labels were represented in each set. 
 
+\clearpage
+
 ```{r taxonTable, message = FALSE, echo = FALSE}
 df <- data.frame(taxonCode = c("ABBA", "ABLAL", "ACRU, ACRUR", "ACSAS, ACSA3", 
-                               "AMLA", "ARTR2", "BELE", "BENE4"),
-                 scientificName = c("Abies balsamea", 
-                                    "Abies lasiocarpa",
-                                    "Acer rubrum",
-                                    "Acer saccharum", 
-                                    "Amelanchier laevis",
-                                    "Artemisia tridentata",
-                                    "Betula lenta",
-                                    "Betula neoalaskana"),
+                               "AMLA", "ARTR2", "BELE", "BENE4", "CACA18", "CAOV2",
+                               "CATO6", "CELA", "CODR", "FRAM2", "FRPE"),
+                 scientificName = c("*Abies balsamea*", "*Abies lasiocarpa*", "*Acer rubrum*",
+                                    "*Acer saccharum*", "*Amelanchier laevis*", "*Artemisia tridentata*",
+                                    "*Betula lenta*", "*Betula neoalaskana*", "*Carpinus caroliniana*",
+                                    "*Carya ovata*", "*Carya tomentosa*", "*Celtis laevigata*", 
+                                    "*Cornus drummondii*", "*Fraxinus americana*", "*Fraxinus pennsylvanica*"),
                  commonName = c("balsam fir", "subalpine fir", "red maple", "sugar maple",
-                                "Allegheny serviceberry", "sagebrush", "sweet birch", "resin birch"),
-                 count = c(47,117, 489, 79, 37, 494, 28, 35))
+                                "Allegheny serviceberry", "sagebrush", "sweet birch", "resin birch",
+                                "American hornbeam", "shagbark hickory", "mockernut hickory",
+                                "sugarberry", "roughleaf dogwood", "white ash", "green ash"),
+                 count = c(47,117, 489, 79, 37, 494, 28, 35, 170, 46, 134, 179, 31, 20, 92))
 
 knitr::kable(x = df, 
              # set column names
              col.names = c("Taxon code",
-                           "Scientific name",
+                           "Scientific name *(Genus species)*",
                            "Common name",
                            "Number of spectra"),
              # center align text in the columns
-             align = c("c", "c", "c", "c"),
+             align = c("l", "l", "l", "l"),
              format = "simple")
 ```
 
