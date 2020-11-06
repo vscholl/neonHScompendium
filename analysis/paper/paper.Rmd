@@ -25,6 +25,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   dpi = 300
 )
+library(knitr)
 ```
 
 <!-- The actual document text starts here: -->
@@ -35,11 +36,6 @@ knitr::opts_chunk$set(
 Abstract text here
 \end{abstract}
 
-```{r, results='hide', message=FALSE, include=FALSE}
-# Extract hyperspectral reflectance data for each individual plant
-#R/spectral-lib.Rmd
-# Run the main analysis
-```
 
 # Introduction {-}
 1
@@ -96,9 +92,7 @@ We removed varieties from scientific names to label each individual spectrum wit
 There were 74 unique genus values, 113 unique species values, and 151 unique genus-species combinations.
 The hyperspectral reflectance spectra extracted from the locations of the individual plants have different starting wavelengths:
 
-```{r, message = FALSE, echo = FALSE}
-library(knitr)
-
+```{r wavelengthTable, message = FALSE, echo = FALSE}
 df <- data.frame(wavelength = c(347, 381, 382, 384),
                  number = c(94, 1220, 1733, 2922))
 
@@ -125,6 +119,32 @@ Next, we removed samples belonging to species and genus classes with few samples
 We figured that a small sample size would lead to a poor representation in model training. 
 From the initial collection of 151 unique scientific names identified at the genus or species level, 50 of them had at least 20 samples and were kept for the classification analysis (Figure \@ref(fig:fig-histSpecies)). 
 We randomly assigned each spectrum to the training or validation sets, using an 80/20 split. All 50 scientific name labels were represented in each set. 
+
+```{r taxonTable, message = FALSE, echo = FALSE}
+df <- data.frame(taxonCode = c("ABBA", "ABLAL", "ACRU, ACRUR", "ACSAS, ACSA3", 
+                               "AMLA", "ARTR2", "BELE", "BENE4"),
+                 scientificName = c("Abies balsamea", 
+                                    "Abies lasiocarpa",
+                                    "Acer rubrum",
+                                    "Acer saccharum", 
+                                    "Amelanchier laevis",
+                                    "Artemisia tridentata",
+                                    "Betula lenta",
+                                    "Betula neoalaskana"),
+                 commonName = c("balsam fir", "subalpine fir", "red maple", "sugar maple",
+                                "Allegheny serviceberry", "sagebrush", "sweet birch", "resin birch"),
+                 count = c(47,117, 489, 79, 37, 494, 28, 35))
+
+knitr::kable(x = df, 
+             # set column names
+             col.names = c("Taxon code",
+                           "Scientific name",
+                           "Common name",
+                           "Number of spectra"),
+             # center align text in the columns
+             align = c("c", "c", "c", "c"),
+             format = "simple")
+```
 
 After these data cleaning steps, we were left with reflectance data for 5266 individuals at sites across 14 of the NEON eco-climatic domains (Figure \@ref(fig:fig-studyArea)). 
 There is a noticeable imbalance of data across space and time; some NEON domains and US states (such as Hawaii) are not represented in our analysis. 
