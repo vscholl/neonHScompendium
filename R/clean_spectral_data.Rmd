@@ -418,8 +418,9 @@ ggplot(taxonCounts, aes(y = reorder(genusSpecies, n), x = n)) +
   theme_bw() + 
   scale_fill_manual(values = c("#d95f0e", "#7bccc4"))
 ```
+Histogram using scientific name
 
-```{r fig.width=9, fig.height=12}
+```{r fig.width=9, fig.height=12, eval=FALSE, include=FALSE}
 # Histogram with just the taxons that have enough samples 
 samplesCountGT <- taxonCounts %>% 
   filter(countGT == TRUE)
@@ -438,13 +439,8 @@ ggsave(filename = here::here("analysis","figures", "hist_samples_per_species.pdf
 ```
 
 
-
-
 ```{r}
 # table with species info and counts 
-
-library(taxize)
-
 taxon_info <- all_spectra %>% 
   select(genusSpecies, taxonID) %>% 
   distinct()
@@ -456,13 +452,25 @@ taxons_GT <- taxonCounts %>%
   select(-countGT) %>% 
   # merge in the taxonID information 
   left_join(taxon_info, by="genusSpecies")
+```
 
-# for(i in 1:nrow(taxons_GT)){
-#   print(i)
-#   taxize::sci2comm(sci = taxons_GT[i]$genusSpecies)
-# }
+Histogram using taxon code?
 
+```{r fig.width=9, fig.height=12}
+# Histogram with just the taxons that have enough samples 
+samplesCountGT <- taxonCounts %>% 
+  filter(countGT == TRUE)
 
+ggplot(distinct(taxons_GT, genusSpecies, .keep_all=TRUE), 
+       aes(y = reorder(taxonID, n), x = n)) + 
+  geom_bar(stat = "identity", fill = "#7E9E8F") + 
+  labs(y = "Taxon code\n",
+       x = "\nNumber of spectra") + 
+  #theme(axis.text = element_text(size = 12)) +
+  theme_bw(base_size=16) 
+
+# save figure to file
+ggsave(filename = here::here("analysis","figures", "hist_samples_per_species.pdf"), width = 9, height = 10)
 ```
 
 
