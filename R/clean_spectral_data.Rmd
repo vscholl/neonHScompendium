@@ -467,10 +467,10 @@ ggplot(distinct(taxons_GT, genusSpecies, .keep_all=TRUE),
   labs(y = "Taxon code\n",
        x = "\nNumber of spectra") + 
   #theme(axis.text = element_text(size = 12)) +
-  theme_bw(base_size=16) 
+  theme_bw(base_size=14) 
 
 # save figure to file
-ggsave(filename = here::here("analysis","figures", "hist_samples_per_species.pdf"), width = 9, height = 10)
+ggsave(filename = here::here("analysis","figures", "hist_samples_per_species.pdf"), width = 8, height = 9)
 ```
 
 

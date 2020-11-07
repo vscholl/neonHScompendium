@@ -25,7 +25,6 @@ knitr::opts_chunk$set(
   comment = "#>",
   dpi = 300
 )
-library(knitr)
 ```
 
 <!-- The actual document text starts here: -->
@@ -123,29 +122,49 @@ We randomly assigned each spectrum to the training or validation sets, using an 
 \clearpage
 
 ```{r taxonTable, message = FALSE, echo = FALSE}
+library(knitr)
+library(dplyr)
+
 df <- data.frame(taxonCode = c("ABBA", "ABLAL", "ACRU, ACRUR", "ACSAS, ACSA3", 
                                "AMLA", "ARTR2", "BELE", "BENE4", "CACA18", "CAOV2",
-                               "CATO6", "CELA", "CODR", "FRAM2", "FRPE"),
+                               "CATO6", "CELA", "CODR", "FRAM2", "FRPE", "JUNI", 
+                               "JUVIV, JUVI", "LARIX", "LATR2", "LIST2", "LITU",
+                               "LOMA6", "MORU2", "NYBI", "NYSY", "PIEN", "PIMA",
+                               "PICOL, PICO", "PIEC2", "PIFL2"),
                  scientificName = c("*Abies balsamea*", "*Abies lasiocarpa*", "*Acer rubrum*",
                                     "*Acer saccharum*", "*Amelanchier laevis*", "*Artemisia tridentata*",
                                     "*Betula lenta*", "*Betula neoalaskana*", "*Carpinus caroliniana*",
                                     "*Carya ovata*", "*Carya tomentosa*", "*Celtis laevigata*", 
-                                    "*Cornus drummondii*", "*Fraxinus americana*", "*Fraxinus pennsylvanica*"),
+                                    "*Cornus drummondii*", "*Fraxinus americana*", 
+                                    "*Fraxinus pennsylvanica*", "*Juglans nigra*", 
+                                    "*Juniperus virginiana*", "*Larix sp.* *",
+                                    "*Larrea tridentata*", "*Liquidambar styraciflua*", 
+                                    "*Liriodendron tulipifera*", "*Lonicera maackii*",
+                                    "*Morus rubra*", "*Nyssa biflora*", "*Nyssa sylvatica*",
+                                    "*Picea engelmannii*", "*Picea mariana*", "*Pinus contorta*",
+                                    "*Pinus echinata*", "*Pinus flexilis*"),
                  commonName = c("balsam fir", "subalpine fir", "red maple", "sugar maple",
                                 "Allegheny serviceberry", "sagebrush", "sweet birch", "resin birch",
                                 "American hornbeam", "shagbark hickory", "mockernut hickory",
-                                "sugarberry", "roughleaf dogwood", "white ash", "green ash"),
-                 count = c(47,117, 489, 79, 37, 494, 28, 35, 170, 46, 134, 179, 31, 20, 92))
+                                "sugarberry", "roughleaf dogwood", "white ash", "green ash",
+                                "black walnut", "eastern redcedar", "larch", "creosote bush",
+                                "sweetgum", "tuliptree", "Amur honeysuckle", "red mulberry",
+                                "swamp tupelo", "blackgum", "Engelmann spruce", "black spruce",
+                                "lodgepole pine", "shortleaf pine", "limber pine"),
+                 count = c(47,117, 489, 79, 37, 494, 28, 35, 170, 46, 134, 179, 31, 20, 92, 42, 
+                           28, 23, 161, 209, 40, 23, 30, 24, 77, 24, 32, 302, 72, 78))
 
 knitr::kable(x = df, 
              # set column names
              col.names = c("Taxon code",
-                           "Scientific name *(Genus species)*",
+                           "Scientific name (*species*)",
                            "Common name",
                            "Number of spectra"),
              # center align text in the columns
              align = c("l", "l", "l", "l"),
-             format = "simple")
+             format = "simple") 
+  # show which rows are grouped together for genus classes visibly in table?
+  
 ```
 
 After these data cleaning steps, we were left with reflectance data for 5266 individuals at sites across 14 of the NEON eco-climatic domains (Figure \@ref(fig:fig-studyArea)). 
