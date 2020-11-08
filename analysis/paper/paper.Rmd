@@ -87,7 +87,7 @@ Some individuals had multiple observations across years.
 The individual plants were identified taxon ranks of kingdom, family, genus, species, and variety. 
 Most of them were identified at the species rank.
 We filtered the plants by taxonomic rank to retain only those identified at the genus, species, and variety ranks. 
-We removed varieties from scientific names to label each individual spectrum with its respective genus and species (when available). 
+We removed varieties from scientific names to label each individual spectrum with its respective genus and species (when available), represented by the first 2 words in the scientific name. 
 There were 74 unique genus values, 113 unique species values, and 151 unique genus-species combinations.
 The hyperspectral reflectance spectra extracted from the locations of the individual plants have different starting wavelengths:
 
@@ -130,7 +130,10 @@ df <- data.frame(taxonCode = c("ABBA", "ABLAL", "ACRU, ACRUR", "ACSAS, ACSA3",
                                "CATO6", "CELA", "CODR", "FRAM2", "FRPE", "JUNI", 
                                "JUVIV, JUVI", "LARIX", "LATR2", "LIST2", "LITU",
                                "LOMA6", "MORU2", "NYBI", "NYSY", "PIEN", "PIMA",
-                               "PICOL, PICO", "PIEC2", "PIFL2"),
+                               "PICOL, PICO", "PIEC2", "PIFL2", "PIPA2", "PITA",
+                               "POGR4", "POTR5", "PSMEM, PSME", "QUAL", "QUCO2",
+                               "QUHE2", "QULA2", "QUMA13", "QUMA3", "QUNI", "QUPA5",
+                               "QURU", "QUST", "RHDA", "TSCA", "TSHE", "ULAM", "ULCR"),
                  scientificName = c("*Abies balsamea*", "*Abies lasiocarpa*", "*Acer rubrum*",
                                     "*Acer saccharum*", "*Amelanchier laevis*", "*Artemisia tridentata*",
                                     "*Betula lenta*", "*Betula neoalaskana*", "*Carpinus caroliniana*",
@@ -142,7 +145,14 @@ df <- data.frame(taxonCode = c("ABBA", "ABLAL", "ACRU, ACRUR", "ACSAS, ACSA3",
                                     "*Liriodendron tulipifera*", "*Lonicera maackii*",
                                     "*Morus rubra*", "*Nyssa biflora*", "*Nyssa sylvatica*",
                                     "*Picea engelmannii*", "*Picea mariana*", "*Pinus contorta*",
-                                    "*Pinus echinata*", "*Pinus flexilis*"),
+                                    "*Pinus echinata*", "*Pinus flexilis*","*Pinus palustris*", 
+                                    "*Pinus taeda*", "*Populus grandidentata*", "*Populus tremuloides*",
+                                    "*Pseudotsuga menziesii*", "*Quercus alba*", "*Quercus coccinea*",
+                                    "*Quercus hemisphaerica*", "*Quercus laevis*", "*Quercus margaretta*",
+                                    "*Quercus marilandica*", "*Quercus nigra*", "*Quercus pagoda*",
+                                    "*Quercus rubra*", "*Quercus stellata*", "*Rhamnus davurica*",
+                                    "*Tsuga canadensis*", "*Tsuga heterophylla*", "*Ulmus americana*", 
+                                    "*Ulmus crassifolia*"),
                  commonName = c("balsam fir", "subalpine fir", "red maple", "sugar maple",
                                 "Allegheny serviceberry", "sagebrush", "sweet birch", "resin birch",
                                 "American hornbeam", "shagbark hickory", "mockernut hickory",
@@ -150,14 +160,21 @@ df <- data.frame(taxonCode = c("ABBA", "ABLAL", "ACRU, ACRUR", "ACSAS, ACSA3",
                                 "black walnut", "eastern redcedar", "larch", "creosote bush",
                                 "sweetgum", "tuliptree", "Amur honeysuckle", "red mulberry",
                                 "swamp tupelo", "blackgum", "Engelmann spruce", "black spruce",
-                                "lodgepole pine", "shortleaf pine", "limber pine"),
+                                "lodgepole pine", "shortleaf pine", "limber pine", "longleaf pine",
+                                "loblolly pine", "bigtooth aspen", "quaking aspen", "Douglas-fir",
+                                "white oak", "scarlet oak", "Darlington oak", "turkey oak",
+                                "sand post oak", "blackjack oak", "water oak", "cherrybark oak",
+                                "northern red oak", "post oak", "Dahurian buckthorn", 
+                                "eastern hemlock", "western hemlock", "American elm", "cedar elm"),
                  count = c(47,117, 489, 79, 37, 494, 28, 35, 170, 46, 134, 179, 31, 20, 92, 42, 
-                           28, 23, 161, 209, 40, 23, 30, 24, 77, 24, 32, 302, 72, 78))
+                           28, 23, 161, 209, 40, 23, 30, 24, 77, 24, 32, 302, 72, 78, 374, 87,
+                           54, 148, 88, 72, 29, 69, 132, 68, 53, 60, 30, 148, 151, 224, 161, 59,
+                           70, 26))
 
 knitr::kable(x = df, 
              # set column names
              col.names = c("Taxon code",
-                           "Scientific name (*species*)",
+                           "Scientific name (*Genus species*)",
                            "Common name",
                            "Number of spectra"),
              # center align text in the columns
