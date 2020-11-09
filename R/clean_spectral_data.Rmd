@@ -416,7 +416,7 @@ ggplot(taxonCounts, aes(y = reorder(genusSpecies, n), x = n)) +
        y = "Scientific Name (Genus + Species)",
        fill = paste("Count >", thresh)) + 
   theme_bw() + 
-  scale_fill_manual(values = c("#d95f0e", "#7bccc4"))
+  scale_fill_manual(values = c("#36454f", "#7E9E8F"))
 ```
 Histogram using scientific name
 
@@ -435,7 +435,7 @@ ggplot(samplesCountGT, aes(y = reorder(genusSpecies, n), x = n)) +
   theme_bw(base_size=16) 
 
 # save figure to file
-ggsave(filename = here::here("analysis","figures", "hist_samples_per_species.pdf"), width = 9, height = 9)
+#ggsave(filename = here::here("analysis","figures", "hist_samples_per_species.pdf"), width = 9, height = 9)
 ```
 
 
@@ -463,14 +463,14 @@ samplesCountGT <- taxonCounts %>%
 
 ggplot(distinct(taxons_GT, genusSpecies, .keep_all=TRUE), 
        aes(y = reorder(taxonID, n), x = n)) + 
-  geom_bar(stat = "identity", fill = "#7E9E8F") + 
+  geom_bar(stat = "identity", fill = "#36454f") + 
   labs(y = "Taxon code\n",
        x = "\nNumber of spectra") + 
   #theme(axis.text = element_text(size = 12)) +
   theme_bw(base_size=14) 
 
 # save figure to file
-ggsave(filename = here::here("analysis","figures", "hist_samples_per_species.pdf"), width = 8, height = 9)
+ggsave(filename = here::here("analysis","figures", "hist_samples_per_species.pdf"), width = 9, height = 9)
 ```
 
 
@@ -538,37 +538,12 @@ write_csv(x = filtered_spectra,
           path = here::here("analysis", "data", "derived_data", "cleaned_spectra.csv"))
 ```
 
-Visualize the spectra, facet by scientific name, color by taxon rank. 
-```{r, eval = FALSE, include = "FALSE", warning=FALSE, fig.height=12, fig.width=16}
-filtered_spectra %>%
-  ggplot(aes(wavelength_nm, ifelse(mask, NA, reflectance), group = spectraID,
-             # color each facet plot based on taxonRank
-             color = taxonRank)) +
-  geom_path(alpha = .2) +
-  labs(x = '\n Wavelength (nm)',
-       y = 'Reflectance \n',
-       color = "Taxon Rank") + 
-  facet_wrap(~genusSpecies
-             # wrap long scientific names
-             ,labeller = label_wrap_gen(20)
-             ,ncol=10) + 
-  scale_color_manual(values = c("#e6550d","#1c9099", "#a8ddb5")) + 
-  theme_minimal() + 
-  # Adjust the text size and rotation angle 
-  theme(text = element_text(size=11),
-        axis.text.x = element_text(angle=90, hjust=1),
-        axis.title.y = element_text(size = 14),
-        axis.title.x = element_text(size = 14),
-        legend.text = element_text(size = 14),
-        legend.title = element_text(size = 14))
-```
-
 Color all the spectra with a single color 
 
 ```{r, warning=FALSE, fig.height=8, fig.width=10}
 filtered_spectra %>%
   ggplot(aes(wavelength_nm, ifelse(mask, NA, reflectance), group = spectraID)) +
-  geom_path(alpha = .2, color = "#1c9099") +
+  geom_path(alpha = .2, color = "#36454f") +
   labs(x = '\n Wavelength (nm)',
        y = 'Reflectance \n') + 
   facet_wrap(~genusSpecies
@@ -586,27 +561,4 @@ filtered_spectra %>%
 ggsave(filename = here::here("analysis","figures", "spectra_per_species.pdf"), width = 10, height = 10)
 ```
 
-Color the spectra by the year they were collected?  
-
-```{r, eval=FALSE, include=FALSE}
-filtered_spectra %>%
-  ggplot(aes(wavelength_nm, ifelse(mask, NA, reflectance), group = spectraID, color = as.factor(year))) +
-  geom_path(alpha = .2) +
-  labs(x = '\n Wavelength (nm)',
-       y = 'Reflectance \n',
-       color = "Year collected") + 
-  facet_wrap(~genusSpecies
-             # wrap long scientific names
-             ,labeller = label_wrap_gen(20)
-             ,ncol=10) + 
-  scale_color_manual(values = c("#e6550d","#1c9099", "#a8ddb5")) + 
-  theme_minimal() + 
-  # Adjust the text size and rotation angle 
-  theme(text = element_text(size=11),
-        axis.text.x = element_text(angle=90, hjust=1),
-        axis.title.y = element_text(size = 14),
-        axis.title.x = element_text(size = 14),
-        legend.text = element_text(size = 14),
-        legend.title = element_text(size = 14))
-```
 
