@@ -171,14 +171,17 @@ df <- data.frame(taxonCode = c("ABBA", "ABLAL", "ACRU, ACRUR", "ACSAS, ACSA3",
                            54, 148, 88, 72, 29, 69, 132, 68, 53, 60, 30, 148, 151, 224, 161, 59,
                            70, 26))
 
+df$count_percent <- round((df$count / sum(df$count)) * 100, digits = 1)
+  
 knitr::kable(x = df, 
              # set column names
              col.names = c("Taxon code",
                            "Scientific name (*Genus species*)",
                            "Common name",
-                           "Number of spectra"),
+                           "Number of spectra",
+                           "Percent (%) of total"),
              # center align text in the columns
-             align = c("l", "l", "l", "l"),
+             align = c("l", "l", "l", "c", "c"),
              format = "simple") 
   # show which rows are grouped together for genus classes visibly in table?
   
@@ -255,10 +258,11 @@ Future directions, next steps
    - hierarchical taxonomic approach - borrow information from closely related species (i.e. common and rare species > use common species observations)
    - (cite our other paper) intelligent crown geometry processing 
    - (ben weinstein) tree crown detection - extract multiple pixels per individual using rectangular crown boundaries
-   - herbarium / hyperspectral data measurements at other scales. handheld spectrometer. other spectral libraries. 
+   - herbarium / hyperspectral data measurements at other scales. handheld spectrometer. other spectral libraries.
    - combine HS with RGB, lidar
    
-We conclude that HS data allow you to get __ accuracy
+We conclude that NEON hyperspectral data allow you to achieve 55% or 60% accuracy when classifying species or genus classes.
+
 Hopes for outcomes 
 
 
@@ -286,7 +290,7 @@ Max has cool ideas and knows many R tricks
 
 ## Figure 1 {-}
 
-Map to illustrate the NEON sites and domains with data that we used in this study.
+Map to illustrate where NEON data were collected that we used in this study. Black points represent NEON site locations where *in-situ* plant observations were collected along with airborne remote sensing flights. NEON domains containing each respective site are 
 
 ## Figure 2 {-}
 
