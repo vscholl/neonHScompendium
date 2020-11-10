@@ -54,7 +54,7 @@ Many factors influence tree species classification results including the number 
 Methods are often performed on small scales or in simple ecosystems, and are not successful at scaling to larger areas or different forest types **(cite)**.
 Although the demand for species mapping is justified in many cases, there is also potential for both using and finding value in classifying individuals at other taxonomic levels, as explored in a recent bioacoustics study [@cramer2020chirping]. 
 In the plant realm, identifying taxons at the genus level had been shown to be easier than at the species level [@tuominen2018assessment].
-[@surovy2019acquisition] report that species are more successfully classified into broader categories such as spruce, pine, and broadleaf, compared to identifying individual species in mixed arrangements. 
+In their review of over 109 publications, [@surovy2019acquisition] report that species are more successfully classified into broader categories such as spruce, pine, and broadleaf, compared to identifying individual species in mixed arrangements.
 
 NEON provides a unique opportunity to test, develop, and tune tree classification methods over a continental scale and at multiple taxonomic resolutions. 
 We have extracted all NEON AOP hyperspectral data for every mapped stem in NEON plots where field data and airborne remote sensing data were collected during the same year.
