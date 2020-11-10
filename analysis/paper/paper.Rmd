@@ -49,7 +49,7 @@ Field technicians collect field-based vegetation measurements including species 
 In addition, NEON’s Airborne Observation Platform (AOP) payload carries a suite of sensors to collect both spectral and structural measurements of ecosystems [@kampe2010advances]. 
 The AOP includes an imaging spectrometer which captures hyperspectral reflectance data in over 400 bands across the visible and near infrared wavelengths. 
 Hyperspectral imagery is frequently used to classify species with accuracies ranging widely anywhere from 45% to 98% [@fassnacht2016review]. 
-Hyperspectral data are capable of capturing reflectance variations and features with hundreds of spectral bands better than multispectral remotely sensed data with a handful to tens of bands [@awad2018forest].
+Hyperspectral data are capable of capturing reflectance variations and features with hundreds of spectral bands better than multispectral remotely sensed data with a handful to tens of bands [@awad2018forest; @maschler2018individual].
 Many factors influence tree species classification results including the number of species being discerned, the homogeneity of species, the density and structural complexity of the forest, and the taxonomic level of classification [@sothe2019tree]. 
 Methods are often performed on small scales or in simple ecosystems, and are not successful at scaling to larger areas or different forest types **(cite)**.
 Although the demand for species mapping is justified in many cases, there is also potential for both using and finding value in classifying individuals at other taxonomic levels, as explored in a recent bioacoustics study [@cramer2020chirping]. 
@@ -59,7 +59,7 @@ In their review of over 109 publications, [@surovy2019acquisition] report that s
 NEON provides a unique opportunity to test, develop, and tune tree classification methods over a continental scale and at multiple taxonomic resolutions. 
 We have extracted all NEON AOP hyperspectral data for every mapped stem in NEON plots where field data and airborne remote sensing data were collected during the same year.
 We used a machine learning approach to evaluate plant identification potential using the hyperspectral data at multiple taxonomic resolutions: species and genus levels. 
-Our study contributes to the active field of tree species classification research using freely available NEON data and open, reproducible code [@marconi2019data; @scholl2020integrating]
+Our study contributes to the active field of tree species classification research using freely available NEON data and open, reproducible code [@marconi2019data; @fricker2019convolutional; @scholl2020integrating]
 
 
 
