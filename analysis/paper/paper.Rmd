@@ -38,18 +38,18 @@ Abstract text here
 
 # Introduction {-}
 
-Mapping forests is crucial to understanding the effects and feedbacks of changes in climate, land use, and disturbance events across diverse landscapes [@saladin2020rapid; @grossiord2020having; @fassnacht2016review]. 
-An important aspect of forest mapping efforts is species composition, which describes the amount and distribution of plant species across landscapes. 
+Mapping forests is crucial to understanding the effects and feedbacks of changes in climate, land use, invasive species, and disturbance events across diverse landscapes [@saladin2020rapid; @grossiord2020having; @fassnacht2016review; @rocchini2015potential]. 
+An important aspect of forest mapping efforts is species composition, which describes the amount and distribution of plant species across landscapes [@rocchini2016satellite]. 
 Species composition has been shown to be a fundamental metric for evaluating biodiversity [@williams2020remote], identifying habitats [@nagendra2013remote], providing essential inputs to many ecological models [@pecchi2019species], and informing conservation and restoration efforts [@camarretta2020monitoring]. 
 Although remote sensing technologies enable us to estimate species composition more effectively than using field-based approaches alone, species classification is still a challenging task. 
 
 We currently have unprecedented access to publicly available hyperspectral airborne imagery at sites around the United States from the National Ecological Observatory Network (NEON) [@keller2008continental]. 
-NEON-monitored sites are spread across ecoclimatic domains with a diverse array of ecosystems and land cover types including deciduous and evergreen forests, shrub/scrub and woody wetlands, mixed forest and grasslands. 
+NEON-monitored sites are spread across ecoclimatic domains with a diverse array of ecosystems and land cover types [@homer2015completion] including deciduous and evergreen forests, shrub/scrub and woody wetlands, mixed forest and grasslands [@schimel2007neon]. 
 Field technicians collect field-based vegetation measurements including species observations on a semi-annual basis. 
 In addition, NEON’s Airborne Observation Platform (AOP) payload carries a suite of sensors to collect both spectral and structural measurements of ecosystems [@kampe2010advances]. 
 The AOP includes an imaging spectrometer which captures hyperspectral reflectance data in over 400 bands across the visible and near infrared wavelengths. 
 Hyperspectral imagery is frequently used to classify species with accuracies ranging widely anywhere from 45% to 98% [@fassnacht2016review]. 
-Hyperspectral data are capable of capturing reflectance variations and features with hundreds of spectral bands better than multispectral remotely sensed data with a handful to tens of bands [@awad2018forest; @maschler2018individual].
+Hyperspectral data are more capable of capturing subtle reflectance variations and features using hundreds of narrow spectral bands compared to multispectral remotely sensed data with few to tens of bands [@[@chang2003hyperspectral]; @awad2018forest; @maschler2018individual].
 Many factors influence tree species classification results including the number of species being discerned, the homogeneity of species, the density and structural complexity of the forest, and the taxonomic level of classification [@sothe2019tree]. 
 Methods are often performed on small scales or in simple ecosystems, and are not successful at scaling to larger areas or different forest types **(cite)**.
 Although the demand for species mapping is justified in many cases, there is also potential for both using and finding value in classifying individuals at other taxonomic levels, as explored in a recent bioacoustics study [@cramer2020chirping]. 
@@ -69,9 +69,9 @@ Our study contributes to the active field of tree species classification researc
 
 ## NEON data {-}
 
-The NEON project monitors diverse ecosystems at 81 sites across 20 domains, each with similar climate and ecological characteristics, across the United States.
+The NEON project monitors diverse ecosystems at 81 sites across 20 domains, each with similar climate and ecological characteristics, across the United States for a span of 30 years [http://www.neonscience.org](http://www.neonscience.org).
 The NEON data that we used for our study include both *in-situ* plant measurements and airborne remote sensing image data [@neonDataProducts].
-The Woody Plant Vegetation Structure (data product code DP1.10098) includes individual plant locations along with species and genus observations that are collected every 1 to 3 years. 
+The Woody Plant Vegetation Structure (data product code DP1.10098) includes individual plant locations along with species and genus observations that are collected every 1 to 3 years based on NEON's Terrestrial Observation System sampling design [@thorpe2016introduction]. 
 The NEON Airborne Observation Platform (AOP) collects airborne remote sensing data regularly at NEON sites. 
 There are three AOP payloads, each carrying three types of sensors: (1) a high-resolution digital camera to capture red, green, blue (RGB) true-color images, (2) a light detection and ranging (lidar) system to capture discrete and waveform lidar data with approximately 1-4 points/waveforms per square meter, and (3) a pushbroom-style AVIRIS next-gen NEON Imaging Spectrometer (NIS) to capture hyperspectral data. 
 The hyperspectral data contains 426 narrow bands spanning the visible to shortwave infrared wavelengths, from 380 - 2500nm, and the image data products derived have a spatial resolution of 1m. The AOP flies at an altitude of 1000m above ground level and the flight season typically runs from May to October. 
@@ -117,7 +117,7 @@ These wavelength ranges feature noisy reflectance data due to high water absorpt
 
 Next, we removed samples belonging to species and genus classes with few samples, since extreme class imbalance is a known problem that can lead to biased classification results [@bader2018biased]. 
 From the initial collection of 151 unique scientific names identified at the genus or species level, 50 of them had at least 20 samples and were kept for the classification analysis (Figure \@ref(fig:fig-histSpecies)). 
-We randomly assigned each spectrum to the training or validation sets, using an 80/20 split. All 50 scientific name labels were represented in each set. 
+We randomly assigned each spectrum to the training or validation sets, using an 80/20 split as per the Pareto Principle [@dunford2014pareto]. All 50 scientific name labels were represented in each set. 
 
 \clearpage
 
@@ -187,7 +187,7 @@ knitr::kable(x = df,
   
 ```
 
-After these data cleaning steps, we were left with reflectance data for 5266 individuals at sites across 14 of the NEON eco-climatic domains (Figure \@ref(fig:fig-studyArea)). 
+After these data cleaning steps, we were left with reflectance data in 350 bands (excluding "bad bands") for 5266 individuals at sites across 14 of the NEON eco-climatic domains (Figure \@ref(fig:fig-studyArea)). 
 There is a noticeable imbalance of data across space and time; some NEON domains and US states (such as Hawaii) are not represented in our analysis. 
 Years that we found when both *in-situ* and AOP data were collected were 2017, 2018, and 2019. 
 Note that covid-19 **(cite?)** postponed NEON data collection as well as the AOP flight season during 2020. 
@@ -199,11 +199,13 @@ Show the spectra for each scientific name class (Figure \@ref(fig:fig-plotSpectr
 ## Species and genus classification {-}
 
 We trained a random forest (RF) classifier to predict species based on NEON hyperspectral reflectance data as the descriptive features.
-RF is a machine learning approach that utilizes an ensemble of decision trees and iterative subsets of the training data [@breiman2001random].
+RF is a commonly used machine learning approach that utilizes an ensemble of decision trees and iterative subsets of the training data [@breiman2001random; @ballanti2016tree].
 We performed hyperparameter optimization of *ntree*, the number of decision trees in the forest, and *mtry*, the number of variables randomly sampled at each node in the tree.
 We used the optimal values of 27 for *mtry* and 1000 for *ntree* in our final RF model.
 There were 49 species classes and 27 genus classes for each classification. 
-We computed overall accuracy, confusion matrices, and variable importance plots. 
+We computed overall accuracy based on both the Out of Bag (OOB) evaluation internal to the RF classifier and an independent validation set composed of a random 20% of the available data that was withheld during model training. 
+We also computed confusion matrices to evaluate classification performance for each species and genus class.
+Additionally, we reported the Mean Decrease in Accuracy (MDA) variable importance metric to quantify how useful each hyperspectral wavelength band was for classification. 
 
 To evaluate genus classification accuracy, we followed the same step as described for species classification, but we used each spectrum's associated genus as each class label. 
 We used the randomForest R package [@randomForest] to implement the analysis. 
@@ -212,7 +214,7 @@ We provide all of our code in a research compendium here:[https://github.com/vsc
 
 # Results {-}
 
-We report overall classification accuracy of the species and genus classification: 
+We found that classification accuracy was higher at the genus taxonomic level (60%) compared to the species level (55%) based on both the internal OOB error of the RF model and the independent validation set:
 
 ```{r, message = FALSE, echo = FALSE}
 library(knitr)
@@ -231,24 +233,26 @@ knitr::kable(x = df,
              format = "simple")
 ```
 
-
-Classification accuracy was higher at the genus level (60%) compared to the species level (55%) based on both the internal OOB error of the RF model and the independent validation set. 
-
-Confusion matrix for species classification (Figure \@ref(fig:fig-confMatSpecies)).
-
-Confusion matrix for genus classification (Figure \@ref(fig:fig-confMatGenus)).
+The classification accuracies varied across species (Figure \@ref(fig:fig-confMatSpecies)) and genus classes (Figure \@ref(fig:fig-confMatGenus)).
 
 Variable importance for species and genus classifiers (Figure \@ref(fig:fig-varImp)).
 
 
 # Discussion {-}
 
-Restate findings at high level
+**How do our findings compare to other similar studies. Consistent? Differences? (cite IDTReeS) Other ranges of accuracy using NEON HS data? How many sites too?**
 
-How do our findings compare to other similar studies. Consistent? Differences? (cite IDTReeS) Other ranges of accuracy using NEON HS data? How many sites too? 
+Our achieved accuracies of 55% and 60% for species and genus classification, respectively, fall within the range of 45% to 98% for hyperspectral-based studies as reported by [@fassnacht2016review].
+Our accuracy values are lower than the 68% - 92% range achieved by submissions to a recent NEON data tree species classification competition [@marconi2019data], which provided participants with remote sensing data  from all three AOP sensors to classify 9 species at a single NEON site.
 
-Potential limitations
-  - class imbalance - we tried to filter based on # samples, but our model has then only seen common species and would be unable to identify rare ones
+
+
+**Potential limitations**
+We acknowledge the presence of a class imbalance in both the species and genus training sets. 
+Although we filtered out species and genus classes with less than 20 samples, there is still a range of 20 to almost 500 spectra per taxonomic class. 
+Incorporating additional samples as NEON's database grows over time, or implementing data augmentation techniques [@wong2016understanding] are two ways to reduce this class imbalance for future classification analyses. 
+
+e tried to filter based on # samples, but our model has then only seen common species and would be unable to identify rare ones
   - filtering shadows, non-vegetation pixels.... (cite a paper from last IDTReeS comp)
   
 Future directions, next steps
@@ -274,7 +278,9 @@ Hopes for outcomes
 
 # Acknowledgements {-}
 
-Max has cool ideas and knows many R tricks
+Max has cool ideas and knows many R tricks! 
+
+Funding for this work was provided by Earth Lab, through CU Boulder’s Grand Challenge Initiative, and the CIRES at CU Boulder. 
 
 
 \clearpage
@@ -291,7 +297,7 @@ Max has cool ideas and knows many R tricks
 
 ## Figure 1 {-}
 
-Map to illustrate where NEON data were collected that we used in this study. Black points represent NEON site locations where *in-situ* plant observations were collected along with airborne remote sensing flights. NEON domains containing each respective site are 
+Map to illustrate where NEON data were collected that we used in this study. Black points represent NEON site locations where *in-situ* plant observations were collected along with airborne remote sensing flights. Delineated regions depict NEON ecoclimatic domains that contain these sites. 
 
 ## Figure 2 {-}
 
