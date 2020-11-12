@@ -235,7 +235,8 @@ knitr::kable(x = df,
 
 The classification accuracies varied across species (Figure \@ref(fig:fig-confMatSpecies)) and genus classes (Figure \@ref(fig:fig-confMatGenus)).
 
-Variable importance for species and genus classifiers (Figure \@ref(fig:fig-varImp)).
+Wavelength variable importance was similar for both the species and genus classifiers (Figure \@ref(fig:fig-varImp)).
+
 
 
 # Discussion {-}
@@ -245,26 +246,24 @@ Variable importance for species and genus classifiers (Figure \@ref(fig:fig-varI
 Our achieved accuracies of 55% and 60% for species and genus classification, respectively, fall within the range of 45% to 98% for hyperspectral-based studies as reported by [@fassnacht2016review].
 Our accuracy values are lower than the 68% - 92% range achieved by submissions to a recent NEON data tree species classification competition [@marconi2019data], which provided participants with remote sensing data  from all three AOP sensors to classify 9 species at a single NEON site.
 
+**How does the wavelength importance compare to other studies? genus vs species findings?**
 
 
-**Potential limitations**
+**Potential limitations and future improvements**
 We acknowledge the presence of a class imbalance in both the species and genus training sets. 
 Although we filtered out species and genus classes with less than 20 samples, there is still a range of 20 to almost 500 spectra per taxonomic class. 
 Incorporating additional samples as NEON's database grows over time, or implementing data augmentation techniques [@wong2016understanding] are two ways to reduce this class imbalance for future classification analyses. 
 
-e tried to filter based on # samples, but our model has then only seen common species and would be unable to identify rare ones
+
   - filtering shadows, non-vegetation pixels.... (cite a paper from last IDTReeS comp)
-  
-Future directions, next steps
-  - targeted species/genus for increased sampling to improve representation in the data set?
    - more advanced models. ML DL
    - RF treats each feature as independent
    - spectra are sequences of wavelengths - explore DL methods for sequences (i.e. recurrent neural networks)
    - hierarchical taxonomic approach - borrow information from closely related species (i.e. common and rare species > use common species observations)
-   - (cite our other paper) intelligent crown geometry processing 
+   - (cite our other paper) intelligent crown geometry processing and classifying crowns instead of just pixels
    - (ben weinstein) tree crown detection - extract multiple pixels per individual using rectangular crown boundaries
    - herbarium / hyperspectral data measurements at other scales. handheld spectrometer. other spectral libraries.
-   - combine HS with RGB, lidar
+   - combine HS with RGB, lidar. this has been shown to improve accracy (cite) 
    
 We conclude that NEON hyperspectral data allow you to achieve 55% or 60% accuracy when classifying species or genus classes.
 
@@ -317,7 +316,7 @@ Confusion matrix for the genus classifier. True and predicted genus labels are s
 
 ## Figure 6 {-}
 
-Variable importance plots for the species and genus classification. We used hyperspectral reflectance band values as descriptive features for each classifier. The Mean Decrease in Accuracy (MDA) importance metric value is plotted for each hyperspectral band. Each importance bar is colored based on importance, with low importance as white and follows a gradient to high importance as blue (for species variable importance) or orange (for genus variable importance).
+Variable importance plots for the species and genus classification. We used 350 hyperspectral reflectance band values as descriptive features for each classifier. The Mean Decrease in Accuracy (MDA) importance metric value is plotted for each hyperspectral band. Each importance bar is colored based on importance, with low importance as white and follows a gradient to high importance as blue (for species variable importance) or orange (for genus variable importance). Vertical shaded regions indicate approximate wavelengths of blue, green, red, near infrared, and shortwave infrared regions interest for interpretation. 
 
 
 
