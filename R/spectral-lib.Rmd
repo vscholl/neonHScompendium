@@ -17,8 +17,8 @@ library(neonUtilities)
 #install.packages('remotes')
 #remotes::install_github('NEONScience/NEON-geolocation/geoNEON', dependencies=TRUE)
 library(geoNEON)
-library(sp)
-#remotes::install_github('earthlab/neonhs')
+#install.packages('devtools')
+#devtools::install_github('earthlab/neonhs')
 library(neonhs)
 library(dplyr)
 library(here)
@@ -33,7 +33,8 @@ start_time <- Sys.time()
 out_dir <- here::here("analysis","data","raw_data","spectral-lib")
 dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
 
-zipsByProduct(dpID = "DP1.10098.001",
+# Download NEON observational data, Woody plant vegetation structure
+neonUtilities::zipsByProduct(dpID = "DP1.10098.001",
               savepath = out_dir,
               check.size = FALSE)
 stackByTable(file.path(out_dir, "filesToStack10098"), folder = TRUE)
