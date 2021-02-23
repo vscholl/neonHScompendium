@@ -53,7 +53,7 @@ vegind <- read_csv(file.path(out_dir, "filesToStack10098", "stackedFiles",
 Get precise locations for tagged plants and merge the mapping and individual data:
 
 ```{r get-precise-locs, warning=FALSE}
-vegmap <- getLocTOS(vegmap, "vst_mappingandtagging")
+vegmap <- geoNEON::getLocTOS(vegmap, "vst_mappingandtagging")
 
 samples_to_keep <- vegind %>%
   filter(plantStatus == "Live") %>%
