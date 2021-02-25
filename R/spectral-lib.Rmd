@@ -22,6 +22,7 @@ library(geoNEON)
 library(neonhs)
 library(dplyr)
 library(here)
+library(sp)
 ```
 
 Acquire vegetation data:
