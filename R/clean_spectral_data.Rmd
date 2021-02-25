@@ -124,7 +124,7 @@ all_spectra %>%
 
 Plot all spectra; color the spectra based on genus/species taxonomic level. 
 
-```{r, warning=FALSE, fig.height=16, fig.width=14, eval=FALSE}
+```{r, warning=FALSE, fig.height=16, fig.width=14, eval=TRUE}
 all_spectra %>%
   ggplot(aes(wavelength_nm, ifelse(mask, NA, reflectance), group = spectraID,
              # color each facet plot based on taxonRank
