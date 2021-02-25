@@ -49,6 +49,10 @@ glimpse(all_spectra)
 Number of unique **individualID**, **uid**, **spectraID** values: 
 
 ```{r, message=TRUE}
+# dimensions of the spectra file 
+message("dimensions of all_spectra.csv file: rows   cols")
+dim(all_spectra)
+
 message("# of unique individualID values:")
 length(unique(all_spectra$individualID))
 
