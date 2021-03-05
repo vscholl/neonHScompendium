@@ -29,7 +29,7 @@ start_time <- Sys.time()
 
 # read the cleaned data, labeled for train, test, 
 cleaned_data <- readr::read_csv(here::here("analysis", "data", "derived_data", 
-                                              "cleaned_spectra.csv"))
+                                              "cleaned_filtered_spectra.csv"))
 ```
 
 Format the data so each row is a sample (reflectance spectrum) and each column is a descriptive feature (reflectance value at each wavelength). Each row must have a label to predict for the classification, such as genusSpecies (the first two pieces of each scientific name excluding any variety info. Example: Pseudotsuga menziesii. Genus is Pseudotsuga, species is menziesii).
