@@ -22,6 +22,7 @@ library(geoNEON)
 library(neonhs)
 library(dplyr)
 library(here)
+library(sp)
 ```
 
 Acquire vegetation data:
@@ -170,7 +171,7 @@ for (i in seq_along(split_veg)) {
     year <- siteyear[2]
 
     # download data
-    try(byTileAOP(dpID = "DP3.30006.001", site = site_code, year = year,
+    try(neonUtilities::byTileAOP(dpID = "DP3.30006.001", site = site_code, year = year,
             easting = subd$adjEasting, northing = subd$adjNorthing,
             check.size = FALSE, savepath = h5_dir))
     hs_paths <- list.files(path = h5_dir, pattern = 'reflectance.h5',
