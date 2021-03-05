@@ -369,6 +369,22 @@ interp_wl %>%
 ggsave(filename = here::here("analysis","figures", "wl_after_interp_380nm.pdf"), width = 9, height = 4)
 ```
 
+```{r write_all_cleaned_spectra}
+message("# of unique taxonID values:")
+length(unique(cleaned_spectra$genusSpecies))
+
+message("# of unique scientificName values:")
+length(unique(cleaned_spectra$genus))
+
+message("# of unique spectraID (uid + year) values:")
+length(unique(cleaned_spectra$spectraID))
+
+# save this cleaned data set to a csv file 
+write_csv(x = cleaned_spectra,
+          path = here::here("analysis", "data", "derived_data", "cleaned_spectra.csv"))
+```
+
+
 ### Partition data into train, evaluation, & test sets
 
 How many samples per species? Filter out species with just a few samples. 
@@ -535,7 +551,7 @@ filtered_spectra %>%
 Write spectra to csv file. 
 ```{r}
 write_csv(x = filtered_spectra,
-          path = here::here("analysis", "data", "derived_data", "cleaned_spectra.csv"))
+          path = here::here("analysis", "data", "derived_data", "cleaned_filtered_spectra.csv"))
 ```
 
 Color all the spectra with a single color 
