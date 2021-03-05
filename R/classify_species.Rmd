@@ -21,6 +21,15 @@ library(ggpubr)
 dir.create("output")
 ```
 
+```{r run_or_read_models}
+
+# TRUE or FALSE
+# TRUE = train and tune the classification model 
+# or FALSE =  read existing files, do not train a new model each time.
+run_models <- TRUE
+```
+
+
 ## Data preparation
 
 ```{r read_data, message=FALSE}
@@ -90,7 +99,7 @@ valid_data$genusSpecies <- factor(valid_data$genusSpecies)
 
 Two hyperparameters to tune in randomForest classification: mtry and ntree
 
-```{r caret_parallel, eval=FALSE}
+```{r caret_parallel, eval=run_models}
 start.time = Sys.time()
 
 cl <- makePSOCKcluster(parallel::detectCores() -1) 
@@ -119,7 +128,7 @@ print(end.time - start.time)
 saveRDS(model, "output/model_mtry_tuning.rds")
 ```
 
-```{r plot_mtry_tuning, eval=FALSE}
+```{r plot_mtry_tuning, eval=run_models}
 # load mtry tuning model
 model <- readRDS("output/model_mtry_tuning.rds")
 
@@ -135,7 +144,7 @@ dev.off()
 plot(model)
 ```
 
-```{r optimize_ntree, eval=FALSE}
+```{r optimize_ntree, eval=run_models}
 # https://rpubs.com/phamdinhkhanh/389752
 
 start.time = Sys.time()
@@ -174,7 +183,7 @@ end.time - start.time
 # 43 minutes
 ```
 
-```{r ntree_tuning_results, eval=FALSE}
+```{r ntree_tuning_results, eval=run_models}
 # load ntree tuning model list
 modellist <- readRDS("output/modelList_ntree_tuning.rds")
 
@@ -193,7 +202,7 @@ dotplot(results)
 
 We classified species using the optimal values for mtry (27) and ntree (1000)
 
-```{r randomForest_species_train, eval=FALSE}
+```{r randomForest_species_train, eval=run_models}
 set.seed(44)
 
 start.time = Sys.time()
@@ -262,7 +271,7 @@ print(paste("Overall Accuracy of VALIDATION set SPECIES predictions:", round(OA_
 
 Visualize classification results across species for the TRAINING SET using ggplot
 
-```{r randomForest_train_confMatrix, fig.width=14, fig.height=14, message=FALSE, eval=FALSE}
+```{r randomForest_train_confMatrix, fig.width=14, fig.height=14, message=FALSE, eval=run_models}
 # list all combinations of true and predicted species 
 all_combos <- expand.grid(obs = unique(rf_train_results$obs), 
 				    pred = unique(rf_train_results$obs))
@@ -459,7 +468,7 @@ valid_data_genus <- cleaned_data %>%
 valid_data_genus$genus <- factor(valid_data_genus$genus)
 ```
 
-```{r randomForest_train_genus, eval=FALSE}
+```{r randomForest_train_genus, eval=run_models}
 set.seed(44) # for obama
 
 start.time = Sys.time()
