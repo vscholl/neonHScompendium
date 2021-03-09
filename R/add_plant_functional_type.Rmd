@@ -17,8 +17,10 @@ The USDA maintains a database of plant information, some of it trait data, some 
 #install.packages("request")
 #library(devtools)
 #devtools::install_github("sckott/request")
-library('request')
-library('tibble')
+library(request)
+library(tibble)
+library(tidyverse)
+library(here)
 ```
 
 ```{r}
@@ -29,6 +31,26 @@ root %>% api_path(heartbeat)
 ```
 
 ^^ My results here do not match those that show up on the tutorial page above. Maybe the API is down or the URL has changed? 
+
+Based on the GitHub issue discussion (https://github.com/USDA/USDA-APIs/issues/7), someone uploaded USDA plants data here from 2016: https://uofi.app.box.com/v/usdaplants
+
+```{r, eval=FALSE, include=FALSE}
+# Specify URL where file is stored 
+url <- "https://uofi.app.box.com/v/usdaplants/folder/6688524249/usda_plants_20160713.csv"
+destFile <- file.path(here::here(), "analysis","data", "usda_plants_20160713.csv")
+# Apply download.file function in R
+download.file(url, destFile)
+```
+
+```{r}
+#usda_plants <- read_csv(file.path(here::here(), "analysis", "data", "usda_plants_20160713.csv"),
+                        local = locale(encoding = "latin1"))
+
+# Error in nchar(x) : invalid multibyte string, element 2
+# ^ Issue with some of the column names in the .csv? 
+```
+
+
 
 ## BIEN 
 
@@ -41,7 +63,7 @@ library(maps) # Useful for making quick maps of occurrences
 library(sp) # A package for spatial data
 ```
 
-Let’s say we’re interested in the species Xanthium strumarium and we’d like some occurrence data.
+"Let’s say we’re interested in the species Xanthium strumarium and we’d like some occurrence data."
 
 ```{r}
 Xanthium_strumarium <- BIEN_occurrence_species(species = "Xanthium strumarium")
@@ -49,30 +71,11 @@ Xanthium_strumarium <- BIEN_occurrence_species(species = "Xanthium strumarium")
 head(Xanthium_strumarium)
 str(Xanthium_strumarium)
 ```
-The default data that is returned consists of the latitude, longitude and date collected, along with a set of attribution data. If we want more information on these occurrences, we just need to change the arguments:
 
-```{r}
-Xanthium_strumarium_full <- BIEN_occurrence_species(species = "Xanthium strumarium",cultivated = T,only.new.world = T,all.taxonomy = T,native.status = T,observation.type = T,political.boundaries = T)
-
-str(Xanthium_strumarium_full)
-```
-
-Let’s take a quick look at where those occurrences are.
-
-```{r}
-# Make a quick map to plot our points on
-map('world',fill=T , col= "grey", bg="light blue") 
-
-# Plot the points from the full query in red
-points(cbind(Xanthium_strumarium_full$longitude,Xanthium_strumarium_full$latitude),col="red",pch=20,cex=1) 
-
-# Plot the points from the default query in blue
-points(cbind(Xanthium_strumarium$longitude,Xanthium_strumarium$latitude),col="blue",pch=20,cex=1) 
-```
 
 BIEN traits and taxonomic data
 
-Let’s say we’re interested in the genus Abies, and we’d like to get an idea of how many species there are in this genus and what higher taxa it falls within.
+"Let’s say we’re interested in the genus [Abies], and we’d like to get an idea of how many species there are in this genus and what higher taxa it falls within."
 
 *Abies* genus is fir trees (coniferous trees). The "higher_plant_group" returned by the BIEN taxonomy function is "gymnosperms (conifers)"
 
