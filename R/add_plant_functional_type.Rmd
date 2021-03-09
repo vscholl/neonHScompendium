@@ -1,0 +1,117 @@
+---
+title: "Add Plant Functional Type labels"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## USDA Plants Database
+
+USDA Plants Database R API tutorial: https://recology.info/2016/10/usda-plants-database-r/ 
+
+The USDA maintains a database of plant information, some of it trait data, some of it life history. Check it out at http://plants.usda.gov/java/
+
+```{r install_load_packages, message=FALSE}
+#install.packages("request")
+#library(devtools)
+#devtools::install_github("sckott/request")
+library('request')
+library('tibble')
+```
+
+```{r}
+# Set the base url
+root <- api("https://plantsdb.xyz")
+
+root %>% api_path(heartbeat)
+```
+
+^^ My results here do not match those that show up on the tutorial page above. Maybe the API is down or the URL has changed? 
+
+## BIEN 
+
+RBIEN tutorial: https://cmerow.github.io/RDataScience/3_3_RBIEN_tutorial.html
+
+```{r install_load_packages_bien, message=FALSE}
+library(BIEN)
+library(ape) # Package for working with phylogenies in R
+library(maps) # Useful for making quick maps of occurrences
+library(sp) # A package for spatial data
+```
+
+Let’s say we’re interested in the species Xanthium strumarium and we’d like some occurrence data.
+
+```{r}
+Xanthium_strumarium <- BIEN_occurrence_species(species = "Xanthium strumarium")
+#View(Xanthium_strumarium)
+head(Xanthium_strumarium)
+str(Xanthium_strumarium)
+```
+The default data that is returned consists of the latitude, longitude and date collected, along with a set of attribution data. If we want more information on these occurrences, we just need to change the arguments:
+
+```{r}
+Xanthium_strumarium_full <- BIEN_occurrence_species(species = "Xanthium strumarium",cultivated = T,only.new.world = T,all.taxonomy = T,native.status = T,observation.type = T,political.boundaries = T)
+
+str(Xanthium_strumarium_full)
+```
+
+Let’s take a quick look at where those occurrences are.
+
+```{r}
+# Make a quick map to plot our points on
+map('world',fill=T , col= "grey", bg="light blue") 
+
+# Plot the points from the full query in red
+points(cbind(Xanthium_strumarium_full$longitude,Xanthium_strumarium_full$latitude),col="red",pch=20,cex=1) 
+
+# Plot the points from the default query in blue
+points(cbind(Xanthium_strumarium$longitude,Xanthium_strumarium$latitude),col="blue",pch=20,cex=1) 
+```
+
+BIEN traits and taxonomic data
+
+Let’s say we’re interested in the genus Abies, and we’d like to get an idea of how many species there are in this genus and what higher taxa it falls within.
+
+*Abies* genus is fir trees (coniferous trees). The "higher_plant_group" returned by the BIEN taxonomy function is "gymnosperms (conifers)"
+
+```{r}
+Abies_taxonomy<-BIEN_taxonomy_genus(genus = "Abies")
+
+#View(Abies_taxonomy)
+Abies_taxonomy[1:10,]
+```
+
+*Acer* genus is maple trees (deciduous trees). The "higher_plant_group" returned by the BIEN taxonomy is "flowering plants".
+
+```{r}
+Acer_taxonomy<-BIEN_taxonomy_genus(genus = "Acer")
+
+#View(Acer_taxonomy)
+Acer_taxonomy[1:10,]
+```
+*Acer rubrum* species is the red maple (deciduous trees). The "higher_plant_group" returned by the BIEN taxonomy is "flowering plants".
+
+```{r}
+Acer_rubrum_taxonomy <- BIEN_taxonomy_species(species = "Acer rubrum")
+Acer_rubrum_taxonomy[1:10,]
+```
+```{r}
+Artemisia_tridentata_taxonomy <- BIEN_taxonomy_species(species = "Artemisia tridentata")
+Artemisia_tridentata_taxonomy[1:10,]
+```
+```{r}
+Carpinus_caroliniana_taxonomy <- BIEN_taxonomy_species(species = "Carpinus caroliniana")
+Carpinus_caroliniana_taxonomy[1:5,]
+```
+
+```{r}
+Juniperus_virginiana_taxonomy <- BIEN_taxonomy_species(species = "Juniperus virginiana")
+Juniperus_virginiana_taxonomy[1:nrow(Juniperus_virginiana_taxonomy),]
+```
+```{r}
+Quercus_laevis_taxonomy <- BIEN_taxonomy_species(species = "Quercus laevis")
+Quercus_laevis_taxonomy[1:nrow(Quercus_laevis_taxonomy),]
+```
+
