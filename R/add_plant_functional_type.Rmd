@@ -119,6 +119,9 @@ Quercus_laevis_taxonomy[1:nrow(Quercus_laevis_taxonomy),]
 
 ## TRY Database
 
-Try TRY next? 
-
 https://www.try-db.org/TryWeb/Home.php
+
+
+## Taxize
+
+https://www.rdocumentation.org/packages/taxize/versions/0.9.99
