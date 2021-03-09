@@ -43,8 +43,7 @@ download.file(url, destFile)
 ```
 
 ```{r}
-#usda_plants <- read_csv(file.path(here::here(), "analysis", "data", "usda_plants_20160713.csv"),
-                        local = locale(encoding = "latin1"))
+#usda_plants <- read_csv(file.path(here::here(), "analysis", "data", "usda_plants_20160713.csv"))
 
 # Error in nchar(x) : invalid multibyte string, element 2
 # ^ Issue with some of the column names in the .csv? 
@@ -118,3 +117,8 @@ Quercus_laevis_taxonomy <- BIEN_taxonomy_species(species = "Quercus laevis")
 Quercus_laevis_taxonomy[1:nrow(Quercus_laevis_taxonomy),]
 ```
 
+## TRY Database
+
+Try TRY next? 
+
+https://www.try-db.org/TryWeb/Home.php
