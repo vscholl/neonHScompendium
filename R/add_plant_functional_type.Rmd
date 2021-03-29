@@ -7,6 +7,13 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r message=FALSE}
+library(tidyverse)
+library(here)
+library(dplyr)
+```
+
+
 Plant functional types (PFTs) of interest: coniferous forest, deciduous forest, woody shrub, grass/herb, and bare ground.
 
 ## Manually add PFTs to spectral library
@@ -22,7 +29,9 @@ cleaned_spectra <- read_csv(here::here("analysis", "data", "derived_data", "clea
 # PFTs of interest: coniferous_forest, deciduous_forest, woody_shrub, grass_herb, and bare_ground.
 taxon_pft_lookup <- data.frame(genusSpecies = unique(cleaned_spectra$genusSpecies),
                                commonName = NA,
-                               pft = NA)
+                               pft = NA) %>% 
+  # arrange alphabetically
+  dplyr::arrange(genusSpecies)
 
 for(i in 1:nrow(taxon_pft_lookup)){
   # print row and current genusSpecies label
@@ -51,7 +60,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$commonName[i] = "Southern sugar maple"}
   
   else if(genusSpecies == "Acer circinatum"){
-    taxon_pft_lookup$pft[i] = "NA " ??? 
+    taxon_pft_lookup$pft[i] = "???" # ???
     taxon_pft_lookup$commonName[i] = "vine maple"}
   
   else if(genusSpecies == "Acer negundo"){
@@ -87,11 +96,11 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$commonName[i] = "Wright's beebrush"}
   
   else if(genusSpecies == "Amelanchier laevis"){
-    taxon_pft_lookup$pft[i] = "???" ???
+    taxon_pft_lookup$pft[i] = "???" # ???
     taxon_pft_lookup$commonName[i] = "Allegheny serviceberry"}
   
   else if(genusSpecies == "Amyris elemifera"){
-    taxon_pft_lookup$pft[i] = "???"     ???
+    taxon_pft_lookup$pft[i] = "???"     # ???
     taxon_pft_lookup$commonName[i] = "sea torchwood"}
   
   else if(genusSpecies == "Artemisia tridentata"){
@@ -131,7 +140,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$commonName[i] = "birch"}
   
   else if(genusSpecies == "Bourreria sp."){
-    taxon_pft_lookup$pft[i] = "???"   ???
+    taxon_pft_lookup$pft[i] = "???"   # ???
     taxon_pft_lookup$commonName[i] = "strongbark"}
   
   else if(genusSpecies == "Bursera simaruba"){
@@ -179,7 +188,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$commonName[i] = "common hackberry"}
   
   else if(genusSpecies == "Cercis canadensis"){
-    taxon_pft_lookup$pft[i] = "???"   ???
+    taxon_pft_lookup$pft[i] = "???"   # ???
     taxon_pft_lookup$commonName[i] = "eastern redbud"}
   
   else if(genusSpecies == "Chrysothamnus viscidiflorus"){
@@ -191,11 +200,11 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$commonName[i] = "red manjack"}
   
   else if(genusSpecies == "Cornus drummondii"){
-    taxon_pft_lookup$pft[i] = "???"    ???
+    taxon_pft_lookup$pft[i] = "???"    # ???
     taxon_pft_lookup$commonName[i] = "roughleaf dogwood"}
   
   else if(genusSpecies == "Cornus florida"){
-    taxon_pft_lookup$pft[i] = "???"    ???
+    taxon_pft_lookup$pft[i] = "???"    # ???
     taxon_pft_lookup$commonName[i] = "flowering dogwood"}
 
   else if(genusSpecies == "Corylus cornuta"){
@@ -223,7 +232,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$commonName[i] = "American beech"}
   
   else if(genusSpecies == "Frangula purshiana"){
-    taxon_pft_lookup$pft[i] = "???"     ???
+    taxon_pft_lookup$pft[i] = "???"     # ???
     taxon_pft_lookup$commonName[i] = "Cascara buckthorn"}
   
   else if(genusSpecies == "Fraxinus americana"){
@@ -263,11 +272,11 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$commonName[i] = "American witchhazel"}
   
   else if(genusSpecies == "Ilex montana"){
-    taxon_pft_lookup$pft[i] = "???"          ???
+    taxon_pft_lookup$pft[i] = "???"          # ???
     taxon_pft_lookup$commonName[i] = "mountain holly"}
   
   else if(genusSpecies == "Ilex opaca"){
-    taxon_pft_lookup$pft[i] = "woody_shrub"   ???      # broadleaved evergreen tree
+    taxon_pft_lookup$pft[i] = "woody_shrub"   # ???      # broadleaved evergreen tree
     taxon_pft_lookup$commonName[i] = "American holly"}
   
   else if(genusSpecies == "Juglans nigra"){
@@ -306,12 +315,16 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$pft[i] = "deciduous_forest"   # small deciduous tree or large shrub
     taxon_pft_lookup$commonName[i] = "Osage-orange"}
   
+ else if(genusSpecies == "Magnolia sp."){
+    taxon_pft_lookup$pft[i] = "???"
+    taxon_pft_lookup$commonName[i] = "magnolia"}
+  
   else if(genusSpecies == "Mahonia nervosa"){
     taxon_pft_lookup$pft[i] = "woody_shrub"      # evergreen shrub
     taxon_pft_lookup$commonName[i] = "Cascade barberry"}
   
   else if(genusSpecies == "Mangifera indica"){
-    taxon_pft_lookup$pft[i] = "???"       ???   # broadleaf evergreen tree
+    taxon_pft_lookup$pft[i] = "???"       # ???   # broadleaf evergreen tree
     taxon_pft_lookup$commonName[i] = "mango"}
   
   else if(genusSpecies == "Melia azedarach"){
@@ -334,10 +347,58 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$pft[i] = "deciduous_forest"
     taxon_pft_lookup$commonName[i] = "blackgum"}
   
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
+  else if(genusSpecies == "Oxydendrum sp."){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "sourwood"}
+
+  else if(genusSpecies == "Picea engelmannii"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "Engelmann spruce"}
   
+  else if(genusSpecies == "Picea glauca"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "white spruce"}
+  
+  else if(genusSpecies == "Picea mariana"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "black spruce"}
+  
+  else if(genusSpecies == "Picea sp."){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "spruce"}
+
+  else if(genusSpecies == "Pinus contorta"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "lodgepole pine"}
+
+  else if(genusSpecies == "Pinus echinata"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "shortleaf pine"}
+
+  else if(genusSpecies == "Pinus flexilis"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "limber pine"}
+
+  else if(genusSpecies == "Pinus palustris"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "longleaf pine"}
+
+  else if(genusSpecies == "Pinus ponderosa"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "ponderosa pine"}
+
+  else if(genusSpecies == "Pinus sp."){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "pine"}
+
+  else if(genusSpecies == "Pinus strobus"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "eastern white pine"}
+
+  else if(genusSpecies == "Pinus taeda"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "loblolly pine"}
+
   else if(genusSpecies == ""){
     taxon_pft_lookup$pft[i] = ""
     taxon_pft_lookup$commonName[i] = ""}
@@ -349,31 +410,11 @@ for(i in 1:nrow(taxon_pft_lookup)){
   else if(genusSpecies == ""){
     taxon_pft_lookup$pft[i] = ""
     taxon_pft_lookup$commonName[i] = ""}
-  
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
-  
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
-  
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
-  
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
-  
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
 
   else if(genusSpecies == ""){
     taxon_pft_lookup$pft[i] = ""
     taxon_pft_lookup$commonName[i] = ""}
-  
+
   else if(genusSpecies == ""){
     taxon_pft_lookup$pft[i] = ""
     taxon_pft_lookup$commonName[i] = ""}
@@ -398,12 +439,8 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$pft[i] = "coniferous_forest"
     taxon_pft_lookup$commonName[i] = "eastern hemlock"}
   
-  else if(genusSpecies == "Picea sp."){
-    taxon_pft_lookup$pft[i] = "coniferous_forest"
-    taxon_pft_lookup$commonName[i] = "spruce"}
-  
   else if(genusSpecies == "Rhamnus davurica"){
-    taxon_pft_lookup$pft[i] = "???"              ???
+    taxon_pft_lookup$pft[i] = "???"              # ???
     taxon_pft_lookup$commonName[i] = "Dahurian buckthorn"}
   
   else if(genusSpecies == "Lonicera maackii"){
@@ -411,7 +448,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$commonName[i] = "Amur honeysuckle"}
   
   else if(genusSpecies == "Prunus serotina"){
-    taxon_pft_lookup$pft[i] = "???"       ???
+    taxon_pft_lookup$pft[i] = "???"       # ???
     taxon_pft_lookup$commonName[i] = "black cherry"}
   
   else if(genusSpecies == "Quercus alba"){
@@ -422,21 +459,9 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$pft[i] = "deciduous_forest"
     taxon_pft_lookup$commonName[i] = "black locust"}
   
-  else if(genusSpecies == "Pinus strobus"){
-    taxon_pft_lookup$pft[i] = "coniferous_forest"
-    taxon_pft_lookup$commonName[i] = "eastern white pine"}
-  
   else if(genusSpecies == "Tetradium daniellii"){
     taxon_pft_lookup$pft[i] = "deciduous_forest"
     taxon_pft_lookup$commonName[i] = "bee-bee tree"}
-  
-  else if(genusSpecies == "Picea mariana"){
-    taxon_pft_lookup$pft[i] = "coniferous_forest"
-    taxon_pft_lookup$commonName[i] = "black spruce"}
-  
-  else if(genusSpecies == "Picea glauca"){
-    taxon_pft_lookup$pft[i] = "coniferous_forest"
-    taxon_pft_lookup$commonName[i] = "white spruce"}
   
   else if(genusSpecies == "Ulmus crassifolia"){
     taxon_pft_lookup$pft[i] = "deciduous_forest"
@@ -445,14 +470,6 @@ for(i in 1:nrow(taxon_pft_lookup)){
   else if(genusSpecies == "Quercus stellata"){
     taxon_pft_lookup$pft[i] = "deciduous_forest"
     taxon_pft_lookup$commonName[i] = "post oak"}
-  
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
-  
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
   
   else print("PFT unknown")
   
