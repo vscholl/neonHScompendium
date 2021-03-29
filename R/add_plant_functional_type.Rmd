@@ -103,6 +103,8 @@ https://www.rdocumentation.org/packages/taxize/versions/0.9.99
 cleaned_spectra <- read_csv(here::here("analysis", "data", "derived_data", "cleaned_spectra.csv"))
 ```
 
+unique(cleaned_spectra$scientificName)
+
 ```{r}
 # list unique taxon labels, add an empty columns to fill with plant functional type (PFT) and common name labels.
 # PFTs of interest: coniferous_forest, deciduous_forest, woody_shrub, grass_herb, and bare_ground.
@@ -142,31 +144,32 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Acer circinatum"){
     taxon_pft_lookup$pft[i] = "deciduous_forest"
+                  # or woody shrub? USDA Plants shows both Shrub and Tree growth form
     taxon_pft_lookup$commonName[i] = "vine maple"}
   
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
+  else if(genusSpecies == "Frangula purshiana"){
+    taxon_pft_lookup$pft[i] = "woody_shrub" 
+    taxon_pft_lookup$commonName[i] = "Cascara buckthorn"}
   
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
+  else if(genusSpecies == "Acer rubrum"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "red maple"}
 
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
+  else if(genusSpecies == "Betula alleghaniensis"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "yellow birch"}
   
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
+  else if(genusSpecies == "Populus tremuloides"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "quaking aspen"}
   
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
+  else if(genusSpecies == "Tsuga canadensis"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "eastern hemlock"}
   
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
+  else if(genusSpecies == "Acer pensylvanicum"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "striped maple"}
   
   else if(genusSpecies == ""){
     taxon_pft_lookup$pft[i] = ""
