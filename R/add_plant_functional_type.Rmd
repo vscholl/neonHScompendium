@@ -171,33 +171,33 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$pft[i] = "deciduous_forest"
     taxon_pft_lookup$commonName[i] = "striped maple"}
   
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
+  else if(genusSpecies == "Picea sp."){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "spruce"}
   
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
+  else if(genusSpecies == "Fraxinus americana"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "white ash"}
   
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
+  else if(genusSpecies == "Betula papyrifera"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "paper birch"}
   
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
+  else if(genusSpecies == "Acer saccharum"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "sugar maple"}
   
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
+  else if(genusSpecies == "Fagus grandifolia"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "American beech"}
   
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
+  else if(genusSpecies == "Rhamnus davurica"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"
+    taxon_pft_lookup$commonName[i] = "Dahurian buckthorn"}
   
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
+  else if(genusSpecies == "Lonicera maackii"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"
+    taxon_pft_lookup$commonName[i] = "Amur honeysuckle"}
   
   else if(genusSpecies == ""){
     taxon_pft_lookup$pft[i] = ""
