@@ -30,13 +30,258 @@ for(i in 1:nrow(taxon_pft_lookup)){
   genusSpecies <- taxon_pft_lookup$genusSpecies[i]
   print(genusSpecies)
   
-  if(genusSpecies == "Pseudotsuga menziesii"){
+  if(genusSpecies == "Abies amabilis"){
     taxon_pft_lookup$pft[i] = "coniferous_forest"
-    taxon_pft_lookup$commonName[i] = "Douglas-fir"} 
+    taxon_pft_lookup$commonName[i] = "Pacific silver fir"} 
+  
+  else if(genusSpecies == "Abies balsamea"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "balsam fir"}
+  
+  else if(genusSpecies == "Abies lasiocarpa"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "subalpine fir"}
+  
+  else if(genusSpecies == "Acacia greggii"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"
+    taxon_pft_lookup$commonName[i] = "catclaw acacia"}
+  
+  else if(genusSpecies == "Acer barbatum"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "Southern sugar maple"}
+  
+  else if(genusSpecies == "Acer circinatum"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+              # or woody shrub? USDA Plants shows both Shrub and Tree growth form
+    taxon_pft_lookup$commonName[i] = "vine maple"}
+  
+  else if(genusSpecies == "Acer negundo"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "boxelder"}
+  
+  else if(genusSpecies == "Acer pensylvanicum"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "striped maple"}
+  
+  else if(genusSpecies == "Acer rubrum"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "red maple"}
+  
+  else if(genusSpecies == "Acer saccharinum"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "silver maple"}
+  
+  else if(genusSpecies == "Acer saccharum"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "sugar maple"}
+  
+  else if(genusSpecies == "Ailanthus altissima"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "tree of heaven"}
   
   else if(genusSpecies == "Alnus rubra"){
     taxon_pft_lookup$pft[i] = "deciduous_forest"  # deciduous broadleaf tree 
     taxon_pft_lookup$commonName[i] = "red alder"}
+  
+  else if(genusSpecies == "Aloysia wrightii"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"
+    taxon_pft_lookup$commonName[i] = "Wright's beebrush"}
+  
+  else if(genusSpecies == "Amelanchier laevis"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "Allegheny serviceberry"}
+  
+  else if(genusSpecies == "Amyris elemifera"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"
+    taxon_pft_lookup$commonName[i] = "sea torchwood"}
+  
+  else if(genusSpecies == "Artemisia tridentata"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"
+    taxon_pft_lookup$commonName[i] = "big sagebrush"}
+  
+  else if(genusSpecies == "Atriplex canescens"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"
+    taxon_pft_lookup$commonName[i] = "fourwing saltbush"}
+  
+  else if(genusSpecies == "Atriplex confertifolia"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"
+    taxon_pft_lookup$commonName[i] = "shadscale saltbush"}
+  
+  else if(genusSpecies == "Betula alleghaniensis"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "yellow birch"}
+  
+  else if(genusSpecies == "Betula lenta"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "sweet birch"}
+  
+  else if(genusSpecies == "Betula neoalaskana"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "resin birch"}
+  
+  else if(genusSpecies == "Betula nigra"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "river birch"}
+  
+  else if(genusSpecies == "Betula papyrifera"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "paper birch"}
+  
+  else if(genusSpecies == "Betula sp."){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "birch"}
+  
+  else if(genusSpecies == "Bourreria sp."){
+    taxon_pft_lookup$pft[i] = "woody_shrub"
+    taxon_pft_lookup$commonName[i] = "strongbark"}
+  
+  else if(genusSpecies == "Bursera simaruba"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"  # "semi-deciduous"
+    taxon_pft_lookup$commonName[i] = "gumbo limbo"}
+  
+  else if(genusSpecies == "Carpinus caroliniana"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "American hornbeam"}
+  
+  else if(genusSpecies == "Carya aquatica"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "water hickory"}
+  
+  else if(genusSpecies == "Carya cordiformis"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "bitternut hickory"}
+
+  else if(genusSpecies == "Carya glabra"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "pignut hickory"}
+  
+  else if(genusSpecies == "Carya illinoinensis"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "pecan"}
+  
+  else if(genusSpecies == "Carya ovalis"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "red hickory"}
+  
+  else if(genusSpecies == "Carya ovata"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "shagbark hickory"}
+  
+  else if(genusSpecies == "Carya tomentosa"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "mockernut hickory"}
+  
+  else if(genusSpecies == "Celtis laevigata"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "sugarberry"}
+  
+  else if(genusSpecies == "Celtis occidentalis"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "common hackberry"}
+  
+  else if(genusSpecies == "Cercis canadensis"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "eastern redbud"}
+  
+  else if(genusSpecies == "Chrysothamnus viscidiflorus"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"
+    taxon_pft_lookup$commonName[i] = "yellow rabbitbrush"}
+  
+  else if(genusSpecies == "Cordia collococca"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "red manjack"}
+  
+  else if(genusSpecies == "Cornus drummondii"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "roughleaf dogwood"}
+  
+  else if(genusSpecies == "Cornus florida"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "flowering dogwood"}
+
+  else if(genusSpecies == "Corylus cornuta"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"      # deciduous shrubby hazel
+    taxon_pft_lookup$commonName[i] = "beaked hazelnut"}
+  
+  else if(genusSpecies == "Diospyros virginiana"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "common persimmon"}
+  
+  else if(genusSpecies == "Ephedra trifurca"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"
+    taxon_pft_lookup$commonName[i] = "longleaf jointfir"}
+  
+  else if(genusSpecies == "Ericameria laricifolia"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"
+    taxon_pft_lookup$commonName[i] = "turpentine bush"}
+  
+  else if(genusSpecies == "Exostema caribaeum"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"  # "evergreen shrub or small tree" 
+    taxon_pft_lookup$commonName[i] = "Caribbean princewood"}
+  
+  else if(genusSpecies == "Fagus grandifolia"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "American beech"}
+  
+  else if(genusSpecies == "Frangula purshiana"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"
+    taxon_pft_lookup$commonName[i] = "Cascara buckthorn"}
+  
+  else if(genusSpecies == "Fraxinus americana"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "white ash"}
+  
+  else if(genusSpecies == "Fraxinus nigra"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "black ash"}
+  
+  else if(genusSpecies == "Fraxinus pennsylvanica"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "green ash"}
+  
+  else if(genusSpecies == "Fraxinus sp."){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "ash"}
+
+  else if(genusSpecies == "Gaultheria shallon"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"     # broadleaved evergreen shrub
+    taxon_pft_lookup$commonName[i] = "salal"}
+  
+  else if(genusSpecies == "Gleditsia triacanthos"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "honey locust"}
+  
+  else if(genusSpecies == "Gutierrezia sarothrae"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"
+    taxon_pft_lookup$commonName[i] = "broom snakeweed"}
+  
+  else if(genusSpecies == "Halesia sp."){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"  # small, deciduous, understory tree 
+    taxon_pft_lookup$commonName[i] = "silverbell"}
+  
+  else if(genusSpecies == "Hamamelis virginiana"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"
+    taxon_pft_lookup$commonName[i] = "American witchhazel"}
+  
+  else if(genusSpecies == "Ilex montana"){
+    taxon_pft_lookup$pft[i] = "NA"
+    taxon_pft_lookup$commonName[i] = "mountain holly"}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else if(genusSpecies == "Pseudotsuga menziesii"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "Douglas-fir"}
   
   else if(genusSpecies == "Vaccinium parvifolium"){ 
     taxon_pft_lookup$pft[i] = "woody_shrub"       # deciduous Shrub
@@ -46,31 +291,6 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$pft[i] = "woody_shrub"      # evergreen shrub
     taxon_pft_lookup$commonName[i] = "Cascade barberry"}
   
-  else if(genusSpecies == "Corylus cornuta"){
-    taxon_pft_lookup$pft[i] = "woody_shrub"      # deciduous shrubby hazel
-    taxon_pft_lookup$commonName[i] = "beaked hazelnut"}
-
-  else if(genusSpecies == "Gaultheria shallon"){
-    taxon_pft_lookup$pft[i] = "woody_shrub"     # broadleaved evergreen shrub
-    taxon_pft_lookup$commonName[i] = "salal"}
-  
-  else if(genusSpecies == "Acer circinatum"){
-    taxon_pft_lookup$pft[i] = "deciduous_forest"
-                  # or woody shrub? USDA Plants shows both Shrub and Tree growth form
-    taxon_pft_lookup$commonName[i] = "vine maple"}
-  
-  else if(genusSpecies == "Frangula purshiana"){
-    taxon_pft_lookup$pft[i] = "woody_shrub" 
-    taxon_pft_lookup$commonName[i] = "Cascara buckthorn"}
-  
-  else if(genusSpecies == "Acer rubrum"){
-    taxon_pft_lookup$pft[i] = "deciduous_forest"
-    taxon_pft_lookup$commonName[i] = "red maple"}
-
-  else if(genusSpecies == "Betula alleghaniensis"){
-    taxon_pft_lookup$pft[i] = "deciduous_forest"
-    taxon_pft_lookup$commonName[i] = "yellow birch"}
-  
   else if(genusSpecies == "Populus tremuloides"){
     taxon_pft_lookup$pft[i] = "deciduous_forest"
     taxon_pft_lookup$commonName[i] = "quaking aspen"}
@@ -79,29 +299,9 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$pft[i] = "coniferous_forest"
     taxon_pft_lookup$commonName[i] = "eastern hemlock"}
   
-  else if(genusSpecies == "Acer pensylvanicum"){
-    taxon_pft_lookup$pft[i] = "deciduous_forest"
-    taxon_pft_lookup$commonName[i] = "striped maple"}
-  
   else if(genusSpecies == "Picea sp."){
     taxon_pft_lookup$pft[i] = "coniferous_forest"
     taxon_pft_lookup$commonName[i] = "spruce"}
-  
-  else if(genusSpecies == "Fraxinus americana"){
-    taxon_pft_lookup$pft[i] = "deciduous_forest"
-    taxon_pft_lookup$commonName[i] = "white ash"}
-  
-  else if(genusSpecies == "Betula papyrifera"){
-    taxon_pft_lookup$pft[i] = "deciduous_forest"
-    taxon_pft_lookup$commonName[i] = "paper birch"}
-  
-  else if(genusSpecies == "Acer saccharum"){
-    taxon_pft_lookup$pft[i] = "deciduous_forest"
-    taxon_pft_lookup$commonName[i] = "sugar maple"}
-  
-  else if(genusSpecies == "Fagus grandifolia"){
-    taxon_pft_lookup$pft[i] = "deciduous_forest"
-    taxon_pft_lookup$commonName[i] = "American beech"}
   
   else if(genusSpecies == "Rhamnus davurica"){
     taxon_pft_lookup$pft[i] = "woody_shrub"
@@ -111,17 +311,9 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$pft[i] = "woody_shrub"
     taxon_pft_lookup$commonName[i] = "Amur honeysuckle"}
   
-  else if(genusSpecies == "Ailanthus altissima"){
-    taxon_pft_lookup$pft[i] = "deciduous_forest"
-    taxon_pft_lookup$commonName[i] = "tree of heaven"}
-  
   else if(genusSpecies == "Prunus serotina"){
     taxon_pft_lookup$pft[i] = "deciduous_forest"
     taxon_pft_lookup$commonName[i] = "black cherrt"}
-  
-  else if(genusSpecies == "Celtis occidentalis"){
-    taxon_pft_lookup$pft[i] = "deciduous_forest"
-    taxon_pft_lookup$commonName[i] = "common hackberry"}
   
   else if(genusSpecies == "Quercus alba"){
     taxon_pft_lookup$pft[i] = "deciduous_forest"
@@ -139,10 +331,6 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$pft[i] = "coniferous_forest"
     taxon_pft_lookup$commonName[i] = "eastern white pine"}
   
-  else if(genusSpecies == "Carya glabra"){
-    taxon_pft_lookup$pft[i] = "deciduous_forest"
-    taxon_pft_lookup$commonName[i] = "pignut hickory"}
-  
   else if(genusSpecies == "Tetradium daniellii"){
     taxon_pft_lookup$pft[i] = "deciduous_forest"
     taxon_pft_lookup$commonName[i] = "bee-bee tree"}
@@ -155,17 +343,17 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$pft[i] = "coniferous_forest"
     taxon_pft_lookup$commonName[i] = "black spruce"}
   
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
+  else if(genusSpecies == "Picea glauca"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "white spruce"}
   
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
+  else if(genusSpecies == "Ulmus crassifolia"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "cedar elm"}
   
-  else if(genusSpecies == ""){
-    taxon_pft_lookup$pft[i] = ""
-    taxon_pft_lookup$commonName[i] = ""}
+  else if(genusSpecies == "Quercus stellata"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "post oak"}
   
   else if(genusSpecies == ""){
     taxon_pft_lookup$pft[i] = ""
@@ -181,7 +369,6 @@ for(i in 1:nrow(taxon_pft_lookup)){
   print(taxon_pft_lookup$pft[i])
 }
 
-taxon_pft_lookup$pft(taxon_pft_lookup$genusSpecies == "Pseudotsuga menziesii") <- "coniferous_forest"
 ```
 
 ## R packages: attempting to automate PFT labeling
