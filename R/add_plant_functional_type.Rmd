@@ -9,93 +9,6 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Plant functional types (PFTs) of interest: coniferous forest, deciduous forest, woody shrub, grass/herb, and bare ground.
 
-## R packages
-
-### USDA Plants Database
-
-USDA Plants Database R API tutorial: https://recology.info/2016/10/usda-plants-database-r/ 
-
-The USDA maintains a database of plant information, some of it trait data, some of it life history. Check it out at http://plants.usda.gov/java/
-
-```{r install_load_packages, message=FALSE}
-#install.packages("request")
-#library(devtools)
-#devtools::install_github("sckott/request")
-library(request)
-library(tibble)
-library(tidyverse)
-library(here)
-```
-
-```{r}
-# Set the base url
-root <- api("https://plantsdb.xyz")
-
-root %>% api_path(heartbeat)
-```
-
-^^ My results here do not match those that show up on the tutorial page above. Maybe the API is down or the URL has changed? 
-
-Based on the GitHub issue discussion (https://github.com/USDA/USDA-APIs/issues/7), someone uploaded USDA plants data here from 2016: https://uofi.app.box.com/v/usdaplants
-
-```{r, eval=FALSE, include=FALSE}
-# Specify URL where file is stored 
-url <- "https://uofi.app.box.com/v/usdaplants/folder/6688524249/usda_plants_20160713.csv"
-destFile <- file.path(here::here(), "analysis","data", "usda_plants_20160713.csv")
-# Apply download.file function in R
-download.file(url, destFile)
-```
-
-```{r, include = FALSE, eval=FALSE}
-#usda_plants <- read_csv(file.path(here::here(), "analysis", "data", "usda_plants_20160713.csv"))
-
-# Error in nchar(x) : invalid multibyte string, element 2
-# ^ Issue with some of the column names in the .csv? 
-```
-
-
-
-### BIEN 
-
-RBIEN tutorial: https://cmerow.github.io/RDataScience/3_3_RBIEN_tutorial.html
-
-```{r install_load_packages_bien, message=FALSE, warning=FALSE}
-library(BIEN)
-library(ape) # Package for working with phylogenies in R
-library(maps) # Useful for making quick maps of occurrences
-library(sp) # A package for spatial data
-```
-
-BIEN traits and taxonomic data
-
-"Let’s say we’re interested in the genus [Abies], and we’d like to get an idea of how many species there are in this genus and what higher taxa it falls within."
-
-*Abies* genus is fir trees (coniferous trees). The "higher_plant_group" returned by the BIEN taxonomy function is "gymnosperms (conifers)"
-
-```{r}
-Abies_taxonomy<-BIEN_taxonomy_genus(genus = "Abies")
-
-#View(Abies_taxonomy)
-Abies_taxonomy[1:3,]
-```
-
-*Acer rubrum* species is the red maple (deciduous trees). The "higher_plant_group" returned by the BIEN taxonomy is "flowering plants".
-
-```{r}
-Acer_rubrum_taxonomy <- BIEN_taxonomy_species(species = "Acer rubrum")
-Acer_rubrum_taxonomy[1:3,]
-```
-
-### TRY Database
-
-https://www.try-db.org/TryWeb/Home.php
-
-### Taxize
-
-https://www.rdocumentation.org/packages/taxize/versions/0.9.99
-
-
-
 ## Manually add PFTs to spectral library
 
 ```{r load_cleaned_spectra, message=FALSE}
@@ -103,7 +16,6 @@ https://www.rdocumentation.org/packages/taxize/versions/0.9.99
 cleaned_spectra <- read_csv(here::here("analysis", "data", "derived_data", "cleaned_spectra.csv"))
 ```
 
-unique(cleaned_spectra$scientificName)
 
 ```{r}
 # list unique taxon labels, add an empty columns to fill with plant functional type (PFT) and common name labels.
@@ -199,6 +111,66 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$pft[i] = "woody_shrub"
     taxon_pft_lookup$commonName[i] = "Amur honeysuckle"}
   
+  else if(genusSpecies == "Ailanthus altissima"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "tree of heaven"}
+  
+  else if(genusSpecies == "Prunus serotina"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "black cherrt"}
+  
+  else if(genusSpecies == "Celtis occidentalis"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "common hackberry"}
+  
+  else if(genusSpecies == "Quercus alba"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "white oak"}
+  
+  else if(genusSpecies == "Juglans nigra"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "black walnut"}
+  
+  else if(genusSpecies == "Robinia pseudoacacia"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "black locust"}
+  
+  else if(genusSpecies == "Pinus strobus"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "eastern white pine"}
+  
+  else if(genusSpecies == "Carya glabra"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "pignut hickory"}
+  
+  else if(genusSpecies == "Tetradium daniellii"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "bee-bee tree"}
+  
+  else if(genusSpecies == "Juniperus virginiana"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "red cedar"}
+  
+  else if(genusSpecies == "Picea mariana"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "black spruce"}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
   else if(genusSpecies == ""){
     taxon_pft_lookup$pft[i] = ""
     taxon_pft_lookup$commonName[i] = ""}
@@ -212,3 +184,87 @@ for(i in 1:nrow(taxon_pft_lookup)){
 taxon_pft_lookup$pft(taxon_pft_lookup$genusSpecies == "Pseudotsuga menziesii") <- "coniferous_forest"
 ```
 
+## R packages: attempting to automate PFT labeling
+
+### USDA Plants Database
+
+USDA Plants Database R API tutorial: https://recology.info/2016/10/usda-plants-database-r/ 
+
+The USDA maintains a database of plant information, some of it trait data, some of it life history. Check it out at http://plants.usda.gov/java/
+
+```{r install_load_packages, message=FALSE}
+#install.packages("request")
+#library(devtools)
+#devtools::install_github("sckott/request")
+library(request)
+library(tibble)
+library(tidyverse)
+library(here)
+```
+
+```{r}
+# Set the base url
+root <- api("https://plantsdb.xyz")
+
+root %>% api_path(heartbeat)
+```
+
+^^ My results here do not match those that show up on the tutorial page above. Maybe the API is down or the URL has changed? 
+
+Based on the GitHub issue discussion (https://github.com/USDA/USDA-APIs/issues/7), someone uploaded USDA plants data here from 2016: https://uofi.app.box.com/v/usdaplants
+
+```{r, eval=FALSE, include=FALSE}
+# Specify URL where file is stored 
+url <- "https://uofi.app.box.com/v/usdaplants/folder/6688524249/usda_plants_20160713.csv"
+destFile <- file.path(here::here(), "analysis","data", "usda_plants_20160713.csv")
+# Apply download.file function in R
+download.file(url, destFile)
+```
+
+```{r, include = FALSE, eval=FALSE}
+#usda_plants <- read_csv(file.path(here::here(), "analysis", "data", "usda_plants_20160713.csv"))
+
+# Error in nchar(x) : invalid multibyte string, element 2
+# ^ Issue with some of the column names in the .csv? 
+```
+
+
+
+### BIEN 
+
+RBIEN tutorial: https://cmerow.github.io/RDataScience/3_3_RBIEN_tutorial.html
+
+```{r install_load_packages_bien, message=FALSE, warning=FALSE}
+library(BIEN)
+library(ape) # Package for working with phylogenies in R
+library(maps) # Useful for making quick maps of occurrences
+library(sp) # A package for spatial data
+```
+
+BIEN traits and taxonomic data
+
+"Let’s say we’re interested in the genus [Abies], and we’d like to get an idea of how many species there are in this genus and what higher taxa it falls within."
+
+*Abies* genus is fir trees (coniferous trees). The "higher_plant_group" returned by the BIEN taxonomy function is "gymnosperms (conifers)"
+
+```{r}
+Abies_taxonomy<-BIEN_taxonomy_genus(genus = "Abies")
+
+#View(Abies_taxonomy)
+Abies_taxonomy[1:3,]
+```
+
+*Acer rubrum* species is the red maple (deciduous trees). The "higher_plant_group" returned by the BIEN taxonomy is "flowering plants".
+
+```{r}
+Acer_rubrum_taxonomy <- BIEN_taxonomy_species(species = "Acer rubrum")
+Acer_rubrum_taxonomy[1:3,]
+```
+
+### TRY Database
+
+https://www.try-db.org/TryWeb/Home.php
+
+### Taxize
+
+https://www.rdocumentation.org/packages/taxize/versions/0.9.99
