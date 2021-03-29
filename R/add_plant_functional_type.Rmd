@@ -1,5 +1,5 @@
 ---
-title: "Add Plant Functional Type labels"
+title: "Add Plant Functional Type (PFT) labels"
 output: html_document
 ---
 
@@ -7,7 +7,11 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## USDA Plants Database
+Plant functional types (PFTs) of interest: coniferous forest, deciduous forest, woody shrub, grass/herb, and bare ground.
+
+## R packages
+
+### USDA Plants Database
 
 USDA Plants Database R API tutorial: https://recology.info/2016/10/usda-plants-database-r/ 
 
@@ -42,7 +46,7 @@ destFile <- file.path(here::here(), "analysis","data", "usda_plants_20160713.csv
 download.file(url, destFile)
 ```
 
-```{r}
+```{r, include = FALSE, eval=FALSE}
 #usda_plants <- read_csv(file.path(here::here(), "analysis", "data", "usda_plants_20160713.csv"))
 
 # Error in nchar(x) : invalid multibyte string, element 2
@@ -51,26 +55,16 @@ download.file(url, destFile)
 
 
 
-## BIEN 
+### BIEN 
 
 RBIEN tutorial: https://cmerow.github.io/RDataScience/3_3_RBIEN_tutorial.html
 
-```{r install_load_packages_bien, message=FALSE}
+```{r install_load_packages_bien, message=FALSE, warning=FALSE}
 library(BIEN)
 library(ape) # Package for working with phylogenies in R
 library(maps) # Useful for making quick maps of occurrences
 library(sp) # A package for spatial data
 ```
-
-"Let’s say we’re interested in the species Xanthium strumarium and we’d like some occurrence data."
-
-```{r}
-Xanthium_strumarium <- BIEN_occurrence_species(species = "Xanthium strumarium")
-#View(Xanthium_strumarium)
-head(Xanthium_strumarium)
-str(Xanthium_strumarium)
-```
-
 
 BIEN traits and taxonomic data
 
@@ -82,46 +76,136 @@ BIEN traits and taxonomic data
 Abies_taxonomy<-BIEN_taxonomy_genus(genus = "Abies")
 
 #View(Abies_taxonomy)
-Abies_taxonomy[1:10,]
+Abies_taxonomy[1:3,]
 ```
 
-*Acer* genus is maple trees (deciduous trees). The "higher_plant_group" returned by the BIEN taxonomy is "flowering plants".
-
-```{r}
-Acer_taxonomy<-BIEN_taxonomy_genus(genus = "Acer")
-
-#View(Acer_taxonomy)
-Acer_taxonomy[1:10,]
-```
 *Acer rubrum* species is the red maple (deciduous trees). The "higher_plant_group" returned by the BIEN taxonomy is "flowering plants".
 
 ```{r}
 Acer_rubrum_taxonomy <- BIEN_taxonomy_species(species = "Acer rubrum")
-Acer_rubrum_taxonomy[1:10,]
-```
-```{r}
-Artemisia_tridentata_taxonomy <- BIEN_taxonomy_species(species = "Artemisia tridentata")
-Artemisia_tridentata_taxonomy[1:10,]
-```
-```{r}
-Carpinus_caroliniana_taxonomy <- BIEN_taxonomy_species(species = "Carpinus caroliniana")
-Carpinus_caroliniana_taxonomy[1:5,]
+Acer_rubrum_taxonomy[1:3,]
 ```
 
-```{r}
-Juniperus_virginiana_taxonomy <- BIEN_taxonomy_species(species = "Juniperus virginiana")
-Juniperus_virginiana_taxonomy[1:nrow(Juniperus_virginiana_taxonomy),]
-```
-```{r}
-Quercus_laevis_taxonomy <- BIEN_taxonomy_species(species = "Quercus laevis")
-Quercus_laevis_taxonomy[1:nrow(Quercus_laevis_taxonomy),]
-```
-
-## TRY Database
+### TRY Database
 
 https://www.try-db.org/TryWeb/Home.php
 
-
-## Taxize
+### Taxize
 
 https://www.rdocumentation.org/packages/taxize/versions/0.9.99
+
+
+
+## Manually add PFTs to spectral library
+
+```{r load_cleaned_spectra, message=FALSE}
+# read cleaned spectral library file 
+cleaned_spectra <- read_csv(here::here("analysis", "data", "derived_data", "cleaned_spectra.csv"))
+```
+
+```{r}
+# list unique taxon labels, add an empty columns to fill with plant functional type (PFT) and common name labels.
+# PFTs of interest: coniferous_forest, deciduous_forest, woody_shrub, grass_herb, and bare_ground.
+taxon_pft_lookup <- data.frame(genusSpecies = unique(cleaned_spectra$genusSpecies),
+                               commonName = NA,
+                               pft = NA)
+
+for(i in 1:nrow(taxon_pft_lookup)){
+  # print row and current genusSpecies label
+  print(i)
+  genusSpecies <- taxon_pft_lookup$genusSpecies[i]
+  print(genusSpecies)
+  
+  if(genusSpecies == "Pseudotsuga menziesii"){
+    taxon_pft_lookup$pft[i] = "coniferous_forest"
+    taxon_pft_lookup$commonName[i] = "Douglas-fir"} 
+  
+  else if(genusSpecies == "Alnus rubra"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"  # deciduous broadleaf tree 
+    taxon_pft_lookup$commonName[i] = "red alder"}
+  
+  else if(genusSpecies == "Vaccinium parvifolium"){ 
+    taxon_pft_lookup$pft[i] = "woody_shrub"       # deciduous Shrub
+    taxon_pft_lookup$commonName[i] = "red huckleberry"}
+  
+  else if(genusSpecies == "Mahonia nervosa"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"      # evergreen shrub
+    taxon_pft_lookup$commonName[i] = "Cascade barberry"}
+  
+  else if(genusSpecies == "Corylus cornuta"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"      # deciduous shrubby hazel
+    taxon_pft_lookup$commonName[i] = "beaked hazelnut"}
+
+  else if(genusSpecies == "Gaultheria shallon"){
+    taxon_pft_lookup$pft[i] = "woody_shrub"     # broadleaved evergreen shrub
+    taxon_pft_lookup$commonName[i] = "salal"}
+  
+  else if(genusSpecies == "Acer circinatum"){
+    taxon_pft_lookup$pft[i] = "deciduous_forest"
+    taxon_pft_lookup$commonName[i] = "vine maple"}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else if(genusSpecies == ""){
+    taxon_pft_lookup$pft[i] = ""
+    taxon_pft_lookup$commonName[i] = ""}
+  
+  else print("PFT unknown")
+  
+  # print corresponding PFT
+  print(taxon_pft_lookup$pft[i])
+}
+
+taxon_pft_lookup$pft(taxon_pft_lookup$genusSpecies == "Pseudotsuga menziesii") <- "coniferous_forest"
+```
+
