@@ -11,6 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(here)
 library(dplyr)
+library(kableExtra)
 ```
 
 
@@ -35,9 +36,9 @@ taxon_pft_lookup <- data.frame(genusSpecies = unique(cleaned_spectra$genusSpecie
 
 for(i in 1:nrow(taxon_pft_lookup)){
   # print row and current genusSpecies label
-  print(i)
+  #print(i)
   genusSpecies <- taxon_pft_lookup$genusSpecies[i]
-  print(genusSpecies)
+  #print(genusSpecies)
   
   if(genusSpecies == "Abies amabilis"){
     taxon_pft_lookup$pft[i] = "coniferous_forest"
@@ -623,15 +624,22 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$pft[i] = "???" # forb/herb, subshrub - grass_herb?
     taxon_pft_lookup$commonName[i] = "desert zinnia"}
 
-
+  # For taxons not described in this code
+  #else #print("PFT unknown")
   
-  # For taxons not described in this code, set their PFT to unknown
-  else print("PFT unknown")
-  
-  # print corresponding PFT
-  print(taxon_pft_lookup$pft[i])
 }
 
+```
+
+```{r}
+kableExtra::kable(taxon_pft_lookup) %>% 
+  kableExtra::kable_styling(bootstrap_options = "striped")
+```
+
+```{r}
+# write the lookup table to a csv 
+write_csv(x = taxon_pft_lookup,
+          file = here::here("R","output","taxon_pft_lookup.csv"))
 ```
 
 ## R packages: attempting to automate PFT labeling
