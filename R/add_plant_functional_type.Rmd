@@ -17,12 +17,59 @@ library(kableExtra)
 
 Plant functional types (PFTs) of interest: coniferous forest, deciduous forest, woody shrub, grass/herb, and bare ground.
 
-## Manually add PFTs to spectral library
-
 ```{r load_cleaned_spectra, message=FALSE}
 # read cleaned spectral library file 
 cleaned_spectra <- read_csv(here::here("analysis", "data", "derived_data", "cleaned_spectra.csv"))
 ```
+
+
+## Use NEON growthForm observations 
+
+```{r}
+library(neonUtilities)
+```
+
+```{r}
+# download woody vegetation structure data for all sites and years 
+out_dir <- here::here("analysis","data","raw_data")
+
+neonUtilities::zipsByProduct(dpID = "DP1.10098.001",
+              savepath = out_dir,
+              check.size = FALSE)
+
+stackByTable(file.path(out_dir, "filesToStack10098"), folder = TRUE)
+```
+
+```{r}
+# read the vst_apparentindividual table, which has growthForm data
+
+vst_apparentindividual <- read_csv(out_dir <- here::here("analysis","data","raw_data", "filesToStack10098",
+                                                         "stackedFiles", "vst_apparentindividual.csv"))
+
+growthForms <- vst_apparentindividual %>% 
+  select(uid, growthForm)
+
+# merge the growthForm column into the spectra data by uid 
+cleaned_spectra_merged <- merge(cleaned_spectra, growthForms, by = "uid", all.x=TRUE)
+
+```
+
+```{r}
+# summarize the downloaded growthform data to see which growth forms are assigned to each species 
+growthForms %>% 
+    distinct(uid, .keep_all = TRUE) %>% 
+    group_by(growthForm) %>% 
+    tally() 
+
+
+# summarize the merged growthform data
+
+
+```
+
+
+
+## Manually add PFTs to spectral library
 
 
 ```{r}
