@@ -60,6 +60,7 @@ unique(cleaned_spectra_merged$growthForm)
 cleaned_spectra_merged <- cleaned_spectra_merged %>% 
   rowwise() %>%
   # parse out the last word in each entry's growthForm
+  # make this code more efficient????? 
   mutate(growthForm_simple = rev(strsplit(growthForm, " ")[[1]])[1])
 
 ```
