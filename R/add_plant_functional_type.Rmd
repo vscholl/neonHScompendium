@@ -42,30 +42,30 @@ stackByTable(file.path(out_dir, "filesToStack10098"), folder = TRUE)
 
 ```{r}
 # read the vst_apparentindividual table, which has growthForm data
-
 vst_apparentindividual <- read_csv(out_dir <- here::here("analysis","data","raw_data", "filesToStack10098",
                                                          "stackedFiles", "vst_apparentindividual.csv"))
 
+# select the growthForm and height columns
 growthForms <- vst_apparentindividual %>% 
-  select(individualID, growthForm)
+  select(individualID, growthForm, height)
 
-# merge the growthForm column into the spectra data
+# join the growthForm and height columns into the spectra data frame
 cleaned_spectra_merged <- right_join(cleaned_spectra, growthForms, by = "individualID")
+
+# print all unique growthForm values 
+unique(cleaned_spectra_merged$growthForm)
+
+
+# simplify the growth form into "tree" or "shrub" 
+cleaned_spectra_merged <- cleaned_spectra_merged %>% 
 
 ```
 
 ```{r}
-# summarize the downloaded growthform data to see which growth forms are assigned to each species 
-growthForms %>% 
-    distinct(uid, .keep_all = TRUE) %>% 
-    group_by(growthForm) %>% 
-    tally() 
-
-
 # summarize the merged growthform data
 cleaned_spectra_merged %>% 
   distinct(spectraID, .keep_all = TRUE) %>% 
-  group_by(growthForm) %>% 
+  group_by(genusSpecies, growthForm) %>% 
     tally() 
 ```
 
