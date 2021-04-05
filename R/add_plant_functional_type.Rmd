@@ -47,10 +47,10 @@ vst_apparentindividual <- read_csv(out_dir <- here::here("analysis","data","raw_
                                                          "stackedFiles", "vst_apparentindividual.csv"))
 
 growthForms <- vst_apparentindividual %>% 
-  select(uid, growthForm)
+  select(individualID, growthForm)
 
-# merge the growthForm column into the spectra data by uid 
-cleaned_spectra_merged <- merge(cleaned_spectra, growthForms, by = "uid", all.x=TRUE)
+# merge the growthForm column into the spectra data
+cleaned_spectra_merged <- right_join(cleaned_spectra, growthForms, by = "individualID")
 
 ```
 
@@ -63,8 +63,10 @@ growthForms %>%
 
 
 # summarize the merged growthform data
-
-
+cleaned_spectra_merged %>% 
+  distinct(spectraID, .keep_all = TRUE) %>% 
+  group_by(growthForm) %>% 
+    tally() 
 ```
 
 
