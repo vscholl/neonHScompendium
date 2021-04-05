@@ -668,7 +668,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$commonName[i] = "red huckleberry"}
   
   else if(genusSpecies == "Zinnia acerosa"){
-    taxon_pft_lookup$pft[i] = "???" # forb/herb, subshrub - grass_herb?
+    taxon_pft_lookup$pft[i] = "grass_herb" # forb/herb, subshrub - grass_herb?
     taxon_pft_lookup$commonName[i] = "desert zinnia"}
 
   # For taxons not described in this code
