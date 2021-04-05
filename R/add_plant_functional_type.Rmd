@@ -56,8 +56,11 @@ cleaned_spectra_merged <- right_join(cleaned_spectra, growthForms, by = "individ
 unique(cleaned_spectra_merged$growthForm)
 
 
-# simplify the growth form into "tree" or "shrub" 
+# simplify the growth form into "tree", "shrub", "saplng" etc.  
 cleaned_spectra_merged <- cleaned_spectra_merged %>% 
+  rowwise() %>%
+  # parse out the last word in each entry's growthForm
+  mutate(growthForm_simple = rev(strsplit(growthForm, " ")[[1]])[1])
 
 ```
 
@@ -65,7 +68,7 @@ cleaned_spectra_merged <- cleaned_spectra_merged %>%
 # summarize the merged growthform data
 cleaned_spectra_merged %>% 
   distinct(spectraID, .keep_all = TRUE) %>% 
-  group_by(genusSpecies, growthForm) %>% 
+  group_by(genusSpecies, growthForm_simple) %>% 
     tally() 
 ```
 
