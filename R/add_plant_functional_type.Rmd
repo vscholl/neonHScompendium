@@ -56,7 +56,7 @@ cleaned_spectra_merged <- right_join(cleaned_spectra, growthForms, by = "individ
 unique(cleaned_spectra_merged$growthForm)
 
 
-# simplify the growth form into "tree", "shrub", "saplng" etc.  
+# simplify the growth form into "tree", "shrub", "sapling" etc.  
 cleaned_spectra_merged <- cleaned_spectra_merged %>% 
   rowwise() %>%
   # parse out the last word in each entry's growthForm
@@ -71,8 +71,15 @@ cleaned_spectra_merged %>%
   distinct(spectraID, .keep_all = TRUE) %>% 
   group_by(genusSpecies, growthForm_simple) %>% 
     tally() 
-```
 
+# summarize the merged growthform data
+cleaned_spectra_merged %>% 
+  distinct(spectraID, .keep_all = TRUE) %>% 
+  # keep just the tree and shrub growth forms, remove rows with "sampling" and "liana"
+  filter(growthForm_simple %in% c("tree","shrub")) %>% 
+  group_by(genusSpecies, growthForm_simple) %>% 
+    tally() 
+```
 
 
 ## Manually add PFTs to spectral library
