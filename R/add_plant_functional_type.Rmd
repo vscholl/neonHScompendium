@@ -99,10 +99,10 @@ This code manually adds labels to each taxon (genus and species listed here) for
     - deciduous_forest
     - woody_shrub
 - pft_MODIS (based on MODIS land cover classes)
-    - evergreen_needleleaf
-    - evergreen_broadleaf
-    - deciduous_needlelead
-    - deciduous_broadleaf
+    - evergreen-needleleaf_forest
+    - evergreen-broadleaf_forest
+    - deciduous-needleleaf_forest
+    - deciduous-broadleaf_forest
     - shrub
 - phenology (evergreen or deciduous)
 - leaf type (broadleaf or needleleaf)
@@ -114,7 +114,7 @@ This code manually adds labels to each taxon (genus and species listed here) for
 taxon_pft_lookup <- data.frame(genusSpecies = unique(cleaned_spectra$genusSpecies),
                                commonName = NA,
                                pft_MRA = NA,
-                               pft_MODIS = ,
+                               pft_MODIS = NA,
                                phenology = NA,
                                leafType = NA,
                                growthForm = NA) %>% 
@@ -129,7 +129,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   if(genusSpecies == "Abies amabilis"){
     taxon_pft_lookup$pft_MRA[i] = "coniferous_forest" 
-    taxon_pft_lookup$pft_MODIS[i] = 
+    taxon_pft_lookup$pft_MODIS[i] = "evergreen-needleleaf_forest"
     taxon_pft_lookup$phenology[i] = "evergreen"
     taxon_pft_lookup$leafType[i] = "needleleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -137,6 +137,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Abies balsamea"){
     taxon_pft_lookup$pft_MRA[i] = "coniferous_forest" 
+    taxon_pft_lookup$pft_MODIS[i] = "evergreen-needleleaf_forest"
     taxon_pft_lookup$phenology[i] = "evergreen"
     taxon_pft_lookup$leafType[i] = "needleleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -144,6 +145,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Abies lasiocarpa"){
     taxon_pft_lookup$pft_MRA[i] = "coniferous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "evergreen-needleleaf_forest"
     taxon_pft_lookup$phenology[i] = "evergreen"
     taxon_pft_lookup$leafType[i] = "needleleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -151,13 +153,15 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Acacia greggii"){
     taxon_pft_lookup$pft_MRA[i] = "woody_shrub" 
+    taxon_pft_lookup$pft_MODIS[i] = "shrub"
     taxon_pft_lookup$phenology[i] = "deciduous"
-    taxon_pft_lookup$leafType[i] = ""
+    taxon_pft_lookup$leafType[i] = "NA"
     taxon_pft_lookup$growthForm[i] = "shrub"
     taxon_pft_lookup$commonName[i] = "catclaw acacia"}
   
   else if(genusSpecies == "Acer barbatum"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -165,6 +169,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Acer circinatum"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest" 
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -172,6 +177,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Acer negundo"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -179,6 +185,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Acer pensylvanicum"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -186,6 +193,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Acer rubrum"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -193,6 +201,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Acer saccharinum"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -200,6 +209,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Acer saccharum"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -207,6 +217,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Ailanthus altissima"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -214,6 +225,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Alnus rubra"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -221,6 +233,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Aloysia wrightii"){
     taxon_pft_lookup$pft_MRA[i] = "woody_shrub"
+    taxon_pft_lookup$pft_MODIS[i] = "shrub"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "NA"
     taxon_pft_lookup$growthForm[i] = "shrub"
@@ -228,13 +241,15 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Amelanchier laevis"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
     taxon_pft_lookup$commonName[i] = "Allegheny serviceberry"}
   
   else if(genusSpecies == "Amyris elemifera"){
-    taxon_pft_lookup$pft_MRA[i] = "???" # is not deciduous or coniferous forest
+    taxon_pft_lookup$pft_MRA[i] = "NA" # is not deciduous or coniferous forest
+    taxon_pft_lookup$pft_MODIS[i] = "evergreen-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "evergreen"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -242,6 +257,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Artemisia tridentata"){
     taxon_pft_lookup$pft_MRA[i] = "woody_shrub"
+    taxon_pft_lookup$pft_MODIS[i] = "shrub"
     taxon_pft_lookup$phenology[i] = "evergreen"
     taxon_pft_lookup$leafType[i] = "NA"
     taxon_pft_lookup$growthForm[i] = "shrub"
@@ -249,6 +265,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Atriplex canescens"){
     taxon_pft_lookup$pft_MRA[i] = "woody_shrub"
+    taxon_pft_lookup$pft_MODIS[i] = "shrub"
     taxon_pft_lookup$phenology[i] = "evergreen"
     taxon_pft_lookup$leafType[i] = "NA"
     taxon_pft_lookup$growthForm[i] = "shrub"
@@ -256,6 +273,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Atriplex confertifolia"){
     taxon_pft_lookup$pft_MRA[i] = "woody_shrub"
+    taxon_pft_lookup$pft_MODIS[i] = "shrub"
     taxon_pft_lookup$phenology[i] = "evergreen"
     taxon_pft_lookup$leafType[i] = "NA"
     taxon_pft_lookup$growthForm[i] = "shrub"
@@ -263,6 +281,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Betula alleghaniensis"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -270,6 +289,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Betula lenta"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -277,6 +297,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Betula neoalaskana"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -284,6 +305,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Betula nigra"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -291,6 +313,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Betula papyrifera"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -298,6 +321,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Betula sp."){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -305,6 +329,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Bourreria sp."){
     taxon_pft_lookup$pft_MRA[i] = "NA"  # taxon class is too broad to specify 
+    taxon_pft_lookup$pft_MODIS[i] = "NA"
     taxon_pft_lookup$phenology[i] = "NA"
     taxon_pft_lookup$leafType[i] = "NA"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -312,6 +337,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Bursera simaruba"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"  
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -319,6 +345,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Carpinus caroliniana"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -326,6 +353,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Carya aquatica"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -333,6 +361,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Carya cordiformis"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -340,6 +369,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
 
   else if(genusSpecies == "Carya glabra"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -347,6 +377,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Carya illinoinensis"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -354,6 +385,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Carya ovalis"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -361,6 +393,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Carya ovata"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -368,6 +401,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Carya tomentosa"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -375,6 +409,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Celtis laevigata"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -382,6 +417,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Celtis occidentalis"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -389,6 +425,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Cercis canadensis"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -396,6 +433,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Chrysothamnus viscidiflorus"){
     taxon_pft_lookup$pft_MRA[i] = "woody_shrub"
+    taxon_pft_lookup$pft_MODIS[i] = "shrub"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "NA"
     taxon_pft_lookup$growthForm[i] = "shrub"
@@ -403,6 +441,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Cordia collococca"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -410,6 +449,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Cornus drummondii"){
     taxon_pft_lookup$pft_MRA[i] = "woody_shrub" 
+    taxon_pft_lookup$pft_MODIS[i] = "shrub"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "NA"
     taxon_pft_lookup$growthForm[i] = "shrub"
@@ -417,6 +457,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Cornus florida"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -424,13 +465,15 @@ for(i in 1:nrow(taxon_pft_lookup)){
 
   else if(genusSpecies == "Corylus cornuta"){
     taxon_pft_lookup$pft_MRA[i] = "woody_shrub" 
+    taxon_pft_lookup$pft_MODIS[i] = "shrub"
     taxon_pft_lookup$phenology[i] = "deciduous"
-    taxon_pft_lookup$leafType[i] = ""
+    taxon_pft_lookup$leafType[i] = "NA"
     taxon_pft_lookup$growthForm[i] = "shrub"
     taxon_pft_lookup$commonName[i] = "beaked hazelnut"}
   
   else if(genusSpecies == "Diospyros virginiana"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -438,6 +481,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Ephedra trifurca"){
     taxon_pft_lookup$pft_MRA[i] = "woody_shrub"
+    taxon_pft_lookup$pft_MODIS[i] = "shrub"
     taxon_pft_lookup$phenology[i] = "evergreen"
     taxon_pft_lookup$leafType[i] = "NA"
     taxon_pft_lookup$growthForm[i] = "shrub"
@@ -445,13 +489,15 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Ericameria laricifolia"){
     taxon_pft_lookup$pft_MRA[i] = "woody_shrub"
+    taxon_pft_lookup$pft_MODIS[i] = "shrub"
     taxon_pft_lookup$phenology[i] = "evergreen"
     taxon_pft_lookup$leafType[i] = "NA"
     taxon_pft_lookup$growthForm[i] = "shrub"
     taxon_pft_lookup$commonName[i] = "turpentine bush"}
   
   else if(genusSpecies == "Exostema caribaeum"){
-    taxon_pft_lookup$pft_MRA[i] = "???"  # not deciduous or coniferous
+    taxon_pft_lookup$pft_MRA[i] = "NA"  # not deciduous or coniferous
+    taxon_pft_lookup$pft_MODIS[i] = "evergreen-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "evergreen"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -459,6 +505,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Fagus grandifolia"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -466,6 +513,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Frangula purshiana"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"    
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -473,6 +521,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Fraxinus americana"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -480,6 +529,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Fraxinus nigra"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -487,6 +537,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Fraxinus pennsylvanica"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -494,6 +545,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Fraxinus sp."){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -501,13 +553,15 @@ for(i in 1:nrow(taxon_pft_lookup)){
 
   else if(genusSpecies == "Gaultheria shallon"){
     taxon_pft_lookup$pft_MRA[i] = "woody_shrub"
+    taxon_pft_lookup$pft_MODIS[i] = "shrub"
     taxon_pft_lookup$phenology[i] = "evergreen"
-    taxon_pft_lookup$leafType[i] = ""
+    taxon_pft_lookup$leafType[i] = "NA"
     taxon_pft_lookup$growthForm[i] = "shrub"
     taxon_pft_lookup$commonName[i] = "salal"}
   
   else if(genusSpecies == "Gleditsia triacanthos"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -515,6 +569,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Gutierrezia sarothrae"){
     taxon_pft_lookup$pft_MRA[i] = "woody_shrub"
+    taxon_pft_lookup$pft_MODIS[i] = "shrub"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "NA"
     taxon_pft_lookup$growthForm[i] = "shrub"
@@ -522,6 +577,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Halesia sp."){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -529,6 +585,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Hamamelis virginiana"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -536,13 +593,15 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Ilex montana"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "deciduous"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
     taxon_pft_lookup$commonName[i] = "mountain holly"}
   
   else if(genusSpecies == "Ilex opaca"){
-    taxon_pft_lookup$pft_MRA[i] = "???"  # not deciduous or coniferous 
+    taxon_pft_lookup$pft_MRA[i] = "NA"  # not deciduous or coniferous 
+    taxon_pft_lookup$pft_MODIS[i] = "evergreen-broadleaf_forest"
     taxon_pft_lookup$phenology[i] = "evergreen"
     taxon_pft_lookup$leafType[i] = "broadleaf"
     taxon_pft_lookup$growthForm[i] = "tree"
@@ -550,6 +609,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Juglans nigra"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = ""
     taxon_pft_lookup$phenology[i] = ""
     taxon_pft_lookup$leafType[i] = ""
     taxon_pft_lookup$growthForm[i] = ""
@@ -557,6 +617,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Juniperus osteosperma"){
     taxon_pft_lookup$pft_MRA[i] = "coniferous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = ""
     taxon_pft_lookup$phenology[i] = ""
     taxon_pft_lookup$leafType[i] = ""
     taxon_pft_lookup$growthForm[i] = ""
@@ -564,6 +625,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
 
   else if(genusSpecies == "Juniperus virginiana"){
     taxon_pft_lookup$pft_MRA[i] = "coniferous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = ""
     taxon_pft_lookup$phenology[i] = ""
     taxon_pft_lookup$leafType[i] = ""
     taxon_pft_lookup$growthForm[i] = ""
@@ -571,6 +633,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Larix sp."){
     taxon_pft_lookup$pft_MRA[i] = "coniferous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = ""
     taxon_pft_lookup$phenology[i] = ""
     taxon_pft_lookup$leafType[i] = ""
     taxon_pft_lookup$growthForm[i] = ""
@@ -578,6 +641,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Larrea tridentata"){
     taxon_pft_lookup$pft_MRA[i] = "woody_shrub"
+    taxon_pft_lookup$pft_MODIS[i] = ""
     taxon_pft_lookup$phenology[i] = ""
     taxon_pft_lookup$leafType[i] = ""
     taxon_pft_lookup$growthForm[i] = ""
@@ -585,6 +649,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Liquidambar styraciflua"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = ""
     taxon_pft_lookup$phenology[i] = ""
     taxon_pft_lookup$leafType[i] = ""
     taxon_pft_lookup$growthForm[i] = ""
@@ -592,6 +657,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Liriodendron tulipifera"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = ""
     taxon_pft_lookup$phenology[i] = ""
     taxon_pft_lookup$leafType[i] = ""
     taxon_pft_lookup$growthForm[i] = ""
@@ -599,6 +665,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Lonicera maackii"){
     taxon_pft_lookup$pft_MRA[i] = "woody_shrub"
+    taxon_pft_lookup$pft_MODIS[i] = ""
     taxon_pft_lookup$phenology[i] = ""
     taxon_pft_lookup$leafType[i] = ""
     taxon_pft_lookup$growthForm[i] = ""
@@ -606,13 +673,15 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Maclura pomifera"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"   # small deciduous tree or large shrub
+    taxon_pft_lookup$pft_MODIS[i] = ""
     taxon_pft_lookup$phenology[i] = ""
     taxon_pft_lookup$leafType[i] = ""
     taxon_pft_lookup$growthForm[i] = ""
     taxon_pft_lookup$commonName[i] = "Osage-orange"}
   
  else if(genusSpecies == "Magnolia sp."){
-    taxon_pft_lookup$pft_MRA[i] = "???"
+    taxon_pft_lookup$pft_MRA[i] = "NA"
+    taxon_pft_lookup$pft_MODIS[i] = ""
     taxon_pft_lookup$phenology[i] = ""
     taxon_pft_lookup$leafType[i] = ""
     taxon_pft_lookup$growthForm[i] = ""
@@ -620,13 +689,15 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Mahonia nervosa"){
     taxon_pft_lookup$pft_MRA[i] = "woody_shrub"      # evergreen shrub
+    taxon_pft_lookup$pft_MODIS[i] = ""
     taxon_pft_lookup$phenology[i] = ""
     taxon_pft_lookup$leafType[i] = ""
     taxon_pft_lookup$growthForm[i] = ""
     taxon_pft_lookup$commonName[i] = "Cascade barberry"}
   
   else if(genusSpecies == "Mangifera indica"){
-    taxon_pft_lookup$pft_MRA[i] = "???"       # ???   # broadleaf evergreen tree
+    taxon_pft_lookup$pft_MRA[i] = "NA"       # ???   # broadleaf evergreen tree
+    taxon_pft_lookup$pft_MODIS[i] = ""
     taxon_pft_lookup$phenology[i] = ""
     taxon_pft_lookup$leafType[i] = ""
     taxon_pft_lookup$growthForm[i] = ""
@@ -634,10 +705,18 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Melia azedarach"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = ""
+    taxon_pft_lookup$phenology[i] = ""
+    taxon_pft_lookup$leafType[i] = ""
+    taxon_pft_lookup$growthForm[i] = ""
     taxon_pft_lookup$commonName[i] = "Chinaberrytree"}
   
   else if(genusSpecies == "Morus rubra"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
+    taxon_pft_lookup$pft_MODIS[i] = ""
+    taxon_pft_lookup$phenology[i] = ""
+    taxon_pft_lookup$leafType[i] = ""
+    taxon_pft_lookup$growthForm[i] = ""
     taxon_pft_lookup$commonName[i] = "red mulberry"}
   
   else if(genusSpecies == "Nyssa aquatica"){
@@ -705,7 +784,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$commonName[i] = "loblolly pine"}
 
   else if(genusSpecies == "Pisonia albida"){
-    taxon_pft_lookup$pft_MRA[i] = "???"    # Growth Form - Multiple Stem, Height, Mature - 30ft
+    taxon_pft_lookup$pft_MRA[i] = "NA"    # Growth Form - Multiple Stem, Height, Mature - 30ft
     taxon_pft_lookup$commonName[i] = "corcho bobo"}
 
   else if(genusSpecies == "Platanus occidentalis"){
@@ -729,15 +808,15 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$commonName[i] = "quaking aspen"}
   
   else if(genusSpecies == "Prosopis glandulosa"){
-    taxon_pft_lookup$pft_MRA[i] = "???"   # shrub or tree ranging from 4 to 6m tall
+    taxon_pft_lookup$pft_MRA[i] = "NA"   # shrub or tree ranging from 4 to 6m tall
     taxon_pft_lookup$commonName[i] = "honey mesquite"}
   
   else if(genusSpecies == "Prosopis velutina"){
-    taxon_pft_lookup$pft_MRA[i] = "???" # deciduous shrub or tree is less than 15 m
+    taxon_pft_lookup$pft_MRA[i] = "NA" # deciduous shrub or tree is less than 15 m
     taxon_pft_lookup$commonName[i] = "velvet mesquite"}
   
   else if(genusSpecies == "Prunus americana"){
-    taxon_pft_lookup$pft_MRA[i] = "???" # deciduous large shrub or small tree, reaching heights up to 15 feet
+    taxon_pft_lookup$pft_MRA[i] = "NA" # deciduous large shrub or small tree, reaching heights up to 15 feet
     taxon_pft_lookup$commonName[i] = "American plum"}
   
   else if(genusSpecies == "Prunus angustifolia"){
@@ -745,11 +824,11 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$commonName[i] = "Chickasaw plum"}
   
   else if(genusSpecies == "Prunus mexicana"){
-    taxon_pft_lookup$pft_MRA[i] = "???"
+    taxon_pft_lookup$pft_MRA[i] = "NA"
     taxon_pft_lookup$commonName[i] = "Mexican plum"}
 
   else if(genusSpecies == "Prunus serotina"){
-    taxon_pft_lookup$pft_MRA[i] = "???"       
+    taxon_pft_lookup$pft_MRA[i] = "NA"       
     taxon_pft_lookup$commonName[i] = "black cherry"}
   
   else if(genusSpecies == "Pseudotsuga menziesii"){
@@ -833,7 +912,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$commonName[i] = "Shumard's oak"}
   
   else if(genusSpecies == "Quercus sp."){
-    taxon_pft_lookup$pft_MRA[i] = "???"  # apparently there are evergreen oak species? 
+    taxon_pft_lookup$pft_MRA[i] = "NA"  # apparently there are evergreen oak species? 
     taxon_pft_lookup$commonName[i] = "oak"}
   
   else if(genusSpecies == "Quercus stellata"){
@@ -849,7 +928,7 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$commonName[i] = "live oak"}
   
   else if(genusSpecies == "Rhamnus davurica"){
-    taxon_pft_lookup$pft_MRA[i] = "???"     #  spreading shrub or small tree reaching 25 to 30 feet
+    taxon_pft_lookup$pft_MRA[i] = "NA"     #  spreading shrub or small tree reaching 25 to 30 feet
     taxon_pft_lookup$commonName[i] = "Dahurian buckthorn"}
   
   else if(genusSpecies == "Rhus aromatica"){
@@ -873,11 +952,11 @@ for(i in 1:nrow(taxon_pft_lookup)){
     taxon_pft_lookup$commonName[i] = "sassafras"}
   
   else if(genusSpecies == "Sideroxylon lanuginosum"){
-    taxon_pft_lookup$pft_MRA[i] = "???" # deciduous multi-trunked tall shrub or medium-sized tree to 48ft or more
+    taxon_pft_lookup$pft_MRA[i] = "NA" # deciduous multi-trunked tall shrub or medium-sized tree to 48ft or more
     taxon_pft_lookup$commonName[i] = "gum bully"}
   
   else if(genusSpecies == "Symplocos sp."){
-    taxon_pft_lookup$pft_MRA[i] = "???"  # "deciduous or evergreen shrub or tree"
+    taxon_pft_lookup$pft_MRA[i] = "NA"  # "deciduous or evergreen shrub or tree"
     taxon_pft_lookup$commonName[i] = "sweetleaf"}
   
   else if(genusSpecies == "Taxus brevifolia"){
