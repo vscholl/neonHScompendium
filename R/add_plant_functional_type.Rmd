@@ -609,34 +609,34 @@ for(i in 1:nrow(taxon_pft_lookup)){
   
   else if(genusSpecies == "Juglans nigra"){
     taxon_pft_lookup$pft_MRA[i] = "deciduous_forest"
-    taxon_pft_lookup$pft_MODIS[i] = ""
-    taxon_pft_lookup$phenology[i] = ""
-    taxon_pft_lookup$leafType[i] = ""
-    taxon_pft_lookup$growthForm[i] = ""
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-broadleaf_forest"
+    taxon_pft_lookup$phenology[i] = "deciduous"
+    taxon_pft_lookup$leafType[i] = "broadleaf"
+    taxon_pft_lookup$growthForm[i] = "tree"
     taxon_pft_lookup$commonName[i] = "black walnut"}
   
   else if(genusSpecies == "Juniperus osteosperma"){
     taxon_pft_lookup$pft_MRA[i] = "coniferous_forest"
-    taxon_pft_lookup$pft_MODIS[i] = ""
-    taxon_pft_lookup$phenology[i] = ""
-    taxon_pft_lookup$leafType[i] = ""
-    taxon_pft_lookup$growthForm[i] = ""
+    taxon_pft_lookup$pft_MODIS[i] = "evergreen_needleleaf_forest"
+    taxon_pft_lookup$phenology[i] = "evergreen"
+    taxon_pft_lookup$leafType[i] = "needleleaf" # scale-like needle leaves
+    taxon_pft_lookup$growthForm[i] = "tree"
     taxon_pft_lookup$commonName[i] = "Utah juniper"}
 
   else if(genusSpecies == "Juniperus virginiana"){
     taxon_pft_lookup$pft_MRA[i] = "coniferous_forest"
-    taxon_pft_lookup$pft_MODIS[i] = ""
-    taxon_pft_lookup$phenology[i] = ""
-    taxon_pft_lookup$leafType[i] = ""
-    taxon_pft_lookup$growthForm[i] = ""
+    taxon_pft_lookup$pft_MODIS[i] = "evergreen_needleleaf_forest"
+    taxon_pft_lookup$phenology[i] = "evergreen"
+    taxon_pft_lookup$leafType[i] = "needleleaf" # scale-like needle leaves
+    taxon_pft_lookup$growthForm[i] = "tree"
     taxon_pft_lookup$commonName[i] = "red cedar"}
   
   else if(genusSpecies == "Larix sp."){
     taxon_pft_lookup$pft_MRA[i] = "coniferous_forest"
-    taxon_pft_lookup$pft_MODIS[i] = ""
-    taxon_pft_lookup$phenology[i] = ""
-    taxon_pft_lookup$leafType[i] = ""
-    taxon_pft_lookup$growthForm[i] = ""
+    taxon_pft_lookup$pft_MODIS[i] = "deciduous-needleleaf_forest"
+    taxon_pft_lookup$phenology[i] = "deciduous" # larch is an unusual genus with deciduous conifers
+    taxon_pft_lookup$leafType[i] = "needleleaf"
+    taxon_pft_lookup$growthForm[i] = "tree"
     taxon_pft_lookup$commonName[i] = "larch"}
   
   else if(genusSpecies == "Larrea tridentata"){
