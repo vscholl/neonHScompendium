@@ -1330,7 +1330,7 @@ print(unique(taxon_pft_lookup$pft_MRA))
 ```
 ```{r check_col_pftMODIS}
 # unique values in the pft_MODIS column: 
-print(unique(taxon_pft_lookup$pft_MODIS))
+print(sort(unique(taxon_pft_lookup$pft_MODIS)))
 ```
 ```{r check_col_phenology}
 # unique values in the phenology column: 
