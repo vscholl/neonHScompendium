@@ -52,8 +52,10 @@ Hyperspectral imagery is frequently used to classify species with accuracies ran
 Hyperspectral data are more capable of capturing subtle reflectance variations and features using hundreds of narrow spectral bands compared to multispectral remotely sensed data with few to tens of bands [@[@chang2003hyperspectral]; @awad2018forest; @maschler2018individual].
 Many factors influence tree species classification results including the number of species being discerned, the homogeneity of species, the density and structural complexity of the forest, and the taxonomic level of classification [@sothe2019tree]. 
 Methods are often performed on small scales or in simple ecosystems, and are not successful at scaling to larger areas or different forest types **(cite)**.
-Although the demand for species mapping is justified in many cases, there is also potential for both using and finding value in classifying individuals at other taxonomic levels, as explored in a recent bioacoustics study [@cramer2020chirping] and plant functional type mapping work in the High Arctic [@thomson2021multiscale]. 
-In the plant realm, identifying taxa at the genus level had been shown to be easier than at the species level [@tuominen2018assessment].
+Although the demand for species mapping is justified in many cases, there is also potential for both using and finding value in classifying individuals at other taxonomic levels, as explored in a recent bioacoustics study [@cramer2020chirping], plant functional type mapping work in the High Arctic [@thomson2021multiscale], and [@seeland2019image].
+In the plant realm, identifying taxa at higher taxonomic levels has been found to be more accurate than at lower taxonomic levels.
+[@tuominen2018assessment] found that classification accuracy was higher at the genus level than at the species level.
+[@seeland2019image] found that classification accuracy increased with broader taxonomic level from species to genus to family, even for species excluded from the training process. 
 In their review of over 109 publications, [@surovy2019acquisition] report that species are more successfully classified into broader categories such as spruce, pine, and broadleaf, compared to identifying individual species in mixed arrangements.
 
 NEON provides a unique opportunity to test, develop, and tune tree classification methods over a continental scale and at multiple taxonomic resolutions. 
