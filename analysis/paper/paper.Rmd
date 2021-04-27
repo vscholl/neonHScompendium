@@ -117,6 +117,8 @@ We filtered out any spectra with a starting wavelength of 347nm, since the inter
 We flagged "bad bands" from 1340-1445nm, 1790-1995nm, and greater than 2400nm so they could be excluded from later analysis.
 These wavelength ranges feature noisy reflectance data due to high water absorption [@bajorski2011]. 
 
+We manually added plant functional type (PFT) along with additional morphological and taxonomic labels to the spectra. We used the [USDA Plants Database](https://plants.sc.egov.usda.gov/) to identify each taxon's phenology (evergreen or deciduous), leaf type (needleleaf or broadleaf), and taxonomic family classification. We used the NEON Woody Vegetation Structure data to determine the growth form (shrub or tree) most commonly assigned to each taxon class, since some taxa can exist as trees or shrubs. The PFT labels were inspired by the MODIS Land Cover classes [@cover1999modis]: evergreen needleleaf forest, evergreen broadleaf forest, deciduous needleleaf forest, deciduous broadleaf forest, shrub, grass, and bare ground. 
+
 Next, we removed samples belonging to species and genus classes with few samples, since extreme class imbalance is a known problem that can lead to biased classification results [@bader2018biased]. 
 From the initial collection of 151 unique scientific names identified at the genus or species level, 50 of them had at least 20 samples and were kept for the classification analysis (Figure \@ref(fig:fig-histSpecies)). 
 We randomly assigned each spectrum to the training or validation sets, using an 80/20 split as per the Pareto Principle [@dunford2014pareto]. All 50 scientific name labels were represented in each set. 
