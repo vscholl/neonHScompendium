@@ -1373,6 +1373,8 @@ pft_labels <- taxon_pft_lookup %>%
 # join the PFT labels into the spectral data frame
 cleaned_spectra_pft <- right_join(cleaned_spectra, pft_labels, by = "genusSpecies")
 
+# reorder the columns 
+
 # write to a csv
 write_csv(x = cleaned_spectra_pft,
           file = here::here("analysis", "data","derived_data", "cleaned_spectra_pft.csv"))
@@ -1415,3 +1417,5 @@ print(difftime(end_time, start_time,
          units = c("auto", "secs", "mins", "hours",
                    "days", "weeks")))
 ```
+
+
