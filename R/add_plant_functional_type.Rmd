@@ -15,8 +15,37 @@ library(kableExtra)
 library(neonUtilities)
 ```
 
+This script adds plant functional type labels to NEON spectra based on known scientific name. I explored R packages to automate this (BIEN, Taxise, USDA plants) without success, so the code below manually adds labels of interest for *Genus species* names.
 
-Plant functional types (PFTs) originally proposed: coniferous forest, deciduous forest, woody shrub, grass/herb, and bare ground.
+This code manually adds labels to each taxon (genus and species listed here) for: 
+
+- **commonName**
+- **pft_MRA** (Plant Functional Type based on Macrosystems proposed labels)
+    - coniferous_forest
+    - deciduous_forest
+    - woody_shrub
+    - grass_herb
+    bare_ground
+- **pft_MODIS** (Plant Functional type based on MODIS land cover classes)
+    - evergreen-needleleaf_forest
+    - evergreen-broadleaf_forest
+    - deciduous-needleleaf_forest
+    - deciduous-broadleaf_forest
+    - shrub
+- **phenology** (evergreen or deciduous)
+- **leafType** (broadleaf or needleleaf)
+- **growthForm** (shrub or tree, based on NEON field based observations)
+
+I searched for each taxon on USDA plants and determined the phenology and leaf type. Some tips from botany friend Adam Mahood:
+
+- shrubs that are angiosperms are broadleaf
+- group = dicot or monocot, you can say broadleaf
+- group = gymnosperm will be needleleaf
+
+
+## Download NEON data
+
+The NEON Woody Vegetation Structure vst_apparentindividual data table contains growthform observations for each individual plant. Since some species can be designated as trees OR shrubs, lets' look at the NEON observations and use whichever growth form is most often observed for each taxon. 
 
 ```{r load_cleaned_spectra, message=FALSE}
 # start timer 
@@ -25,9 +54,6 @@ start_time <- Sys.time()
 # read cleaned spectral library file 
 cleaned_spectra <- read_csv(here::here("analysis", "data", "derived_data", "cleaned_spectra.csv"))
 ```
-
-
-## Use NEON growthForm observations 
 
 Run this code chunk to download the NEON woody vegetation structure data: 
 ```{r download_neon_veg_data, warning=FALSE, message=FALSE, eval=FALSE}
@@ -85,36 +111,10 @@ cleaned_spectra_merged %>%
   kableExtra::kable_styling(bootstrap_options = "striped", 
                             full_width = F, 
                             position = "left")
-
 ```
 
 
 ## Manually add PFTs to spectral library
-
-This code manually adds labels to each taxon (genus and species listed here) for: 
-
-- common name
-- pft_MRA (based on Macrosystems proposed labels)
-    - coniferous_forest
-    - deciduous_forest
-    - woody_shrub
-- pft_MODIS (based on MODIS land cover classes)
-    - evergreen-needleleaf_forest
-    - evergreen-broadleaf_forest
-    - deciduous-needleleaf_forest
-    - deciduous-broadleaf_forest
-    - shrub
-- phenology (evergreen or deciduous)
-- leaf type (broadleaf or needleleaf)
-- growth form (shrub or tree, based on NEON field based observations)
-
-I searched for each taxon on USDA plants and determined the phenology and leaf type. 
-- shrubs that are angiosperms are broadleaf
-- group = dicot or monocot, you can say broadleaf
-- group = gymnosperm will be needleleaf
-
-Utilized the NEON vst_apparentindividual data for growthform. 
-
 
 ```{r manually_add_pft_labels}
 # list unique taxon labels, add an empty columns to fill with plant functional type (PFT) and common name labels.
@@ -1362,6 +1362,18 @@ write_csv(x = taxon_pft_lookup,
           file = here::here("R","output","taxon_pft_lookup.csv"))
 ```
 
+
+## Add PFT label to each spectrum
+
+```{r}
+
+```
+
+
+
+
+
+
 ## R packages: attempting to automate PFT labeling
 
 ### USDA Plants Database
@@ -1370,74 +1382,9 @@ USDA Plants Database R API tutorial: https://recology.info/2016/10/usda-plants-d
 
 The USDA maintains a database of plant information, some of it trait data, some of it life history. Check it out at http://plants.usda.gov/java/
 
-```{r install_load_packages, message=FALSE}
-#install.packages("request")
-#library(devtools)
-#devtools::install_github("sckott/request")
-library(request)
-library(tibble)
-library(tidyverse)
-library(here)
-```
-
-```{r usda_plants}
-# Set the base url
-root <- api("https://plantsdb.xyz")
-
-root %>% api_path(heartbeat)
-```
-
-^^ My results here do not match those that show up on the tutorial page above. Maybe the API is down or the URL has changed? 
-
-Based on the GitHub issue discussion (https://github.com/USDA/USDA-APIs/issues/7), someone uploaded USDA plants data here from 2016: https://uofi.app.box.com/v/usdaplants
-
-```{r try_download, eval=FALSE, include=FALSE}
-# Specify URL where file is stored 
-url <- "https://uofi.app.box.com/v/usdaplants/folder/6688524249/usda_plants_20160713.csv"
-destFile <- file.path(here::here(), "analysis","data", "usda_plants_20160713.csv")
-# Apply download.file function in R
-download.file(url, destFile)
-```
-
-```{r, include = FALSE, eval=FALSE}
-#usda_plants <- read_csv(file.path(here::here(), "analysis", "data", "usda_plants_20160713.csv"))
-
-# Error in nchar(x) : invalid multibyte string, element 2
-# ^ Issue with some of the column names in the .csv? 
-```
-
-
-
 ### BIEN 
 
 RBIEN tutorial: https://cmerow.github.io/RDataScience/3_3_RBIEN_tutorial.html
-
-```{r load_packages_bien, message=FALSE, warning=FALSE}
-library(BIEN)
-library(ape) # Package for working with phylogenies in R
-library(maps) # Useful for making quick maps of occurrences
-library(sp) # A package for spatial data
-```
-
-BIEN traits and taxonomic data
-
-"Let’s say we’re interested in the genus [Abies], and we’d like to get an idea of how many species there are in this genus and what higher taxa it falls within."
-
-*Abies* genus is fir trees (coniferous trees). The "higher_plant_group" returned by the BIEN taxonomy function is "gymnosperms (conifers)"
-
-```{r bien_taxonomy_1}
-Abies_taxonomy<-BIEN_taxonomy_genus(genus = "Abies")
-
-#View(Abies_taxonomy)
-Abies_taxonomy[1:3,]
-```
-
-*Acer rubrum* species is the red maple (deciduous trees). The "higher_plant_group" returned by the BIEN taxonomy is "flowering plants".
-
-```{r bien_taxonomy_2}
-Acer_rubrum_taxonomy <- BIEN_taxonomy_species(species = "Acer rubrum")
-Acer_rubrum_taxonomy[1:3,]
-```
 
 ### TRY Database
 
@@ -1446,6 +1393,7 @@ https://www.try-db.org/TryWeb/Home.php
 ### Taxize
 
 https://www.rdocumentation.org/packages/taxize/versions/0.9.99
+
 
 Time the code. How long did this take? 
 ```{r how_long_did_this_take}
